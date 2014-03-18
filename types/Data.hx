@@ -122,7 +122,7 @@ static inline void staticWriteIntIntoPointer(void *pointer, int &value, types::D
 
 @:headerClassCode('					
 public:								
-	void *_dataPointer;				
+	void *_dataPointer;			
 ') 
 class Data
 {
@@ -132,8 +132,16 @@ class Data
 	{
 		length = sizeInBytes;
 
-		setupDataPointer();
-		setFinalizer();
+		if(length != 0)
+		{
+			setupDataPointer();
+			setFinalizer();
+		}
+		else
+		{
+			/// does not create pointer, so finalizer is not set.
+		}
+
 	}
 
 	@:functionCode("
