@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
 	
-	<haxelib name="types_ios" if="ios" />
+	<haxelib name="types_cpp" if="cpp" />
 
 </extension>

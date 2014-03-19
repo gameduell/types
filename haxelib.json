@@ -4,6 +4,6 @@
     "version" : "0.0.1",
     "description" : "An abstraction layer for performant data types and containers.",
     "contributors" : [ "GameDuell GmbH" ],
-    "dependencies" : [ "types_ios"]
+    "dependencies" : [ "types_cpp"]
     "releasenote" : ""
 }
