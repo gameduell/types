@@ -2,13 +2,13 @@ package types;
 
 enum DataType
 {
-	Byte;
-	UnsignedByte;
-	Short;
-	UnsignedShort;
-	Int;
-	UnsignedInt;
-	Float;
+	DataTypeByte;
+	DataTypeUnsignedByte;
+	DataTypeShort;
+	DataTypeUnsignedShort;
+	DataTypeInt;
+	DataTypeUnsignedInt;
+	DataTypeFloat;
 }
 
 class DataTypeUtils
@@ -17,19 +17,19 @@ class DataTypeUtils
 	{
 		switch(dataType)
 		{
-			case Byte:
+			case DataTypeByte:
 				return 1; 
-			case UnsignedByte:
+			case DataTypeUnsignedByte:
 				return 1;
-			case Short:
+			case DataTypeShort:
 				return 2;
-			case UnsignedShort:
+			case DataTypeUnsignedShort:
 				return 2;
-			case Int:
+			case DataTypeInt:
 				return 4;
-			case UnsignedInt:
+			case DataTypeUnsignedInt:
 				return 4;
-			case Float:
+			case DataTypeFloat:
 				return 4;
 		}
 		return 0;
