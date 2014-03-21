@@ -201,7 +201,7 @@ class Data
 
 	@:functionCode('
 		if(dataType == 0)
-			dataType = ::types::DataType_obj::Int;
+			dataType = ::types::DataType_obj::DataTypeInt;
 		int dataSize = ::types::DataTypeUtils_obj::dataTypeByteSize(dataType);
 
 		std::wostringstream oss;

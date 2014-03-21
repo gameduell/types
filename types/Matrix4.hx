@@ -280,25 +280,9 @@ class Matrix4
 	public function initDataWithMatrixPointer() {}
 
 	@:functionCode('
-		::types::Matrix4 matrix = ::types::Matrix4_obj::__new();
-		matrix->_matrixData = identityMatrix;
-		return matrix;
+		_matrixData = identityMatrix;
 	') 
-	public static function identity() : Matrix4 { return new Matrix4(); }
-
-
-	
-	@:functionCode('
-		::types::Matrix4 matrix = ::types::Matrix4_obj::__new();
-		matrix->_matrixData = UTKMatrix4MakeOrtho(x0, x1, y0, y1, zNear, zFar);
-		return matrix;
-	') 
-	public static function createOrtho( x0 : Float, 
-										x1 : Float, 
-										y0 : Float, 
-										y1 : Float, 
-										zNear : Float, 
-										zFar : Float) : Matrix4 { return new Matrix4(); }
+	public function setIdentity() : Void {}
 
 	@:functionCode('
 		_matrixData = UTKMatrix4MakeOrtho(x0, x1, y0, y1, zNear, zFar);
@@ -310,17 +294,6 @@ class Matrix4
 								zNear : Float, 
 								zFar : Float) : Void { }
 
-
-	@:functionCode('
-		::types::Matrix4 matrix = ::types::Matrix4_obj::__new();
-		matrix->_matrixData = UTKMatrix4Make2D(posX, posY, scale, rotation);
-		return matrix;
-	') 
-	public static function create2D(posX : Float, 
-									posY : Float, 
-									scale : Float, 
-									rotation : Float) : Matrix4 { return new Matrix4(); }
-
 	@:functionCode('
 		_matrixData = UTKMatrix4Make2D(posX, posY, scale, rotation);
 	') 
@@ -330,11 +303,9 @@ class Matrix4
 							rotation : Float) : Void { }
 
 	@:functionCode('
-		::types::Matrix4 matrix = ::types::Matrix4_obj::__new();
-		matrix->_matrixData = UTKMatrix4Multiply(left->_matrixData, right->_matrixData);
-		return matrix;
+		_matrixData = matrix->_matrixData;
 	') 
-	public static function createBymultiplication(left : Matrix4, right : Matrix4) : Matrix4 { return new Matrix4(); }
+	public function set(matrix : Matrix4) : Void { }
 
 	@:functionCode('
 		_matrixData = UTKMatrix4Multiply(_matrixData, right->_matrixData);
