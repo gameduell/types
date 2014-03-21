@@ -1,0 +1,9 @@
+{
+    "name" : "types_html5",
+    "license" : "Closed",
+    "version" : "0.0.1",
+    "description" : "The types abstraction layer implementation for html5.",
+    "contributors" : [ "GameDuell GmbH" ],
+    "dependencies" : []
+    "releasenote" : ""
+}
