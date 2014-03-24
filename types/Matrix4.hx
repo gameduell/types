@@ -22,6 +22,8 @@ extern Class Matrix4
 
 	public function set(other : Matrix4);
 
+	public function get(row : Int, col : Int) : Float;
+
 	public function multiply(right : Matrix4) : Void;
 
 	public function toString() : String;

@@ -16,6 +16,10 @@ extern Class Data
 
 	public function setFloatArray(array : Array<Float>, offsetInBytes : Int, dataType : DataType);
 
+	public function getInt(offsetInBytes : Int, targetDataType : DataType) : Int;
+
+	public function getFloat(offsetInBytes : Int, targetDataType : DataType) : Float;
+
 	public function toString(?dataType : DataType) : String; /// defaults to DataType.Int
 
 	public var length(default, null) : Int;
