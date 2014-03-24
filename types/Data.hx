@@ -6,7 +6,7 @@ extern Class Data
 {
 	public function new(sizeInBytes : Int) : Void; /// if 0, empty data, does not create the underlying memory. Can be set externally.
 
-	public function setData(data : Data, offsetInBytes : Int);
+	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int);
 
 	public function setInt(value : Int, offsetInBytes : Int, targetDataTyoe : DataType);
 
