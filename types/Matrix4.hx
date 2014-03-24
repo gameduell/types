@@ -24,7 +24,7 @@ class Matrix4
 								    0.0, 0.0, 1.0, 0.0,
 								    0.0, 0.0, 0.0, 1.0], 0, DataTypeFloat);
 		}
-		data.setData(identity, 0);
+		data.setData(identity, 0, identity.length);
 	}
 
 	public function setOrtho(	x0 : Float, 
@@ -91,7 +91,7 @@ class Matrix4
 
 	public function set(matrix : Matrix4) : Void 
 	{ 
-		data.setData(matrix.data, 0);
+		data.setData(matrix.data, 0, matrix.data.length);
 	}
 
 	public function get(row : Int, col : Int) : Float

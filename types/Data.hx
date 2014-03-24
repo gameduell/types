@@ -60,9 +60,16 @@ class Data
 		return value;
 	}
 
-	public function setData(data : Data, offsetInBytes : Int)
+	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int)
 	{
-		uint8Array.set(data.uint8Array, offsetInBytes);
+		if(lengthInBytes == data.length)
+		{
+			uint8Array.set(data.uint8Array, offsetInBytes);
+		}
+		else
+		{
+			uint8Array.set(data.uint8Array.subarray(offsetInBytes, offsetInBytes + lengthInBytes));
+		}
 	}
 
 	public function getInt(offsetInBytes : Int, targetDataType : DataType) : Int
