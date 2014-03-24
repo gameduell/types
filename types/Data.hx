@@ -90,31 +90,24 @@ static inline float staticReadFloatFromPointer(void *pointer, types::DataType &d
 		case (int)0: {
 			return (float)(((int8_t*)pointer)[0]);
 		}
-		;break;
 		case (int)1: {
 			return (float)(((uint8_t*)pointer)[0]);
 		}
-		;break;
 		case (int)2: {
 			return (float)(((int16_t*)pointer)[0]);
 		}
-		;break;
 		case (int)3: {
 			return (float)(((uint16_t*)pointer)[0]);
 		}
-		;break;
 		case (int)4: {
 			return (float)(((int32_t*)pointer)[0]);
 		}
-		;break;
 		case (int)5: {
 			return (float)(((uint32_t*)pointer)[0]);
 		}
-		;break;
 		case (int)6: {
 			return ((float*)pointer)[0];
 		}
-		;break;
 	}
 	return 0;
 }
@@ -219,9 +212,9 @@ class Data
 
 
 	@:functionCode("
-		memcpy((uint8_t*)_dataPointer + offsetInBytes, data->_dataPointer, data->length);
+		memcpy((uint8_t*)_dataPointer + offsetInBytes, data->_dataPointer, lengthInBytes);
 	") 
-	public function setData(data : Data, offsetInBytes : Int)
+	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int)
 	{
 	}
 
