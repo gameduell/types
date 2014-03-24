@@ -308,6 +308,11 @@ class Matrix4
 	public function set(matrix : Matrix4) : Void { }
 
 	@:functionCode('
+		return _matrixData.m[row * 4 + col];
+	') 
+	public function get(row : Int, col : Int) : Float { return 0; }
+
+	@:functionCode('
 		_matrixData = UTKMatrix4Multiply(_matrixData, right->_matrixData);
 	') 
 	public function multiply(right : Matrix4) : Void { }

@@ -84,6 +84,41 @@ static inline void staticWriteFloatIntoPointer(void *pointer, float value, types
 	}
 }
 
+static inline float staticReadFloatFromPointer(void *pointer, types::DataType &dataType)
+{
+	switch( (int)(dataType->__Index())){
+		case (int)0: {
+			return (float)(((int8_t*)pointer)[0]);
+		}
+		;break;
+		case (int)1: {
+			return (float)(((uint8_t*)pointer)[0]);
+		}
+		;break;
+		case (int)2: {
+			return (float)(((int16_t*)pointer)[0]);
+		}
+		;break;
+		case (int)3: {
+			return (float)(((uint16_t*)pointer)[0]);
+		}
+		;break;
+		case (int)4: {
+			return (float)(((int32_t*)pointer)[0]);
+		}
+		;break;
+		case (int)5: {
+			return (float)(((uint32_t*)pointer)[0]);
+		}
+		;break;
+		case (int)6: {
+			return ((float*)pointer)[0];
+		}
+		;break;
+	}
+	return 0;
+}
+
 static inline void staticWriteIntIntoPointer(void *pointer, int &value, types::DataType &dataType)
 {
 	switch( (int)(dataType->__Index())){
@@ -116,6 +151,34 @@ static inline void staticWriteIntIntoPointer(void *pointer, int &value, types::D
 		}
 		;break;
 	}
+}
+
+static inline int staticReadIntFromPointer(void *pointer, types::DataType &dataType)
+{
+	switch( (int)(dataType->__Index())){
+		case (int)0: {
+			return (int)(((int8_t*)pointer)[0]);
+		}
+		case (int)1: {
+			return (int)(((uint8_t*)pointer)[0]);
+		}
+		case (int)2: {
+			return (int)(((int16_t*)pointer)[0]);
+		}
+		case (int)3: {
+			return (int)(((uint16_t*)pointer)[0]);
+		}
+		case (int)4: {
+			return (int)(((int32_t*)pointer)[0]);
+		}
+		case (int)5: {
+			return (int)(((uint32_t*)pointer)[0]);
+		}
+		case (int)6: {
+			return ((int*)pointer)[0];
+		}
+	}
+	return 0;
 }
 
 ') 
@@ -198,6 +261,15 @@ class Data
 	') 
 	public function setFloat(value : Float, offsetInBytes : Int, targetDataType : DataType) {}
 
+	@:functionCode('
+		return staticReadIntFromPointer((uint8_t*)_dataPointer + offsetInBytes, targetDataType);
+	') 
+	public function getInt(offsetInBytes : Int, targetDataType : DataType) : Int { return 0; }
+
+	@:functionCode('
+		return staticReadFloatFromPointer((uint8_t*)_dataPointer + offsetInBytes, targetDataType);
+	') 
+	public function getFloat(offsetInBytes : Int, targetDataType : DataType) : Float { return 0; }
 
 	@:functionCode('
 		if(dataType == 0)
