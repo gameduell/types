@@ -2,7 +2,7 @@ package types;
 
 import DataType;
 
-extern Class Data
+extern class Data
 {
 	public function new(sizeInBytes : Int) : Void; /// if 0, empty data, does not create the underlying memory. Can be set externally.
 
