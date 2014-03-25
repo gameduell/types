@@ -67,8 +67,9 @@ class Data
 			uint8Array.set(data.uint8Array, offsetInBytes);
 		}
 		else
-		{
-			uint8Array.set(data.uint8Array.subarray(offsetInBytes, offsetInBytes + lengthInBytes));
+		{ 
+			var subarray = data.uint8Array.subarray(offsetInBytes, offsetInBytes + lengthInBytes);
+			uint8Array.set(subarray);
 		}
 	}
 
@@ -111,7 +112,7 @@ class Data
 			case DataTypeUnsignedInt:
 				return cast uint32Array[cast offsetInBytes / 4];
 			case DataTypeFloat:
-				return cast float32Array[cast offsetInBytes / 4];
+				return float32Array[cast offsetInBytes / 4];
 		}
 		return 0;
 	}
