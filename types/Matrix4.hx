@@ -277,7 +277,7 @@ class Matrix4
 		data->_dataPointer = &_matrixData;
 		data->length = sizeof(_matrixData);
 	') 
-	public function initDataWithMatrixPointer() {}
+	public function initDataWithMatrixPointer() : Void {}
 
 	@:functionCode('
 		_matrixData = identityMatrix;

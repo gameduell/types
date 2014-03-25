@@ -203,22 +203,22 @@ class Data
 	@:functionCode("
 		hx::GCSetFinalizer(this, (hx::finalizer)staticClose);
 	") 
-	function setFinalizer() {} 
+	function setFinalizer() : Void {} 
 
 	@:functionCode("
 		_dataPointer = (void*)calloc(length, 1);
 	") 
-	private function setupDataPointer() {}
+	private function setupDataPointer() : Void {}
 
 
 	@:functionCode("
 		memcpy((uint8_t*)_dataPointer + offsetInBytes, data->_dataPointer, lengthInBytes);
 	") 
-	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int)
+	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int) : Void
 	{
 	}
 
-	public function setIntArray(array : Array<Int>, offsetInBytes : Int, dataType : DataType) 
+	public function setIntArray(array : Array<Int>, offsetInBytes : Int, dataType : DataType) : Void
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
@@ -231,7 +231,7 @@ class Data
 		}
 	}
 
-	public function setFloatArray(array : Array<Float>, offsetInBytes : Int, dataType : DataType) 
+	public function setFloatArray(array : Array<Float>, offsetInBytes : Int, dataType : DataType) : Void
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
@@ -247,12 +247,12 @@ class Data
 	@:functionCode('
 		staticWriteIntIntoPointer((uint8_t*)_dataPointer + offsetInBytes, value, targetDataType);
 	') 
-	public function setInt(value : Int, offsetInBytes : Int, targetDataType : DataType) {}
+	public function setInt(value : Int, offsetInBytes : Int, targetDataType : DataType) : Void {}
 
 	@:functionCode('
 		staticWriteFloatIntoPointer((uint8_t*)_dataPointer + offsetInBytes, value, targetDataType);
 	') 
-	public function setFloat(value : Float, offsetInBytes : Int, targetDataType : DataType) {}
+	public function setFloat(value : Float, offsetInBytes : Int, targetDataType : DataType) : Void {}
 
 	@:functionCode('
 		return staticReadIntFromPointer((uint8_t*)_dataPointer + offsetInBytes, targetDataType);
