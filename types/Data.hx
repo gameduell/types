@@ -37,7 +37,7 @@ class Data
 	}
 
 	///for usage in html5 haxelibs
-	public function set_arrayBuffer(value : ArrayBuffer)
+	public function set_arrayBuffer(value : ArrayBuffer) : Void
 	{
 		var length = value.byteLength;
 
@@ -60,7 +60,7 @@ class Data
 		return value;
 	}
 
-	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int)
+	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int) : Void
 	{
 		if(lengthInBytes == data.length)
 		{
@@ -118,7 +118,7 @@ class Data
 	}
 
 
-	public function setIntArray(array : Array<Int>, offsetInBytes : Int, dataType : DataType) 
+	public function setIntArray(array : Array<Int>, offsetInBytes : Int, dataType : DataType) : Void 
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
@@ -131,7 +131,7 @@ class Data
 		}
 	}
 
-	public function setFloatArray(array : Array<Float>, offsetInBytes : Int, dataType : DataType) 
+	public function setFloatArray(array : Array<Float>, offsetInBytes : Int, dataType : DataType) : Void 
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
@@ -145,7 +145,7 @@ class Data
 	}
 
 	static var intArrayOf1 : Array<Int> = [0];
-	public function setInt(value : Int, offsetInBytes : Int, targetDataType : DataType) 
+	public function setInt(value : Int, offsetInBytes : Int, targetDataType : DataType) : Void 
 	{
 		intArrayOf1[0] = value;
 		switch(targetDataType)
@@ -175,7 +175,7 @@ class Data
 		return;
 	}
 
-	public function setFloat(value : Float, offsetInBytes : Int, targetDataType : DataType) 
+	public function setFloat(value : Float, offsetInBytes : Int, targetDataType : DataType) : Void 
 	{	
 		intArrayOf1[0] = cast value;
 		switch(targetDataType)
