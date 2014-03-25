@@ -2,7 +2,7 @@ package types;
 
 import types.Data;
 
-extern Class Matrix4
+extern class Matrix4
 {
 	public function new() : Void;
 
@@ -20,7 +20,7 @@ extern Class Matrix4
 							scale : Float, 
 							rotation : Float) : Void;
 
-	public function set(other : Matrix4);
+	public function set(other : Matrix4) : Void;
 
 	public function get(row : Int, col : Int) : Float;
 

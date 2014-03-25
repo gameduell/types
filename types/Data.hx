@@ -1,20 +1,20 @@
 package types;
 
-import DataType;
+import types.DataType;
 
 extern class Data
 {
 	public function new(sizeInBytes : Int) : Void; /// if 0, empty data, does not create the underlying memory. Can be set externally.
 
-	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int);
+	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int) : Void;
 
-	public function setInt(value : Int, offsetInBytes : Int, targetDataTyoe : DataType);
+	public function setInt(value : Int, offsetInBytes : Int, targetDataTyoe : DataType) : Void;
 
-	public function setFloat(value : Float, offsetInBytes : Int, targetDataTyoe : DataType);
+	public function setFloat(value : Float, offsetInBytes : Int, targetDataTyoe : DataType) : Void;
 
-	public function setIntArray(array : Array<Int>, offsetInBytes : Int, dataType : DataType);
+	public function setIntArray(array : Array<Int>, offsetInBytes : Int, dataType : DataType) : Void;
 
-	public function setFloatArray(array : Array<Float>, offsetInBytes : Int, dataType : DataType);
+	public function setFloatArray(array : Array<Float>, offsetInBytes : Int, dataType : DataType) : Void;
 
 	public function getInt(offsetInBytes : Int, targetDataType : DataType) : Int;
 
