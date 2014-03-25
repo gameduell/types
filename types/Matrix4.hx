@@ -90,7 +90,7 @@ inline UTKMatrix4 UTKMatrix4Make2D(	float translateX, float translateY,
 #if __ANDROID__
 
 //#include <cpu-features.h>
-//#include <arm_neon.h>
+#include <arm_neon.h>
 
 #endif
 
@@ -191,37 +191,37 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 
 /// without neon for now.
 #if __ANDROID__
-/*
+
 	//if (android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM &&
     //    (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0)
     //{
-    	/*
+    	
 	    float32x4x4_t iMatrixLeft = *(float32x4x4_t *)&matrixLeft;
 	    float32x4x4_t iMatrixRight = *(float32x4x4_t *)&matrixRight;
-	    float32x4x4_t m;
+	    float32x4x4_t out;
+	    
+	    out.val[0] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[0], 0));
+	    out.val[1] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[1], 0));
+	    out.val[2] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[2], 0));
+	    out.val[3] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[3], 0));
 
-	    m.val[0] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[0], 0));
-	    m.val[1] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[1], 0));
-	    m.val[2] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[2], 0));
-	    m.val[3] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[3], 0));
+	    out.val[0] = vmlaq_n_f32(out.val[0], iMatrixLeft.val[1], vgetq_lane_f32(iMatrixRight.val[0], 1));
+	    out.val[1] = vmlaq_n_f32(out.val[1], iMatrixLeft.val[1], vgetq_lane_f32(iMatrixRight.val[1], 1));
+	    out.val[2] = vmlaq_n_f32(out.val[2], iMatrixLeft.val[1], vgetq_lane_f32(iMatrixRight.val[2], 1));
+	    out.val[3] = vmlaq_n_f32(out.val[3], iMatrixLeft.val[1], vgetq_lane_f32(iMatrixRight.val[3], 1));
 
-	    m.val[0] = vmlaq_n_f32(m.val[0], iMatrixLeft.val[1], vgetq_lane_f32(iMatrixRight.val[0], 1));
-	    m.val[1] = vmlaq_n_f32(m.val[1], iMatrixLeft.val[1], vgetq_lane_f32(iMatrixRight.val[1], 1));
-	    m.val[2] = vmlaq_n_f32(m.val[2], iMatrixLeft.val[1], vgetq_lane_f32(iMatrixRight.val[2], 1));
-	    m.val[3] = vmlaq_n_f32(m.val[3], iMatrixLeft.val[1], vgetq_lane_f32(iMatrixRight.val[3], 1));
+	    out.val[0] = vmlaq_n_f32(out.val[0], iMatrixLeft.val[2], vgetq_lane_f32(iMatrixRight.val[0], 2));
+	    out.val[1] = vmlaq_n_f32(out.val[1], iMatrixLeft.val[2], vgetq_lane_f32(iMatrixRight.val[1], 2));
+	    out.val[2] = vmlaq_n_f32(out.val[2], iMatrixLeft.val[2], vgetq_lane_f32(iMatrixRight.val[2], 2));
+	    out.val[3] = vmlaq_n_f32(out.val[3], iMatrixLeft.val[2], vgetq_lane_f32(iMatrixRight.val[3], 2));
 
-	    m.val[0] = vmlaq_n_f32(m.val[0], iMatrixLeft.val[2], vgetq_lane_f32(iMatrixRight.val[0], 2));
-	    m.val[1] = vmlaq_n_f32(m.val[1], iMatrixLeft.val[2], vgetq_lane_f32(iMatrixRight.val[1], 2));
-	    m.val[2] = vmlaq_n_f32(m.val[2], iMatrixLeft.val[2], vgetq_lane_f32(iMatrixRight.val[2], 2));
-	    m.val[3] = vmlaq_n_f32(m.val[3], iMatrixLeft.val[2], vgetq_lane_f32(iMatrixRight.val[3], 2));
+	    out.val[0] = vmlaq_n_f32(out.val[0], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[0], 3));
+	    out.val[1] = vmlaq_n_f32(out.val[1], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[1], 3));
+	    out.val[2] = vmlaq_n_f32(out.val[2], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[2], 3));
+	    out.val[3] = vmlaq_n_f32(out.val[3], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[3], 3));
 
-	    m.val[0] = vmlaq_n_f32(m.val[0], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[0], 3));
-	    m.val[1] = vmlaq_n_f32(m.val[1], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[1], 3));
-	    m.val[2] = vmlaq_n_f32(m.val[2], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[2], 3));
-	    m.val[3] = vmlaq_n_f32(m.val[3], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[3], 3));
-
-	    return *(UTKMatrix4 *)&m;
-	    */
+	    return *(UTKMatrix4 *)&out;
+	    
     //}
     //else
     //{
