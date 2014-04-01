@@ -37,7 +37,7 @@ class Data
 	}
 
 	///for usage in html5 haxelibs
-	public function set_arrayBuffer(value : ArrayBuffer) : Void
+	public function set_arrayBuffer(value : ArrayBuffer) : ArrayBuffer
 	{
 		var length = value.byteLength;
 
