@@ -15,7 +15,7 @@ extern class Matrix4
 								zNear : Float, 
 								zFar : Float) : Void;
 
-	public function set2D(	posX : Float, 
+	public function set2D(	posX : Float,
 							posY : Float, 
 							scale : Float, 
 							rotation : Float) : Void;
@@ -29,5 +29,4 @@ extern class Matrix4
 	public function toString() : String;
 
 	public var data(default, null) : Data;
-
 }
