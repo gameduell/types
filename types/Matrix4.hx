@@ -90,7 +90,7 @@ inline UTKMatrix4 UTKMatrix4Make2D(	float translateX, float translateY,
 #if __ANDROID__
 
 //#include <cpu-features.h>
-#include <arm_neon.h>
+//#include <arm_neon.h>
 
 #endif
 
@@ -99,6 +99,7 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 {
 
 #if __APPLE__
+
 #if defined(__ARM_NEON__)
     float32x4x4_t iMatrixLeft = *(float32x4x4_t *)&matrixLeft;
     float32x4x4_t iMatrixRight = *(float32x4x4_t *)&matrixRight;
@@ -162,7 +163,7 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
     return matrixLeft;
 
 #else
-    UTKMatrix4 m;
+   UTKMatrix4 m;
     
     m.m[0]  = matrixLeft.m[0] * matrixRight.m[0]  + matrixLeft.m[4] * matrixRight.m[1]  + matrixLeft.m[8] * matrixRight.m[2]   + matrixLeft.m[12] * matrixRight.m[3];
 	m.m[4]  = matrixLeft.m[0] * matrixRight.m[4]  + matrixLeft.m[4] * matrixRight.m[5]  + matrixLeft.m[8] * matrixRight.m[6]   + matrixLeft.m[12] * matrixRight.m[7];
@@ -185,6 +186,7 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 	m.m[15] = matrixLeft.m[3] * matrixRight.m[12] + matrixLeft.m[7] * matrixRight.m[13] + matrixLeft.m[11] * matrixRight.m[14] + matrixLeft.m[15] * matrixRight.m[15];
     
     return m;
+
 #endif
 
 #endif
@@ -195,11 +197,11 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 	//if (android_getCpuFamily() == ANDROID_CPU_FAMILY_ARM &&
     //    (android_getCpuFeatures() & ANDROID_CPU_ARM_FEATURE_NEON) != 0)
     //{
-    	
+    	/*
 	    float32x4x4_t iMatrixLeft = *(float32x4x4_t *)&matrixLeft;
 	    float32x4x4_t iMatrixRight = *(float32x4x4_t *)&matrixRight;
 	    float32x4x4_t out;
-	    
+
 	    out.val[0] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[0], 0));
 	    out.val[1] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[1], 0));
 	    out.val[2] = vmulq_n_f32(iMatrixLeft.val[0], vgetq_lane_f32(iMatrixRight.val[2], 0));
@@ -221,7 +223,7 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 	    out.val[3] = vmlaq_n_f32(out.val[3], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[3], 3));
 
 	    return *(UTKMatrix4 *)&out;
-	    
+	    */
     //}
     //else
     //{
