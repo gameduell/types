@@ -22,9 +22,9 @@ class Matrix4
 			identity.setFloatArray([1.0, 0.0, 0.0, 0.0,
 								    0.0, 1.0, 0.0, 0.0,
 								    0.0, 0.0, 1.0, 0.0,
-								    0.0, 0.0, 0.0, 1.0], 0, DataTypeFloat);
+								    0.0, 0.0, 0.0, 1.0], DataTypeFloat);
 		}
-		data.setData(identity, 0, identity.length);
+		data.setData(identity);
 	}
 
 	public function setOrtho(	x0 : Float, 
@@ -91,7 +91,7 @@ class Matrix4
 
 	public function set(matrix : Matrix4) : Void 
 	{ 
-		data.setData(matrix.data, 0, matrix.data.length);
+		data.setData(matrix.data);
 	}
 
 	public function get(row : Int, col : Int) : Float

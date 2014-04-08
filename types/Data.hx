@@ -14,7 +14,50 @@ import js.html.Float64Array;
 
 class Data
 {
-	public var length(default, null) : Int;
+	private var _offset : Int;
+	private var _offsetLength : Int;
+	private var _allocedLength : Int;
+
+	public var allocedLength(get, never) : Int;
+	public function get_allocedLength() : Int
+	{
+		return _allocedLength;
+	}
+
+	public var offset(get, set) : Int;
+
+	public function set_offset(value : Int) : Int
+	{
+		_offset = value;
+
+		return _offset;
+	}
+
+	public function get_offset() : Int
+	{
+		return _offset;
+	}
+
+	public var offsetLength(get, set) : Int;
+
+	public function set_offsetLength(value : Int) : Int
+	{
+		_offsetLength = value;
+
+		return _offsetLength;
+	}
+
+	public function get_offsetLength() : Int
+	{
+		return _offsetLength;
+	}
+
+	public function resetOffset() : Void
+	{
+		_offset = 0;
+		_offsetLength = allocedLength;
+	}
+
 
 	public var arrayBuffer(default, set) : ArrayBuffer;
 
@@ -30,176 +73,180 @@ class Data
 	{
 		if(sizeInBytes != 0)
 		{
+			_offsetLength = sizeInBytes;
+			_offset = 0;
 			arrayBuffer = new ArrayBuffer(sizeInBytes);
 		}
 
-		length = sizeInBytes;
+		_allocedLength = sizeInBytes;
 	}
 
 	///for usage in html5 haxelibs
 	public function set_arrayBuffer(value : ArrayBuffer) : ArrayBuffer
 	{
-		var length = value.byteLength;
-
-		int8Array = new Int8Array(value);
-	 	uint8Array = new Uint8Array(value);
-	 	if(length % 2  == 0)
-	 	{
-	 		int16Array = new Int16Array(value);
-	 		uint16Array = new Uint16Array(value);
-	 	}
-	 	if(length % 4  == 0)
-	 	{
-	 		int32Array = new Int32Array(value);
-	 		uint32Array = new Uint32Array(value);
-	 		float32Array = new Float32Array(value);
-	 	}
-
 	 	arrayBuffer = value;
+	 	remakeViews();
 
 		return value;
 	}
 
-	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int) : Void
+	private function remakeViews() : Void
 	{
-		if(lengthInBytes == data.length)
-		{
-			uint8Array.set(data.uint8Array, offsetInBytes);
-		}
-		else
-		{ 
-			var subarray = data.uint8Array.subarray(offsetInBytes, offsetInBytes + lengthInBytes);
-			uint8Array.set(subarray);
-		}
+
+		var length = arrayBuffer.byteLength;
+
+		int8Array = new Int8Array(arrayBuffer);
+	 	uint8Array = new Uint8Array(arrayBuffer);
+	 	if(length % 2  == 0)
+	 	{
+	 		int16Array = new Int16Array(arrayBuffer);
+	 		uint16Array = new Uint16Array(arrayBuffer);
+	 	}
+	 	if(length % 4  == 0)
+	 	{
+	 		int32Array = new Int32Array(arrayBuffer);
+	 		uint32Array = new Uint32Array(arrayBuffer);
+	 		float32Array = new Float32Array(arrayBuffer);
+	 	}
+
 	}
 
-	public function getInt(offsetInBytes : Int, targetDataType : DataType) : Int
+
+	public function setData(data : Data) : Void
 	{
-		switch(targetDataType)
-		{
-			case DataTypeByte:
-				return int8Array[offsetInBytes];
-			case DataTypeUnsignedByte:
-				return uint8Array[offsetInBytes];
-			case DataTypeShort:
-				return int16Array[cast offsetInBytes / 2];
-			case DataTypeUnsignedShort:
-				return uint16Array[cast offsetInBytes / 2];
-			case DataTypeInt:
-				return int32Array[cast offsetInBytes / 4];
-			case DataTypeUnsignedInt:
-				return uint32Array[cast offsetInBytes / 4];
-			case DataTypeFloat:
-				return cast float32Array[cast offsetInBytes / 4];
-		}
-		return 0;
+		var subarrayView = data.uint8Array.subarray(data._offset, data._offset + data._offsetLength);
+		uint8Array.set(subarrayView, offset);
 	}
 
-	public function getFloat(offsetInBytes : Int, targetDataType : DataType) : Float
+	public function getInt(targetDataType : DataType) : Int
 	{
 		switch(targetDataType)
 		{
 			case DataTypeByte:
-				return cast int8Array[offsetInBytes];
+				return int8Array[_offset];
 			case DataTypeUnsignedByte:
-				return cast uint8Array[offsetInBytes];
+				return uint8Array[_offset];
 			case DataTypeShort:
-				return cast int16Array[cast offsetInBytes / 2];
+				return int16Array[cast _offset / 2];
 			case DataTypeUnsignedShort:
-				return cast uint16Array[cast offsetInBytes / 2];
+				return uint16Array[cast _offset / 2];
 			case DataTypeInt:
-				return cast int32Array[cast offsetInBytes / 4];
+				return int32Array[cast _offset / 4];
 			case DataTypeUnsignedInt:
-				return cast uint32Array[cast offsetInBytes / 4];
+				return uint32Array[cast _offset / 4];
 			case DataTypeFloat:
-				return float32Array[cast offsetInBytes / 4];
+				return cast float32Array[cast _offset / 4];
+		}
+		return 0;
+	}
+
+	public function getFloat(targetDataType : DataType) : Float
+	{
+		switch(targetDataType)
+		{
+			case DataTypeByte:
+				return cast int8Array[_offset];
+			case DataTypeUnsignedByte:
+				return cast uint8Array[_offset];
+			case DataTypeShort:
+				return cast int16Array[cast _offset / 2];
+			case DataTypeUnsignedShort:
+				return cast uint16Array[cast _offset / 2];
+			case DataTypeInt:
+				return cast int32Array[cast _offset / 4];
+			case DataTypeUnsignedInt:
+				return cast uint32Array[cast _offset / 4];
+			case DataTypeFloat:
+				return float32Array[cast _offset / 4];
 		}
 		return 0;
 	}
 
 
-	public function setIntArray(array : Array<Int>, offsetInBytes : Int, dataType : DataType) : Void 
+	public function setIntArray(array : Array<Int>, dataType : DataType) : Void 
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
-		var currentOffset = offsetInBytes;
+		var prevOffset = _offset;
 		for(i in 0...array.length)
 		{
-			setInt(array[i], currentOffset, dataType);
+			setInt(array[i], dataType);
 
-			currentOffset += dataSize;
+			_offset += dataSize;
 		}
+		_offset = prevOffset;
 	}
 
-	public function setFloatArray(array : Array<Float>, offsetInBytes : Int, dataType : DataType) : Void 
+	public function setFloatArray(array : Array<Float>, dataType : DataType) : Void 
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
-		var currentOffset = offsetInBytes;
+		var prevOffset = _offset;
 		for(i in 0...array.length)
 		{
-			setFloat(array[i], currentOffset, dataType);
+			setFloat(array[i], dataType);
 
-			currentOffset += dataSize;
+			_offset += dataSize;
 		}
+		_offset = prevOffset;
 	}
 
 	static var intArrayOf1 : Array<Int> = [0];
-	public function setInt(value : Int, offsetInBytes : Int, targetDataType : DataType) : Void 
+	public function setInt(value : Int, targetDataType : DataType) : Void 
 	{
 		intArrayOf1[0] = value;
 		switch(targetDataType)
 		{
 			case DataTypeByte:
-				int8Array.set(intArrayOf1, offsetInBytes);
+				int8Array.set(intArrayOf1, _offset);
 				return; 
 			case DataTypeUnsignedByte:
-				uint8Array.set(intArrayOf1, offsetInBytes);
+				uint8Array.set(intArrayOf1, _offset);
 				return;
 			case DataTypeShort:
-				int16Array.set(intArrayOf1, cast offsetInBytes / 2);
+				int16Array.set(intArrayOf1, cast _offset / 2);
 				return;
 			case DataTypeUnsignedShort:
-				uint16Array.set(intArrayOf1, cast offsetInBytes / 2);
+				uint16Array.set(intArrayOf1, cast _offset / 2);
 				return;
 			case DataTypeInt:
-				int32Array.set(intArrayOf1, cast offsetInBytes / 4);
+				int32Array.set(intArrayOf1, cast _offset / 4);
 				return;
 			case DataTypeUnsignedInt:
-				uint32Array.set(intArrayOf1, cast offsetInBytes / 4);
+				uint32Array.set(intArrayOf1, cast _offset / 4);
 				return;
 			case DataTypeFloat:
-				float32Array.set(intArrayOf1, cast offsetInBytes / 4);
+				float32Array.set(intArrayOf1, cast _offset / 4);
 				return;
 		}
 		return;
 	}
 
-	public function setFloat(value : Float, offsetInBytes : Int, targetDataType : DataType) : Void 
+	public function setFloat(value : Float, targetDataType : DataType) : Void 
 	{	
 		intArrayOf1[0] = cast value;
 		switch(targetDataType)
 		{
 			case DataTypeByte:
-				int8Array.set(intArrayOf1, offsetInBytes);
+				int8Array.set(intArrayOf1, _offset);
 				return; 
 			case DataTypeUnsignedByte:
-				uint8Array.set(intArrayOf1, offsetInBytes);
+				uint8Array.set(intArrayOf1, _offset);
 				return;
 			case DataTypeShort:
-				int16Array.set(intArrayOf1, cast offsetInBytes / 2);
+				int16Array.set(intArrayOf1, cast _offset / 2);
 				return;
 			case DataTypeUnsignedShort:
-				uint16Array.set(intArrayOf1, cast offsetInBytes / 2);
+				uint16Array.set(intArrayOf1, cast _offset / 2);
 				return;
 			case DataTypeInt:
-				int32Array.set(intArrayOf1, cast offsetInBytes / 4);
+				int32Array.set(intArrayOf1, cast _offset / 4);
 				return;
 			case DataTypeUnsignedInt:
-				uint32Array.set(intArrayOf1, cast offsetInBytes / 4);
+				uint32Array.set(intArrayOf1, cast _offset / 4);
 				return;
 			case DataTypeFloat:
-				float32Array.set(intArrayOf1, cast offsetInBytes / 4);
+				float32Array.set(intArrayOf1, cast _offset / 4);
 				return;
 		}
 		return;
