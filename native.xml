@@ -1,0 +1,9 @@
+<xml>
+
+	<files id="haxe">
+		<compilerflag value="-I${haxelib:types_cpp}/project/include" />
+		<compilerflag value="-std=c++11" if="android"/>
+	</files>
+
+</xml>
+

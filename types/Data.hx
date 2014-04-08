@@ -2,18 +2,18 @@ package types;
 
 import types.DataType;
 
+@:buildXml('
+<include name="${haxelib:types_cpp}/native.xml" />
+')
+
 @:headerCode("
 #include <string>
 #include <sstream>
+#include <stdio.h>
+#include <types/Pointer.h>
 ")
 
 @:cppFileCode('							
-static void staticClose(types::Data_obj *inObj) 		
-{ 										
-	if (inObj->_dataPointer)   			
-		free(inObj->_dataPointer); 							
-}	
-
 static inline std::wstring staticReadValueIntoString(void *pointer, types::DataType &dataType)
 {
 	std::wostringstream oss;
@@ -178,91 +178,120 @@ static inline int staticReadIntFromPointer(void *pointer, types::DataType &dataT
 
 @:headerClassCode('					
 public:								
-	void *_dataPointer;			
+	types::Pointer _pointer;			
 ') 
 class Data
 {
-	public var length(default, null) : Int;
 
+	/// CONSTRUCTOR
 	public function new(sizeInBytes : Int) : Void
 	{
-		length = sizeInBytes;
-
-		if(length != 0)
+		if(sizeInBytes != 0)
 		{
-			setupDataPointer();
-			setFinalizer();
+			setupDataPointer(sizeInBytes);
 		}
-		else
-		{
-			/// does not create pointer, so finalizer is not set.
-		}
-
 	}
 
 	@:functionCode("
-		hx::GCSetFinalizer(this, (hx::finalizer)staticClose);
+		_pointer = types::Pointer(length);
 	") 
-	function setFinalizer() : Void {} 
+	private function setupDataPointer(length : Int) : Void {}
+
+	/// PROPERTIES
+	public var allocedLength(get, never) : Int;
+	@:functionCode("
+		return _pointer.allocedLength;
+	") 
+	private function get_allocedLength() : Int { return 0; }
+
+	public var offset(get, set) : Int;
+	@:functionCode("
+		return _pointer.offset;
+	") 
+	private function get_offset() : Int { return 0; }
 
 	@:functionCode("
-		_dataPointer = (void*)calloc(length, 1);
+		_pointer.offset = offset;
+		return _pointer.offset;
 	") 
-	private function setupDataPointer() : Void {}
+	private function set_offset(offset : Int) : Int { return 0; }
 
+	public var offsetLength(get, set) : Int;
 
 	@:functionCode("
-		memcpy((uint8_t*)_dataPointer + offsetInBytes, data->_dataPointer, lengthInBytes);
+		return _pointer.offsetLength;
 	") 
-	public function setData(data : Data, offsetInBytes : Int, lengthInBytes : Int) : Void
-	{
-	}
+	private function get_offsetLength() : Int { return 0; }
 
-	public function setIntArray(array : Array<Int>, offsetInBytes : Int, dataType : DataType) : Void
+	@:functionCode("
+		_pointer.offsetLength = offsetLength;
+		return _pointer.offsetLength;
+	") 
+	private function set_offsetLength(offsetLength : Int) : Int { return 0; }
+
+	@:functionCode("
+		_pointer.offsetLength = _pointer.allocedLength;
+		_pointer.offset = 0;
+	") 
+	public function resetOffset() : Void {} ///makes offset 0 and offsetLength be length
+
+	/// METHODS
+	@:functionCode("
+		_pointer.writeDataFromPointer(data->_pointer);
+	") 
+	public function setData(data : Data) : Void {}
+
+	public function setIntArray(array : Array<Int>, dataType : DataType) : Void
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
-		var currentOffset = offsetInBytes;
+		var prevOffset = get_offset();
+		var currentOffset = prevOffset;
 		for(i in 0...array.length)
 		{
-			setInt(array[i], currentOffset, dataType);
+			set_offset(currentOffset);
+			setInt(array[i], dataType);
 
 			currentOffset += dataSize;
 		}
+		set_offset(prevOffset);
 	}
 
-	public function setFloatArray(array : Array<Float>, offsetInBytes : Int, dataType : DataType) : Void
+	public function setFloatArray(array : Array<Float>, dataType : DataType) : Void
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
-		var currentOffset = offsetInBytes;
+		var prevOffset = get_offset();
+		var currentOffset = prevOffset;
 		for(i in 0...array.length)
 		{
-			setFloat(array[i], currentOffset, dataType);
+			set_offset(currentOffset);
+			setFloat(array[i], dataType);
 
 			currentOffset += dataSize;
 		}
+		set_offset(prevOffset);
 	}
 
 	@:functionCode('
-		staticWriteIntIntoPointer((uint8_t*)_dataPointer + offsetInBytes, value, targetDataType);
+		staticWriteIntIntoPointer(_pointer.ptr.get() + _pointer.offset, value, targetDataType);
 	') 
-	public function setInt(value : Int, offsetInBytes : Int, targetDataType : DataType) : Void {}
+	public function setInt(value : Int, targetDataType : DataType) : Void {}
 
 	@:functionCode('
-		staticWriteFloatIntoPointer((uint8_t*)_dataPointer + offsetInBytes, value, targetDataType);
+		staticWriteFloatIntoPointer(_pointer.ptr.get() + _pointer.offset, value, targetDataType);
 	') 
-	public function setFloat(value : Float, offsetInBytes : Int, targetDataType : DataType) : Void {}
+	public function setFloat(value : Float, targetDataType : DataType) : Void {}
 
 	@:functionCode('
-		return staticReadIntFromPointer((uint8_t*)_dataPointer + offsetInBytes, targetDataType);
+		return staticReadIntFromPointer(_pointer.ptr.get() + _pointer.offset, targetDataType);
 	') 
-	public function getInt(offsetInBytes : Int, targetDataType : DataType) : Int { return 0; }
+	public function getInt(targetDataType : DataType) : Int { return 0; }
 
 	@:functionCode('
-		return staticReadFloatFromPointer((uint8_t*)_dataPointer + offsetInBytes, targetDataType);
+		return staticReadFloatFromPointer(_pointer.ptr.get() + _pointer.offset, targetDataType);
 	') 
-	public function getFloat(offsetInBytes : Int, targetDataType : DataType) : Float { return 0; }
+	public function getFloat(targetDataType : DataType) : Float { return 0; }
 
 	@:functionCode('
 		if(dataType == 0)
@@ -272,15 +301,15 @@ class Data
 		std::wostringstream oss;
 
 		oss << "[";
-		if(length >= 1)
+		if(_pointer.allocedLength >= 1)
 		{
-			oss << staticReadValueIntoString(_dataPointer, dataType);
+			oss << staticReadValueIntoString(_pointer.ptr.get(), dataType);
 		}
 
-		for(int i = 1; i < length / dataSize; i++)
+		for(int i = 1; i < _pointer.allocedLength / dataSize; i++)
 		{
 			oss << ", ";
-			oss << staticReadValueIntoString((uint8_t*)_dataPointer + i * dataSize, dataType);
+			oss << staticReadValueIntoString(_pointer.ptr.get() + i * dataSize, dataType);
 		}
 
 		oss << "]";

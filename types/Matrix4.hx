@@ -276,8 +276,7 @@ class Matrix4
 	}
 
 	@:functionCode('
-		data->_dataPointer = &_matrixData;
-		data->length = sizeof(_matrixData);
+		data->_pointer = Pointer((uint8_t *)&_matrixData, sizeof(_matrixData));
 	') 
 	public function initDataWithMatrixPointer() : Void {}
 
