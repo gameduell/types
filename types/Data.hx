@@ -2,18 +2,28 @@ package types;
 
 import types.DataType;
 
+import cpp.Lib;
+
 @:buildXml('
-<include name="${haxelib:types_cpp}/native.xml" />
+
+	<files id="haxe">
+
+		<include name="${haxelib:types_cpp}/native.xml" />
+
+	</files>
+
 ')
 
 @:headerCode("
+#include <types/NativeData.h>
+")
+
+@:cppFileCode('
+
 #include <string>
 #include <sstream>
 #include <stdio.h>
-#include <types/Pointer.h>
-")
 
-@:cppFileCode('							
 static inline std::wstring staticReadValueIntoString(void *pointer, types::DataType &dataType)
 {
 	std::wostringstream oss;
@@ -174,11 +184,12 @@ static inline int staticReadIntFromPointer(void *pointer, types::DataType &dataT
 	return 0;
 }
 
+
 ') 
 
 @:headerClassCode('					
 public:								
-	types::Pointer _pointer;			
+	NativeData *_nativeData; ///this gets dealloced by the GC since it is tied to "nativeData" with alloc_abstract
 ') 
 class Data
 {
@@ -186,58 +197,68 @@ class Data
 	/// CONSTRUCTOR
 	public function new(sizeInBytes : Int) : Void
 	{
+		setupHaxeNativeData();
 		if(sizeInBytes != 0)
 		{
-			setupDataPointer(sizeInBytes);
+			setup(sizeInBytes);
 		}
 	}
 
+	public var nativeData : Dynamic;
+	private var nativedata_createNativeData = Lib.load ("nativedata", "nativedata_createNativeData", 0);
+
 	@:functionCode("
-		_pointer = types::Pointer(length);
+		nativeData = nativedata_createNativeData();
+		_nativeData = (NativeData*)nativeData->__GetHandle();
 	") 
-	private function setupDataPointer(length : Int) : Void {}
+	private function setupHaxeNativeData() : Void {}
+
+	@:functionCode("
+		_nativeData->setup(length);
+	") 
+	private function setup(length : Int) : Void {}
 
 	/// PROPERTIES
 	public var allocedLength(get, never) : Int;
 	@:functionCode("
-		return _pointer.allocedLength;
+		return _nativeData->allocedLength;
 	") 
 	private function get_allocedLength() : Int { return 0; }
 
 	public var offset(get, set) : Int;
 	@:functionCode("
-		return _pointer.offset;
+		return _nativeData->offset;
 	") 
 	private function get_offset() : Int { return 0; }
 
 	@:functionCode("
-		_pointer.offset = offset;
-		return _pointer.offset;
+		_nativeData->offset = offset;
+		return _nativeData->offset;
 	") 
 	private function set_offset(offset : Int) : Int { return 0; }
 
 	public var offsetLength(get, set) : Int;
 
 	@:functionCode("
-		return _pointer.offsetLength;
+		return _nativeData->offsetLength;
 	") 
 	private function get_offsetLength() : Int { return 0; }
 
 	@:functionCode("
-		_pointer.offsetLength = offsetLength;
-		return _pointer.offsetLength;
+		_nativeData->offsetLength = offsetLength;
+		return _nativeData->offsetLength;
 	") 
 	private function set_offsetLength(offsetLength : Int) : Int { return 0; }
 
 	@:functionCode("
-		_pointer.offsetLength = _pointer.allocedLength;
-		_pointer.offset = 0;
+		_nativeData->offsetLength = _nativeData->allocedLength;
+		_nativeData->offset = 0;
 	") 
 	public function resetOffset() : Void {} ///makes offset 0 and offsetLength be length
 
 	/// METHODS
 	@:functionCode("
-		_pointer.writeDataFromPointer(data->_pointer);
+		_nativeData->writeData(data->_nativeData);
 	") 
 	public function setData(data : Data) : Void {}
 
@@ -274,22 +295,22 @@ class Data
 	}
 
 	@:functionCode('
-		staticWriteIntIntoPointer(_pointer.ptr.get() + _pointer.offset, value, targetDataType);
+		staticWriteIntIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
 	') 
 	public function setInt(value : Int, targetDataType : DataType) : Void {}
 
 	@:functionCode('
-		staticWriteFloatIntoPointer(_pointer.ptr.get() + _pointer.offset, value, targetDataType);
+		staticWriteFloatIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
 	') 
 	public function setFloat(value : Float, targetDataType : DataType) : Void {}
 
 	@:functionCode('
-		return staticReadIntFromPointer(_pointer.ptr.get() + _pointer.offset, targetDataType);
+		return staticReadIntFromPointer(_nativeData->ptr + _nativeData->offset, targetDataType);
 	') 
 	public function getInt(targetDataType : DataType) : Int { return 0; }
 
 	@:functionCode('
-		return staticReadFloatFromPointer(_pointer.ptr.get() + _pointer.offset, targetDataType);
+		return staticReadFloatFromPointer(_nativeData->ptr + _nativeData->offset, targetDataType);
 	') 
 	public function getFloat(targetDataType : DataType) : Float { return 0; }
 
@@ -301,15 +322,15 @@ class Data
 		std::wostringstream oss;
 
 		oss << "[";
-		if(_pointer.allocedLength >= 1)
+		if(_nativeData->allocedLength >= 1)
 		{
-			oss << staticReadValueIntoString(_pointer.ptr.get(), dataType);
+			oss << staticReadValueIntoString(_nativeData->ptr, dataType);
 		}
 
-		for(int i = 1; i < _pointer.allocedLength / dataSize; i++)
+		for(int i = 1; i < _nativeData->allocedLength / dataSize; i++)
 		{
 			oss << ", ";
-			oss << staticReadValueIntoString(_pointer.ptr.get() + i * dataSize, dataType);
+			oss << staticReadValueIntoString(_nativeData->ptr + i * dataSize, dataType);
 		}
 
 		oss << "]";

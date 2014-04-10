@@ -6,6 +6,7 @@ import types.Data;
 @:headerCode('	
 #include <hxMath.h>	
 
+#include <types/NativeData.h>
 
 
 #ifdef __cplusplus
@@ -261,6 +262,13 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 
 ') 
 
+@:cppFileCode('
+
+#include <string>
+#include <sstream>
+#include <stdio.h>
+')
+
 @:headerClassCode('					
 public:								
 	UTKMatrix4 _matrixData;			
@@ -276,7 +284,7 @@ class Matrix4
 	}
 
 	@:functionCode('
-		data->_pointer = Pointer((uint8_t *)&_matrixData, sizeof(_matrixData));
+		data->_nativeData->setupWithExistingPointer((uint8_t*)&_matrixData, sizeof(_matrixData));
 	') 
 	public function initDataWithMatrixPointer() : Void {}
 
