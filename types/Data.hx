@@ -205,7 +205,7 @@ class Data
 	}
 
 	public var nativeData : Dynamic;
-	private var nativedata_createNativeData = Lib.load ("nativedata", "nativedata_createNativeData", 0);
+	public static var nativedata_createNativeData = Lib.load ("nativedata", "nativedata_createNativeData", 0);
 
 	@:functionCode("
 		nativeData = nativedata_createNativeData();

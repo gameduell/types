@@ -22,6 +22,7 @@ DECLARE_KIND(k_NativeData)
 			virtual void cleanUp() = 0;
 
 			virtual void writeData(const NativeData *d) = 0;
+			virtual void writePointer(const void* pointer, int lengthInBytes) = 0;
 
 
 		protected: 

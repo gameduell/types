@@ -13,6 +13,7 @@ class NativeData_Impl : public NativeData
 		void cleanUp();
 
 		void writeData(const NativeData *d);
+		void writePointer(const void* pointer, int lengthInBytes);
 
 		~NativeData_Impl();
 		NativeData_Impl();
@@ -66,6 +67,11 @@ NativeData_Impl::~NativeData_Impl()
 void NativeData_Impl::writeData(const NativeData *d)
 {
 	memcpy(ptr + offset, d->ptr + d->offset, d->offsetLength);
+}
+
+void NativeData_Impl::writePointer(const void* pointer, int lengthInBytes)
+{
+	memcpy(ptr + offset, pointer, lengthInBytes);
 }
 
 NativeData* createNativeData()
