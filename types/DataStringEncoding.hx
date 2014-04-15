@@ -2,6 +2,5 @@ package types;
 
 enum DataStringEncoding
 {
-	DataStringEncodingUTF8;
-	DataStringEncodingUTF16;
+	DataStringEncodingUTF8; /// the only one supported for now
 }
