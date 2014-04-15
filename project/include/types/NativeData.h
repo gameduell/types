@@ -24,6 +24,7 @@ DECLARE_KIND(k_NativeData)
 			virtual void writeData(const NativeData *d) = 0;
 			virtual void writePointer(const void* pointer, int lengthInBytes) = 0;
 
+			static value createHaxePointer();
 
 		protected: 
 			NativeData() {} // use types_cpp_createNativeData method

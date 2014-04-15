@@ -7,13 +7,12 @@
 
 #include <types/NativeData.h>
 
-DEFINE_KIND(k_NativeData) 
 
 extern NativeData * createNativeData();
 
 static value nativedata_createNativeData() 
 {
-	return alloc_abstract(k_NativeData, createNativeData());
+	return NativeData::createHaxePointer();
 }
 DEFINE_PRIM (nativedata_createNativeData, 0);
 

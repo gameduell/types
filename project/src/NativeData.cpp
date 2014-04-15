@@ -58,12 +58,6 @@ NativeData_Impl::NativeData_Impl()
 	offsetLength = 0;
 }
 
-
-NativeData_Impl::~NativeData_Impl()
-{
-	cleanUp();
-}
-
 void NativeData_Impl::writeData(const NativeData *d)
 {
 	memcpy(ptr + offset, d->ptr + d->offset, d->offsetLength);
@@ -74,9 +68,27 @@ void NativeData_Impl::writePointer(const void* pointer, int lengthInBytes)
 	memcpy(ptr + offset, pointer, lengthInBytes);
 }
 
-NativeData* createNativeData()
+
+NativeData_Impl::~NativeData_Impl()
 {
-	return new NativeData_Impl();
+	cleanUp();
+}
+
+static void finalizer(value abstract_object)
+{ 
+     NativeData_Impl* data = (NativeData_Impl *)val_data(abstract_object);
+     data->cleanUp();
+     delete data;
+} 
+
+DEFINE_KIND(k_NativeData) 
+
+value NativeData::createHaxePointer()
+{
+	value v;
+	v = alloc_abstract(k_NativeData, new NativeData_Impl());
+	val_gc(v, (hxFinalizer) &finalizer);
+	return v;
 }
 
 
