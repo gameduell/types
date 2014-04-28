@@ -14,34 +14,22 @@ class DataStringTools {
 
 	@:functionCode('
 
-
-		if(encoding == 0)
-			encoding = ::types::DataStringEncoding_obj::DataStringEncodingUTF8;
-
-		switch( (int)(encoding->__Index())){
-			case (int)0: {
-				int len = data->_nativeData->offsetLength;
-				HX_CHAR *result = hx::NewString(len);
-				memcpy(result, (char*)data->_nativeData->ptr + data->_nativeData->offset, sizeof(HX_CHAR)*(len));
-				return ::String(result, len);
-			}
-		}
+		int len = data->_nativeData->offsetLength;
+		HX_CHAR *result = hx::NewString(len);
+		memcpy(result, (char*)data->_nativeData->ptr + data->_nativeData->offset, sizeof(HX_CHAR)*(len));
+		return ::String(result, len);
 	')
-	public static function createStringFromData(data : Data, ?encoding : DataStringEncoding) : String { return ""; }
+	public static function createStringFromData(data : Data) : String { return ""; }
 
 	@:functionCode('
-		if(encoding == 0)
-			encoding = ::types::DataStringEncoding_obj::DataStringEncodingUTF8;
-
-		switch( (int)(encoding->__Index())){
-			case (int)0: {
-				const char* c = string.c_str();
-				data->_nativeData->writePointer(c, string.length);
-
-				break;
-			}
-		}
+		const char* c = string.c_str();
+		data->_nativeData->writePointer(c, string.length);
 	')
-	public static function setString(data : Data, string : String, ?encoding : DataStringEncoding) : Void {}; 
+	public static function setString(data : Data, string : String) : Void {}; 
+
+	@:functionCode('
+		return string.length;
+	')
+	public static function sizeInBytes(string : String) { return 0; }
 
 }

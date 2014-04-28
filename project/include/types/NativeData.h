@@ -11,6 +11,7 @@ DECLARE_KIND(k_NativeData)
 		public: 
 			uint8_t * ptr;
 			int allocedLength;
+			bool externalPtr; /// not alloced here, so not dealloced
 
 			int offset;
 			int offsetLength;
@@ -23,6 +24,9 @@ DECLARE_KIND(k_NativeData)
 
 			virtual void writeData(const NativeData *d) = 0;
 			virtual void writePointer(const void* pointer, int lengthInBytes) = 0;
+
+			/// does not work if setup was done with existing pointer
+			virtual void resize(int newSize) = 0;
 
 			static value createHaxePointer();
 
