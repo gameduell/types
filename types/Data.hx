@@ -8,9 +8,9 @@ extern class Data
 
 	public function setData(data : Data) : Void;
 
-	public function setInt(value : Int, targetDataTyoe : DataType) : Void;
+	public function setInt(value : Int, targetDataType : DataType) : Void;
 
-	public function setFloat(value : Float, targetDataTyoe : DataType) : Void;
+	public function setFloat(value : Float, targetDataType : DataType) : Void;
 
 	public function setIntArray(array : Array<Int>, dataType : DataType) : Void;
 
@@ -22,11 +22,14 @@ extern class Data
 
 	public function toString(?dataType : DataType) : String; /// defaults to DataType.Int
 
-	public var allocedLength(get, never) : Int;
-
-
 	/// offset view, all uses of data should start at offset and use up to offset length
 	public var offset(get, set) : Int;
 	public var offsetLength(get, set) : Int;
-	public function resetOffset() : Void; ///makes offset 0 and offsetLength be length
+	public function resetOffset() : Void; /// makes offset 0 and offsetLength be allocedLength
+
+	/// should not be used for reading and writing on the data
+	public var allocedLength(get, never) : Int;
+
+	/// if underlying pointer is set externally a new pointer will be created with a copy of that external pointer's memory.
+	public function resize(newSize : Int) : Void;
 }

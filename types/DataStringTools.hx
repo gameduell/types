@@ -2,7 +2,9 @@ package types;
 
 extern class DataStringTools {
 
-	public static function createStringFromData(data : Data, ?encoding : DataStringEncoding) : String;
+	public static function sizeInBytes(string : String) : Int;
 
-	public static function setString(data : Data, string : String, ?encoding : DataStringEncoding) : Void {}; 
+	public static function createStringFromData(data : Data) : String;
+
+	public static function setString(data : Data, string : String) : Void {}; 
 }
