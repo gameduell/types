@@ -11,6 +11,8 @@ import js.html.Int32Array;
 import js.html.Uint32Array;
 import js.html.Float32Array;
 import js.html.Float64Array;
+import js.html.StringView;
+
 
 class Data
 {
@@ -68,6 +70,7 @@ class Data
 	public var int32Array : Int32Array;
 	public var uint32Array : Uint32Array;
 	public var float32Array : Float32Array;
+	public var stringView : StringView;
 
 	public function new(sizeInBytes : Int) : Void
 	{
@@ -85,6 +88,11 @@ class Data
 	public function set_arrayBuffer(value : ArrayBuffer) : ArrayBuffer
 	{
 	 	arrayBuffer = value;
+	 	_allocedLength = value.byteLength;
+
+		_offsetLength = _allocedLength;
+		_offset = 0;
+		
 	 	remakeViews();
 
 		return value;
@@ -92,11 +100,12 @@ class Data
 
 	private function remakeViews() : Void
 	{
-
 		var length = arrayBuffer.byteLength;
 
 		int8Array = new Int8Array(arrayBuffer);
 	 	uint8Array = new Uint8Array(arrayBuffer);
+	 	stringView = new StringView(arrayBuffer);
+
 	 	if(length % 2  == 0)
 	 	{
 	 		int16Array = new Int16Array(arrayBuffer);
@@ -294,5 +303,30 @@ class Data
 		output += "]";
 		return output;
 	}
+
+	public function resize(newSize : Int) : Void 
+	{
+    	var newBuffer = new ArrayBuffer(newSize);
+    	var prevBuffer = arrayBuffer;
+    	var prevBufferView = uint8Array;
+
+    	set_arrayBuffer(newBuffer);
+
+    	if(prevBuffer != null)
+    	{
+
+	    	if(newSize < prevBuffer.byteLength)
+	    	{
+	    		uint8Array.set(prevBufferView.subarray(0, newSize));
+	    	}
+	    	else
+	    	{
+	    		uint8Array.set(prevBufferView);
+	    	}
+
+    	}
+    	_allocedLength = newSize;
+	}
+
 
 }
