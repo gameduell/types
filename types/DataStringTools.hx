@@ -4,7 +4,7 @@ import js.html.StringView;
 
 class DataStringTools {
 
-	public static function createStringFromData(data : Data) : String 
+	public static function readString(data : Data) : String 
 	{ 
 		if(data.stringView != null)
 			return data.stringView.subview(data.offset, data.offsetLength).toString(); 
@@ -12,7 +12,7 @@ class DataStringTools {
 			return "";
 	}
 
-	public static function setString(data : Data, string : String) : Void 
+	public static function writeString(data : Data, string : String) : Void 
 	{
 		var stringView = new StringView(string);
 		data.uint8Array.set(stringView.rawData, data.offset);

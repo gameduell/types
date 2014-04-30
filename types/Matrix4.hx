@@ -19,12 +19,12 @@ class Matrix4
 		if(identity == null)
 		{
 			identity = new Data(4*4*4);
-			identity.setFloatArray([1.0, 0.0, 0.0, 0.0,
-								    0.0, 1.0, 0.0, 0.0,
-								    0.0, 0.0, 1.0, 0.0,
-								    0.0, 0.0, 0.0, 1.0], DataTypeFloat);
+			identity.writeFloatArray([	1.0, 0.0, 0.0, 0.0,
+									    0.0, 1.0, 0.0, 0.0,
+								 		0.0, 0.0, 1.0, 0.0,
+									    0.0, 0.0, 0.0, 1.0], DataTypeFloat);
 		}
-		data.setData(identity);
+		data.writeData(identity);
 	}
 
 	public function setOrtho(	x0 : Float, 
@@ -91,7 +91,7 @@ class Matrix4
 
 	public function set(matrix : Matrix4) : Void 
 	{ 
-		data.setData(matrix.data);
+		data.writeData(matrix.data);
 	}
 
 	public function get(row : Int, col : Int) : Float

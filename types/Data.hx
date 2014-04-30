@@ -92,7 +92,7 @@ class Data
 
 		_offsetLength = _allocedLength;
 		_offset = 0;
-		
+
 	 	remakeViews();
 
 		return value;
@@ -121,13 +121,13 @@ class Data
 	}
 
 
-	public function setData(data : Data) : Void
+	public function writeData(data : Data) : Void
 	{
 		var subarrayView = data.uint8Array.subarray(data._offset, data._offset + data._offsetLength);
 		uint8Array.set(subarrayView, offset);
 	}
 
-	public function getInt(targetDataType : DataType) : Int
+	public function readInt(targetDataType : DataType) : Int
 	{
 		switch(targetDataType)
 		{
@@ -149,7 +149,7 @@ class Data
 		return 0;
 	}
 
-	public function getFloat(targetDataType : DataType) : Float
+	public function readFloat(targetDataType : DataType) : Float
 	{
 		switch(targetDataType)
 		{
@@ -172,28 +172,28 @@ class Data
 	}
 
 
-	public function setIntArray(array : Array<Int>, dataType : DataType) : Void 
+	public function writeIntArray(array : Array<Int>, dataType : DataType) : Void 
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
 		var prevOffset = _offset;
 		for(i in 0...array.length)
 		{
-			setInt(array[i], dataType);
+			writeInt(array[i], dataType);
 
 			_offset += dataSize;
 		}
 		_offset = prevOffset;
 	}
 
-	public function setFloatArray(array : Array<Float>, dataType : DataType) : Void 
+	public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void 
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
 		var prevOffset = _offset;
 		for(i in 0...array.length)
 		{
-			setFloat(array[i], dataType);
+			writeFloat(array[i], dataType);
 
 			_offset += dataSize;
 		}
@@ -201,7 +201,7 @@ class Data
 	}
 
 	static var intArrayOf1 : Array<Int> = [0];
-	public function setInt(value : Int, targetDataType : DataType) : Void 
+	public function writeInt(value : Int, targetDataType : DataType) : Void 
 	{
 		intArrayOf1[0] = value;
 		switch(targetDataType)
@@ -231,7 +231,7 @@ class Data
 		return;
 	}
 
-	public function setFloat(value : Float, targetDataType : DataType) : Void 
+	public function writeFloat(value : Float, targetDataType : DataType) : Void 
 	{	
 		intArrayOf1[0] = cast value;
 		switch(targetDataType)
