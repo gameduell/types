@@ -6,19 +6,19 @@ extern class Data
 {
 	public function new(sizeInBytes : Int) : Void; /// if 0, empty data, does not create the underlying memory. Can be set externally.
 
-	public function setData(data : Data) : Void;
+	public function writeData(data : Data) : Void;
 
-	public function setInt(value : Int, targetDataType : DataType) : Void;
+	public function writeInt(value : Int, targetDataType : DataType) : Void;
 
-	public function setFloat(value : Float, targetDataType : DataType) : Void;
+	public function writeFloat(value : Float, targetDataType : DataType) : Void;
 
-	public function setIntArray(array : Array<Int>, dataType : DataType) : Void;
+	public function writeIntArray(array : Array<Int>, dataType : DataType) : Void;
 
-	public function setFloatArray(array : Array<Float>, dataType : DataType) : Void;
+	public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void;
 
-	public function getInt(targetDataType : DataType) : Int;
+	public function readInt(targetDataType : DataType) : Int;
 
-	public function getFloat(targetDataType : DataType) : Float;
+	public function readFloat(targetDataType : DataType) : Float;
 
 	public function toString(?dataType : DataType) : String; /// defaults to DataType.Int
 
