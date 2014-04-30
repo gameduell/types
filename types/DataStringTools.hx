@@ -19,13 +19,13 @@ class DataStringTools {
 		memcpy(result, (char*)data->_nativeData->ptr + data->_nativeData->offset, sizeof(HX_CHAR)*(len));
 		return ::String(result, len);
 	')
-	public static function createStringFromData(data : Data) : String { return ""; }
+	public static function readString(data : Data) : String { return ""; }
 
 	@:functionCode('
 		const char* c = string.c_str();
 		data->_nativeData->writePointer(c, string.length);
 	')
-	public static function setString(data : Data, string : String) : Void {}; 
+	public static function writeString(data : Data, string : String) : Void {}; 
 
 	@:functionCode('
 		return string.length;

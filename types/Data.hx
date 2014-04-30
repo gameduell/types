@@ -260,9 +260,9 @@ class Data
 	@:functionCode("
 		_nativeData->writeData(data->_nativeData);
 	") 
-	public function setData(data : Data) : Void {}
+	public function writeData(data : Data) : Void {}
 
-	public function setIntArray(array : Array<Int>, dataType : DataType) : Void
+	public function writeIntArray(array : Array<Int>, dataType : DataType) : Void
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
@@ -271,14 +271,14 @@ class Data
 		for(i in 0...array.length)
 		{
 			set_offset(currentOffset);
-			setInt(array[i], dataType);
+			writeInt(array[i], dataType);
 
 			currentOffset += dataSize;
 		}
 		set_offset(prevOffset);
 	}
 
-	public function setFloatArray(array : Array<Float>, dataType : DataType) : Void
+	public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void
 	{ 
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
@@ -287,7 +287,7 @@ class Data
 		for(i in 0...array.length)
 		{
 			set_offset(currentOffset);
-			setFloat(array[i], dataType);
+			writeFloat(array[i], dataType);
 
 			currentOffset += dataSize;
 		}
@@ -297,22 +297,22 @@ class Data
 	@:functionCode('
 		staticWriteIntIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
 	') 
-	public function setInt(value : Int, targetDataType : DataType) : Void {}
+	public function writeInt(value : Int, targetDataType : DataType) : Void {}
 
 	@:functionCode('
 		staticWriteFloatIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
 	') 
-	public function setFloat(value : Float, targetDataType : DataType) : Void {}
+	public function writeFloat(value : Float, targetDataType : DataType) : Void {}
 
 	@:functionCode('
 		return staticReadIntFromPointer(_nativeData->ptr + _nativeData->offset, targetDataType);
 	') 
-	public function getInt(targetDataType : DataType) : Int { return 0; }
+	public function readInt(targetDataType : DataType) : Int { return 0; }
 
 	@:functionCode('
 		return staticReadFloatFromPointer(_nativeData->ptr + _nativeData->offset, targetDataType);
 	') 
-	public function getFloat(targetDataType : DataType) : Float { return 0; }
+	public function readFloat(targetDataType : DataType) : Float { return 0; }
 
 	@:functionCode('
 		if(dataType == 0)
