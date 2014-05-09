@@ -1,9 +1,13 @@
-
+import types.AffineTransformMatrix4Tools;
 import types.Matrix4;
+
+import types.AffineTransform;
 
 import types.DataType;
 
 import TestHelper;
+
+using types.AffineTransformMatrix4Tools;
 
 class Matrix4Test extends haxe.unit.TestCase
 {
@@ -86,4 +90,17 @@ class Matrix4Test extends haxe.unit.TestCase
         matrix2.set(matrix1);
         assertMatrix4([2.16506, -1.25, 0, 0, 1.25, 2.16506, 0, 0, 0, 0, 1, 0, 123.45, 543.21, 0, 1], matrix2);
     }
+
+    public function testSetFromAffineTransform()
+    {
+        var affineTransform = new AffineTransform();
+        affineTransform.setIdentity();
+        affineTransform.translate(42, 24);
+
+        var matrix = new Matrix4();
+        matrix.setFromAffineTransform(affineTransform);
+
+        assertMatrix4([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 42, 24, 0, 1], matrix);
+    }
+
 }
