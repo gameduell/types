@@ -36,7 +36,7 @@ void NativeData_Impl::setupWithExistingPointer(uint8_t* existingPtr, int lengthI
 {
 	cleanUp();
 	ptr = existingPtr;
-	allocedLength = lengthInBytes;	
+	allocedLength = lengthInBytes;
 
 	offset = 0;
 	offsetLength = lengthInBytes;
@@ -45,7 +45,7 @@ void NativeData_Impl::setupWithExistingPointer(uint8_t* existingPtr, int lengthI
 
 void NativeData_Impl::cleanUp()
 {
-	if(allocedLength > 0 && externalPtr)
+	if(allocedLength > 0 && !externalPtr)
 		free(ptr);
 
 	ptr = 0;
@@ -81,6 +81,7 @@ void NativeData_Impl::resize(int newSize)
 		uint8_t* prevPtr = ptr;
 		ptr = (uint8_t*)calloc(newSize, 1);
 		memcpy(ptr, prevPtr, allocedLength);
+		externalPtr = false;
 	}
 	else
 	{
@@ -99,7 +100,7 @@ NativeData_Impl::~NativeData_Impl()
 }
 
 static void finalizer(value abstract_object)
-{ 
+{
      NativeData_Impl* data = (NativeData_Impl *)val_data(abstract_object);
      data->cleanUp();
      delete data;
