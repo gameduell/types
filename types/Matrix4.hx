@@ -24,6 +24,8 @@ class Matrix4
 								 		0.0, 0.0, 1.0, 0.0,
 									    0.0, 0.0, 0.0, 1.0], DataTypeFloat);
 		}
+        data.offset = 0;
+        identity.offset = 0;
 		data.writeData(identity);
 	}
 
@@ -90,7 +92,9 @@ class Matrix4
 	}
 
 	public function set(matrix : Matrix4) : Void 
-	{ 
+	{
+        data.offset = 0;
+        matrix.data.offset = 0;
 		data.writeData(matrix.data);
 	}
 
