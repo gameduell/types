@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
 
-	<dependency name="StringView" path="dependencies/StringView" if="html5" />
+	<dependency path="dependencies/StringView/stringview.js" if="html5" />
 	
 </extension>
