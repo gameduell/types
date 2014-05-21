@@ -126,6 +126,7 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
     m.val[3] = vmlaq_n_f32(m.val[3], iMatrixLeft.val[3], vgetq_lane_f32(iMatrixRight.val[3], 3));
 
     return *(UTKMatrix4 *)&m;
+    /*
 #elif defined(GLK_SSE3_INTRINSICS)
 	const __m128 l0 = _mm_load_ps(&matrixLeft.m[0]);
 	const __m128 l1 = _mm_load_ps(&matrixLeft.m[4]);
@@ -162,7 +163,7 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 	_mm_store_ps(&matrixLeft.m[8], m2);
 	_mm_store_ps(&matrixLeft.m[12], m3);
     return matrixLeft;
-
+*/
 #else
    UTKMatrix4 m;
     
