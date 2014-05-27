@@ -6,6 +6,7 @@ import Matrix4Test;
 import SizeTest;
 import UGridSizeTest;
 import AffineTransformTest;
+import Color4BTest;
 
 class MainTester 
 {
@@ -19,6 +20,7 @@ class MainTester
         r.add(new SizeTest());
         r.add(new UGridSizeTest());
         r.add(new AffineTransformTest());
+        r.add(new Color4BTest());
 
 		r.run();
 		trace(r.result.toString());
