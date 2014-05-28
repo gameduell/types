@@ -1,0 +1,9 @@
+{
+    "name" : "types_flash",
+    "license" : "Closed",
+    "version" : "0.0.1",
+    "description" : "The types abstraction layer implementation for flash.",
+    "contributors" : [ "GameDuell GmbH" ],
+    "dependencies" : []
+    "releasenote" : ""
+}
