@@ -1,5 +1,4 @@
-
-import lime.Lime;
+import platform.AppMain;
 
 import DataTest;
 import Matrix4Test;
@@ -7,11 +6,9 @@ import SizeTest;
 import AffineTransformTest;
 import Color4BTest;
 
-class MainTester 
+class MainTester extends AppMain
 {
-	public function new() {};
-
-	public function ready (lime:Lime) : Void 
+	override function start() : Void 
 	{
 		var r = new haxe.unit.TestRunner();
 		r.add(new DataTest());
