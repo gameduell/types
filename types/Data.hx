@@ -41,7 +41,7 @@ class Data
 
     public function resetOffset() : Void
     {
-        byteArray.position = 0;
+        offset = 0;
         _offsetLength = byteArray.length;
     }
 
@@ -65,7 +65,6 @@ class Data
     {
         byteArray = value;
         _offsetLength = byteArray.length;
-        byteArray.position = 0;
 
         return value;
     }
@@ -74,55 +73,57 @@ class Data
     {
         var prevOffset = byteArray.position;
         byteArray.writeBytes(data.byteArray, data.offset, data.byteArray.length);
-        byteArray.position = prevOffset;
+        offset = prevOffset;
     }
 
     public function readInt(targetDataType : DataType) : Int
     {
         var prevOffset = byteArray.position;
+        var returnValue = 0;
         switch(targetDataType)
         {
             case DataTypeByte:
-                return byteArray.readByte();
+                returnValue =  byteArray.readByte();
             case DataTypeUnsignedByte:
-                return cast byteArray.readUnsignedByte();
+                returnValue =  cast byteArray.readUnsignedByte();
             case DataTypeShort:
-                return byteArray.readShort();
+                returnValue =  byteArray.readShort();
             case DataTypeUnsignedShort:
-                return cast byteArray.readUnsignedShort();
+                returnValue =  cast byteArray.readUnsignedShort();
             case DataTypeInt:
-                return byteArray.readInt();
+                returnValue =  byteArray.readInt();
             case DataTypeUnsignedInt:
-                return cast byteArray.readUnsignedInt();
+                returnValue =  cast byteArray.readUnsignedInt();
             case DataTypeFloat:
-                return Std.int(byteArray.readFloat());
+                returnValue =  Std.int(byteArray.readFloat());
         }
-        byteArray.position = prevOffset;
-        return 0;
+        offset = prevOffset;
+        return returnValue;
     }
 
     public function readFloat(targetDataType : DataType) : Float
     {
         var prevOffset = byteArray.position;
+        var returnValue = 0.0;
         switch(targetDataType)
         {
             case DataTypeByte:
-                return byteArray.readByte();
+                returnValue =  byteArray.readByte();
             case DataTypeUnsignedByte:
-                return cast byteArray.readUnsignedByte();
+                returnValue =  cast byteArray.readUnsignedByte();
             case DataTypeShort:
-                return byteArray.readShort();
+                returnValue =  byteArray.readShort();
             case DataTypeUnsignedShort:
-                return cast byteArray.readUnsignedShort();
+                returnValue =  cast byteArray.readUnsignedShort();
             case DataTypeInt:
-                return byteArray.readInt();
+                returnValue =  byteArray.readInt();
             case DataTypeUnsignedInt:
-                return cast byteArray.readUnsignedInt();
+                returnValue =  cast byteArray.readUnsignedInt();
             case DataTypeFloat:
-                return byteArray.readFloat();
+                returnValue = byteArray.readFloat();
         }
-        byteArray.position = prevOffset;
-        return 0;
+        offset = prevOffset;
+        return returnValue;
     }
 
 
@@ -133,13 +134,12 @@ class Data
         var prevOffset = byteArray.position;
         for(i in 0...array.length)
         {
-            var nextOffset = byteArray.position + dataSize;
 
+            byteArray.position = i * dataSize;
             writeInt(array[i], dataType);
-
-            byteArray.position = nextOffset;
         }
-        byteArray.position = prevOffset;
+
+        offset = prevOffset;
     }
 
     public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void
@@ -149,13 +149,11 @@ class Data
         var prevOffset = byteArray.position;
         for(i in 0...array.length)
         {
-            var nextOffset = byteArray.position + dataSize;
-
+            byteArray.position = i * dataSize;
             writeFloat(array[i], dataType);
 
-            byteArray.position = nextOffset;
         }
-        byteArray.position = prevOffset;
+        offset = prevOffset;
     }
 
     public function writeInt(value : Int, targetDataType : DataType) : Void
@@ -184,7 +182,7 @@ class Data
             case DataTypeFloat:
                 byteArray.writeFloat(value);
         }
-        byteArray.position = prevOffset;
+        offset = prevOffset;
         return;
     }
 
@@ -214,7 +212,7 @@ class Data
             case DataTypeFloat:
                 byteArray.writeFloat(value);
         }
-        byteArray.position = prevOffset;
+        offset = prevOffset;
         return;
     }
 
@@ -230,25 +228,37 @@ class Data
         var prevPosition : Int = byteArray.position;
         byteArray.position = 0;
 
-        var returnString:String ="";
+        var func: types.DataType -> Float;
 
+        if(dataType == DataTypeFloat){
+            func = readFloat;
+        }else{
+            func = readInt;
+        }
+
+        var returnString:String = "";
         while (byteArray.bytesAvailable >0) {
 
             var nextPosition : Int = byteArray.position + dataTypeSize;
 
-            returnString += readInt(dataType) + ",";
-
+            returnString += func(dataType);
             byteArray.position = nextPosition;
+
+            if(byteArray.bytesAvailable>0)returnString += ",";
+
         }
 
+        offset = prevPosition;
         return returnString;
     }
 
     public function resize(newSize : Int) : Void
     {
+        var prevPosition : Int = byteArray.position;
         var newBuffer:ByteArray = new ByteArray();
         newBuffer.length = newSize;
         newBuffer.writeBytes(byteArray, 0, newSize);
+        newBuffer.position = prevPosition;
         set_byteArray(newBuffer);
     }
 
