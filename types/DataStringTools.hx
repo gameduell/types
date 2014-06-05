@@ -21,9 +21,7 @@ class DataStringTools{
     public static function readString(data : Data) : String{
         var prevPos:Int = data.offset;
         var string:String = data.byteArray.readUTFBytes(data.offsetLength);
-        trace(data.offsetLength);
         data.offset = prevPos;
-
         return string;
     }
 
