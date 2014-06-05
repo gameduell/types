@@ -55,8 +55,8 @@ class Data
         {
             _offsetLength = sizeInBytes;
             byteArray = new ByteArray();
-            byteArray.position = 0;
             byteArray.length = sizeInBytes;
+            byteArray.position = 0;
         }
     }
 
@@ -64,8 +64,6 @@ class Data
     public function set_byteArray(value : ByteArray) : ByteArray
     {
         byteArray = value;
-        _offsetLength = byteArray.length;
-
         return value;
     }
 
@@ -134,11 +132,9 @@ class Data
         var prevOffset = byteArray.position;
         for(i in 0...array.length)
         {
-
-            byteArray.position = i * dataSize;
+            byteArray.position = prevOffset + (i * dataSize);
             writeInt(array[i], dataType);
         }
-
         offset = prevOffset;
     }
 
@@ -149,7 +145,7 @@ class Data
         var prevOffset = byteArray.position;
         for(i in 0...array.length)
         {
-            byteArray.position = i * dataSize;
+            byteArray.position = prevOffset + (i * dataSize);
             writeFloat(array[i], dataType);
 
         }
@@ -257,8 +253,9 @@ class Data
         var prevPosition : Int = byteArray.position;
         var newBuffer:ByteArray = new ByteArray();
         newBuffer.length = newSize;
-        newBuffer.writeBytes(byteArray, 0, newSize);
+        newBuffer.writeBytes(byteArray, 0, byteArray.length);
         newBuffer.position = prevPosition;
+        _offsetLength = newSize;
         set_byteArray(newBuffer);
     }
 
