@@ -294,6 +294,44 @@ class Data
 		set_offset(prevOffset);
 	}
 
+    public function readIntArray(count : Int, dataType : DataType) : Array<Int>
+    {
+        var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
+
+        var prevOffset = get_offset();
+        var currentOffset = prevOffset;
+
+        var array = new Array<Int>();
+        for(i in 0...count)
+        {
+            set_offset(currentOffset);
+            array.push(readInt(dataType));
+
+            currentOffset += dataSize;
+        }
+        set_offset(prevOffset);
+        return array;
+    }
+
+    public function readFloatArray(count : Int, dataType : DataType) : Array<Float>
+    {
+        var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
+
+        var prevOffset = get_offset();
+        var currentOffset = prevOffset;
+
+        var array = new Array<Float>();
+        for(i in 0...count)
+        {
+            set_offset(currentOffset);
+            array.push(readFloat(dataType));
+
+            currentOffset += dataSize;
+        }
+        set_offset(prevOffset);
+        return array;
+    }
+
 	@:functionCode('
 		staticWriteIntIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
 	') 
