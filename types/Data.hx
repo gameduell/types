@@ -20,6 +20,10 @@ extern class Data
 
 	public function readFloat(targetDataType : DataType) : Float;
 
+    public function readIntArray(count : Int, dataType : DataType) : Array<Int>;
+
+    public function readFloatArray(count : Int, dataType : DataType) : Array<Float>;
+
 	public function toString(?dataType : DataType) : String; /// defaults to DataType.Int
 
 	/// offset view, all uses of data should start at offset and use up to offset length

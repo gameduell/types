@@ -8,6 +8,7 @@ import types.DataType;
 import TestHelper;
 
 using types.DataStringTools;
+using types.DataBytesTools;
 
 class DataTest extends haxe.unit.TestCase
 {
@@ -179,12 +180,10 @@ class DataTest extends haxe.unit.TestCase
 
         var newStr = data.readString();
         assertTrue(str == newStr);
-        
     }
 
     public function testResize()
     {
-
         var array = [1, 2, 3, 4, 5];
         var data = new Data((array.length - 1) * 4);
         data.resize((array.length) * 4);
@@ -192,6 +191,20 @@ class DataTest extends haxe.unit.TestCase
 
         assertIntArray([1, 2, 3, 4, 5], data, DataTypeInt);
 
+    }
+
+    public function testDataBytesTools()
+    {
+        var array = [1, 2, 3, 4, 5];
+        var data = new Data((array.length) * 4);
+        data.writeIntArray(array, DataTypeInt);
+
+        var bytes = data.getBytes();
+        assertEquals(1, bytes.get(0));
+        assertEquals(2, bytes.get(4));
+        assertEquals(3, bytes.get(8));
+        assertEquals(4, bytes.get(12));
+        assertEquals(5, bytes.get(16));
     }
 
     ///missing testing offset with smaller types than int/float, and future big types like double
