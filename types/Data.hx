@@ -82,20 +82,22 @@ class Data
         var prevOffset = byteArray.position;
         switch(targetDataType)
         {
-            case DataTypeByte:
+            case DataTypeInt8:
                 return byteArray.readByte();
-            case DataTypeUnsignedByte:
+            case DataTypeUInt8:
                 return cast byteArray.readUnsignedByte();
-            case DataTypeShort:
+            case DataTypeInt16:
                 return byteArray.readShort();
-            case DataTypeUnsignedShort:
+            case DataTypeUInt16:
                 return cast byteArray.readUnsignedShort();
-            case DataTypeInt:
+            case DataTypeInt32:
                 return byteArray.readInt();
-            case DataTypeUnsignedInt:
+            case DataTypeUInt32:
                 return cast byteArray.readUnsignedInt();
-            case DataTypeFloat:
+            case DataTypeFloat32:
                 return Std.int(byteArray.readFloat());
+            case DataTypeFloat64:
+                return Std.int(byteArray.readDouble());
         }
         byteArray.position = prevOffset;
         return 0;
@@ -106,20 +108,22 @@ class Data
         var prevOffset = byteArray.position;
         switch(targetDataType)
         {
-            case DataTypeByte:
+            case DataTypeInt8:
                 return byteArray.readByte();
-            case DataTypeUnsignedByte:
+            case DataTypeUInt8:
                 return cast byteArray.readUnsignedByte();
-            case DataTypeShort:
+            case DataTypeInt16:
                 return byteArray.readShort();
-            case DataTypeUnsignedShort:
+            case DataTypeUInt16:
                 return cast byteArray.readUnsignedShort();
-            case DataTypeInt:
+            case DataTypeInt32:
                 return byteArray.readInt();
-            case DataTypeUnsignedInt:
+            case DataTypeUInt32:
                 return cast byteArray.readUnsignedInt();
-            case DataTypeFloat:
+            case DataTypeFloat32:
                 return byteArray.readFloat();
+            case DataTypeFloat64:
+                return byteArray.readDouble();
         }
         byteArray.position = prevOffset;
         return 0;
@@ -163,26 +167,29 @@ class Data
         var prevOffset = byteArray.position;
         switch(targetDataType)
         {
-            case DataTypeByte:
+            case DataTypeInt8:
                 byteArray.writeByte(value);
                 
-            case DataTypeUnsignedByte:
+            case DataTypeUInt8:
                 byteArray.writeByte(value);
 
-            case DataTypeShort:
+            case DataTypeInt16:
                 byteArray.writeShort(value);
 
-            case DataTypeUnsignedShort:
+            case DataTypeUInt16:
                 byteArray.writeShort(value);
 
-            case DataTypeInt:
+            case DataTypeInt32:
                 byteArray.writeInt(value);
 
-            case DataTypeUnsignedInt:
+            case DataTypeUInt32:
                 byteArray.writeUnsignedInt(value);
 
-            case DataTypeFloat:
+            case DataTypeFloat32:
                 byteArray.writeFloat(value);
+
+            case DataTypeFloat64:
+                byteArray.writeDouble(value);
         }
         byteArray.position = prevOffset;
         return;
@@ -193,26 +200,29 @@ class Data
         var prevOffset = byteArray.position;
         switch(targetDataType)
         {
-            case DataTypeByte:
+            case DataTypeInt8:
                 byteArray.writeByte(Std.int(value));
 
-            case DataTypeUnsignedByte:
+            case DataTypeUInt8:
                 byteArray.writeByte(Std.int(value));
 
-            case DataTypeShort:
+            case DataTypeInt16:
                 byteArray.writeShort(Std.int(value));
 
-            case DataTypeUnsignedShort:
+            case DataTypeUInt16:
                 byteArray.writeShort(Std.int(value));
 
-            case DataTypeInt:
+            case DataTypeInt32:
                 byteArray.writeInt(Std.int(value));
 
-            case DataTypeUnsignedInt:
+            case DataTypeUInt32:
                 byteArray.writeUnsignedInt(Std.int(value));
 
-            case DataTypeFloat:
+            case DataTypeFloat32:
                 byteArray.writeFloat(value);
+
+            case DataTypeFloat64:
+                byteArray.writeDouble(value);
         }
         byteArray.position = prevOffset;
         return;
