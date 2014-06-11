@@ -12,14 +12,16 @@ import types.DataType;
 class Color4B
 {
     public var data(default, default) : Data;
-    public var dataOffset(default, default) : Int;
+    public var dataOffset : Int;
 
-    public function new(?data : Data = null, ?dataOffset : Int = 0) : Void
+    public function new(_data : Data = null, _dataOffset : Int = 0) : Void
     {
-        if(data == null)
-            this.data = new Data(6*4);
+        if(_data == null)
+        {
+            data = new Data(4);
+        }
 
-        this.dataOffset = dataOffset;
+        dataOffset = _dataOffset;
     }
 
     public var r(get, set) : Int;
@@ -83,12 +85,12 @@ class Color4B
     }
 
     /// Helper Method
-    public function setRGBA(r : Int, g : Int, b : Int, a : Int)
+    public function setRGBA(_r : Int, _g : Int, _b : Int, _a : Int)
     {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        this.a = a;
+        r = _r;
+        g = _g;
+        b = _b;
+        a = _a;
     }
 
     public function toString() : String
@@ -99,10 +101,10 @@ class Color4B
         data.offset = dataOffset;
         output += data.readInt(DataTypeUInt8);
 
-        for(i in 1...6)
+        for(i in 1...4)
         {
             output += ", ";
-            data.offset + i;
+            data.offset += 1;
             output += data.readInt(DataTypeUInt8);
         }
 
