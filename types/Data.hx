@@ -56,6 +56,10 @@ static inline std::wstring staticReadValueIntoString(void *pointer, types::DataT
 			oss << ((float*)pointer)[0];
 		}
 		;break;
+		case (int)7: {
+			oss << ((double*)pointer)[0];
+		}
+		;break;
 	}
 	return oss.str();
 }
@@ -72,11 +76,11 @@ static inline void staticWriteFloatIntoPointer(void *pointer, float value, types
 		}
 		;break;
 		case (int)2: {
-			((int16_t *)pointer)[0] = (uint16_t)value;
+			((int16_t *)pointer)[0] = (int16_t)value;
 		}
 		;break;
 		case (int)3: {
-			((uint16_t *)pointer)[0] = (int16_t)value;
+			((uint16_t *)pointer)[0] = (uint16_t)value;
 		}
 		;break;
 		case (int)4: {
@@ -89,6 +93,10 @@ static inline void staticWriteFloatIntoPointer(void *pointer, float value, types
 		;break;
 		case (int)6: {
 			((float *)pointer)[0] = (float)value;
+		}
+		;break;
+		case (int)7: {
+			((double *)pointer)[0] = (double)value;
 		}
 		;break;
 	}
@@ -118,6 +126,9 @@ static inline float staticReadFloatFromPointer(void *pointer, types::DataType &d
 		case (int)6: {
 			return ((float*)pointer)[0];
 		}
+		case (int)7: {
+			return ((double*)pointer)[0];
+		}
 	}
 	return 0;
 }
@@ -134,11 +145,11 @@ static inline void staticWriteIntIntoPointer(void *pointer, int &value, types::D
 		}
 		;break;
 		case (int)2: {
-			((int16_t *)pointer)[0] = (uint16_t)value;
+			((int16_t *)pointer)[0] = (int16_t)value;
 		}
 		;break;
 		case (int)3: {
-			((uint16_t *)pointer)[0] = (int16_t)value;
+			((uint16_t *)pointer)[0] = (uint16_t)value;
 		}
 		;break;
 		case (int)4: {
@@ -151,6 +162,10 @@ static inline void staticWriteIntIntoPointer(void *pointer, int &value, types::D
 		;break;
 		case (int)6: {
 			((float *)pointer)[0] = (float)value;
+		}
+		;break;
+		case (int)7: {
+			((double *)pointer)[0] = (double)value;
 		}
 		;break;
 	}
@@ -179,6 +194,9 @@ static inline int staticReadIntFromPointer(void *pointer, types::DataType &dataT
 		}
 		case (int)6: {
 			return ((int*)pointer)[0];
+		}
+		case (int)7: {
+			return ((double*)pointer)[0];
 		}
 	}
 	return 0;
