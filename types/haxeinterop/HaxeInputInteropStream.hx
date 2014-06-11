@@ -21,52 +21,29 @@ class HaxeInputInteropStream extends Input
         bigEndian = false;
     }
 
-
     override function readByte() : Int
     {
-        return inputStream.readInt(DataTypeByte);
+        return inputStream.readInt(DataTypeUInt8);
     }
 
     override function readBytes( s : Bytes, pos : Int, len : Int ) : Int {
         for(i in 0...len)
         {
-            s.set(pos + i, inputStream.readInt(DataTypeUnsignedByte));
+            s.set(pos + i, inputStream.readInt(DataTypeUInt8));
         }
         return len;
     }
 
-
     override function readInt16() {
-        var ch1 = readByte();
-        var ch2 = readByte();
 
-        var n = bigEndian ? ch2 | (ch1 << 8) : ch1 | (ch2 << 8);
-
-        /// For some reason this if breaks things on the superclass
-        //if( n & 0x8000 != 0 )
-        //     return n - 0x10000;
-        return n;
-    }
-
-
-    override function readInt24() {
-        var ch1 = readByte();
-        var ch2 = readByte();
-        var ch3 = readByte();
-
-        var n = bigEndian ? ch3 | (ch2 << 8) | (ch1 << 16) : ch1 | (ch2 << 8) | (ch3 << 16);
-
-        /// For some reason this if breaks things on the superclass
-        //if( n & 0x800000 != 0 )
-        //    return n - 0x1000000;
-        return n;
+        return inputStream.readInt(DataTypeInt16);
     }
 
     override function readFloat() : Float {
-        return inputStream.readFloat(DataTypeFloat);
+        return inputStream.readFloat(DataTypeFloat32);
     }
 
     override function readDouble() : Float {
-        return inputStream.readFloat(DataTypeDouble);
+        return inputStream.readFloat(DataTypeFloat64);
     }
 }

@@ -74,74 +74,74 @@ class DataTest extends haxe.unit.TestCase
     public function testSettingAFloat()
     {
     	var data = new Data(4);
-    	data.writeFloat(1.1, DataTypeFloat);
-        assertFloatArray([1.1], data, DataTypeFloat);
+    	data.writeFloat(1.1, DataTypeFloat32);
+        assertFloatArray([1.1], data, DataTypeFloat32);
     }
 
     public function testSettingUnsignedShort()
     {
     	var data = new Data(2);
-    	data.writeInt(1, DataTypeUnsignedShort);
-        assertIntArray([1], data, DataTypeUnsignedShort);
+    	data.writeInt(1, DataTypeUInt16);
+        assertIntArray([1], data, DataTypeUInt16);
 
     }
 
     public function testSettingUnsignedByte()
     {
     	var data = new Data(1);
-    	data.writeInt(1, DataTypeUnsignedByte);
-        assertIntArray([1], data, DataTypeUnsignedByte);
+    	data.writeInt(1, DataTypeUInt8);
+        assertIntArray([1], data, DataTypeUInt8);
     }
 
     public function testSettingDouble()
     {
         var data = new Data(8);
-        data.writeFloat(1.01223, DataTypeDouble);
-        assertFloatArray([1.01223], data, DataTypeDouble);
+        data.writeFloat(1.01223, DataTypeFloat64);
+        assertFloatArray([1.01223], data, DataTypeFloat64);
     }
 
     public function testSettingIntArray()
     {
     	var array = [1, 2, 3, 4, 5];
     	var data = new Data(array.length * 4);
-    	data.writeIntArray(array, DataTypeInt);
+    	data.writeIntArray(array, DataTypeInt32);
 
-        assertIntArray([1, 2, 3, 4, 5], data, DataTypeInt);
+        assertIntArray([1, 2, 3, 4, 5], data, DataTypeInt32);
     }
 
     public function testSettingFloatArray()
     {
     	var array = [1.1, 2.1, 3.1, 4.1, 5.1];
     	var data = new Data(array.length * 4);
-    	data.writeFloatArray(array, DataTypeFloat);
+    	data.writeFloatArray(array, DataTypeFloat32);
 
-        assertFloatArray([1.1, 2.1, 3.1, 4.1, 5.1], data, DataTypeFloat);
+        assertFloatArray([1.1, 2.1, 3.1, 4.1, 5.1], data, DataTypeFloat32);
     }
 
     public function testSettingData()
     {
     	var array = [1, 2, 3, 4, 5];
     	var data = new Data(array.length * 4);
-    	data.writeIntArray(array, DataTypeInt);
+    	data.writeIntArray(array, DataTypeInt32);
 
     	var array2 = [6, 7];
     	var data2 = new Data(array2.length * 4);
-    	data2.writeIntArray(array2, DataTypeInt);
+    	data2.writeIntArray(array2, DataTypeInt32);
 
     	data.writeData(data2);
 
-        assertIntArray([6, 7, 3, 4, 5], data, DataTypeInt);
+        assertIntArray([6, 7, 3, 4, 5], data, DataTypeInt32);
     }
 
     public function testSettingValueWithOffset()
     {
     	var data = new Data(2 * 4);
-    	data.writeInt(1, DataTypeInt);
+    	data.writeInt(1, DataTypeInt32);
         data.offset = 4;
-    	data.writeInt(2, DataTypeInt);
+    	data.writeInt(2, DataTypeInt32);
         data.offset = 0;
 
-        assertIntArray([1, 2], data, DataTypeInt);
+        assertIntArray([1, 2], data, DataTypeInt32);
     }
 
 
@@ -149,31 +149,31 @@ class DataTest extends haxe.unit.TestCase
     {
     	var array = [1, 2, 3, 4, 5];
     	var data = new Data(array.length * 4);
-    	data.writeIntArray(array, DataTypeInt);
+    	data.writeIntArray(array, DataTypeInt32);
 
     	var array2 = [6, 7];
     	var data2 = new Data(array2.length * 4);
-    	data2.writeIntArray(array2, DataTypeInt);
+    	data2.writeIntArray(array2, DataTypeInt32);
 
         data.offset = 8;
     	data.writeData(data2);
         data.offset = 0;
 
-        assertIntArray([1, 2, 6, 7, 5], data, DataTypeInt);
+        assertIntArray([1, 2, 6, 7, 5], data, DataTypeInt32);
     }
 
     public function testSettingArrayWithOffset()
     {
     	var array = [1, 2, 3, 4, 5];
     	var data = new Data(array.length * 4);
-    	data.writeIntArray(array, DataTypeInt);
+    	data.writeIntArray(array, DataTypeInt32);
 
     	var array2 = [6, 7];
         data.offset = 8;
-    	data.writeIntArray(array2, DataTypeInt);
+    	data.writeIntArray(array2, DataTypeInt32);
         data.offset = 0;
 
-        assertIntArray([1, 2, 6, 7, 5], data, DataTypeInt);
+        assertIntArray([1, 2, 6, 7, 5], data, DataTypeInt32);
     }
 
     public function testDataStringTools()
@@ -193,9 +193,9 @@ class DataTest extends haxe.unit.TestCase
         var array = [1, 2, 3, 4, 5];
         var data = new Data((array.length - 1) * 4);
         data.resize((array.length) * 4);
-        data.writeIntArray(array, DataTypeInt);
+        data.writeIntArray(array, DataTypeInt32);
 
-        assertIntArray([1, 2, 3, 4, 5], data, DataTypeInt);
+        assertIntArray([1, 2, 3, 4, 5], data, DataTypeInt32);
 
     }
 

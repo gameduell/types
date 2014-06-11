@@ -80,7 +80,7 @@ class HaxeInteropTest extends haxe.unit.TestCase
     {
         var array = [1, 2, 3, 4, 5];
         var data = new Data((array.length) * 4);
-        data.writeIntArray(array, DataTypeInt);
+        data.writeIntArray(array, DataTypeInt32);
 
         var bytes = data.getBytes();
         assertEquals(1, bytes.get(0));
@@ -129,62 +129,62 @@ class HaxeInteropTest extends haxe.unit.TestCase
 
         var dataInput = new DataInputStream(data);
 
-        assertEquals(1, dataInput.readInt(DataTypeUnsignedByte));
-        assertEquals(2, dataInput.readInt(DataTypeUnsignedByte));
-        assertEquals(3, dataInput.readInt(DataTypeUnsignedByte));
-        assertEquals(-4, dataInput.readInt(DataTypeShort));
-        assertEquals(5, dataInput.readInt(DataTypeUnsignedShort));
+        assertEquals(1, dataInput.readInt(DataTypeUInt8));
+        assertEquals(2, dataInput.readInt(DataTypeUInt8));
+        assertEquals(3, dataInput.readInt(DataTypeUInt8));
+        assertEquals(-4, dataInput.readInt(DataTypeInt16));
+        assertEquals(5, dataInput.readInt(DataTypeInt16));
 
-        var b0 = dataInput.readInt(DataTypeUnsignedByte);
-        var b1 = dataInput.readInt(DataTypeUnsignedByte);
-        var b2 = dataInput.readInt(DataTypeUnsignedByte);
+        var b0 = dataInput.readInt(DataTypeUInt8);
+        var b1 = dataInput.readInt(DataTypeUInt8);
+        var b2 = dataInput.readInt(DataTypeUInt8);
         var int24Value = b0 | (b1 << 8) | (b2 << 16);
         if(int24Value & 0x800000 != 0)
             int24Value -= 0x1000000;
         assertEquals(-6, int24Value);
 
-        b0 = dataInput.readInt(DataTypeUnsignedByte);
-        b1 = dataInput.readInt(DataTypeUnsignedByte);
-        b2 = dataInput.readInt(DataTypeUnsignedByte);
+        b0 = dataInput.readInt(DataTypeUInt8);
+        b1 = dataInput.readInt(DataTypeUInt8);
+        b2 = dataInput.readInt(DataTypeUInt8);
 
         int24Value = b0 | (b1 << 8) | (b2 << 16);
         assertEquals(7, int24Value);
 
-        assertEquals(8, dataInput.readInt(DataTypeInt));
-        assertTrue(TestHelper.nearlyEqual(9.123, dataInput.readFloat(DataTypeFloat)));
-        assertTrue(TestHelper.nearlyEqual(10.123, dataInput.readFloat(DataTypeDouble)));
+        assertEquals(8, dataInput.readInt(DataTypeInt32));
+        assertTrue(TestHelper.nearlyEqual(9.123, dataInput.readFloat(DataTypeFloat32)));
+        assertTrue(TestHelper.nearlyEqual(10.123, dataInput.readFloat(DataTypeFloat64)));
         assertEquals("a", dataInput.readString(1));
-        assertEquals(11, dataInput.readInt(DataTypeUnsignedByte));
+        assertEquals(11, dataInput.readInt(DataTypeUInt8));
     }
 
     public function testInputStream() /// readLine, readUntil, readAll, readFullBytes still untested..
     {
         var data = new Data(32);
         var dataOutput = new DataOutputStream(data);
-        dataOutput.writeInt(1, DataTypeUnsignedByte);
-        dataOutput.writeInt(2, DataTypeUnsignedByte);
-        dataOutput.writeInt(3, DataTypeUnsignedByte);
-        dataOutput.writeInt(-4, DataTypeShort);
-        dataOutput.writeInt(5, DataTypeShort);
+        dataOutput.writeInt(1, DataTypeUInt8);
+        dataOutput.writeInt(2, DataTypeUInt8);
+        dataOutput.writeInt(3, DataTypeUInt8);
+        dataOutput.writeInt(-4, DataTypeInt16);
+        dataOutput.writeInt(5, DataTypeInt16);
 
-        dataOutput.writeInt(-6, DataTypeUnsignedByte);
-        dataOutput.writeInt(255, DataTypeUnsignedByte);
-        dataOutput.writeInt(255, DataTypeUnsignedByte);
+        dataOutput.writeInt(-6, DataTypeUInt8);
+        dataOutput.writeInt(255, DataTypeUInt8);
+        dataOutput.writeInt(255, DataTypeUInt8);
 
         /// 7 0 0 = 7
-        dataOutput.writeInt(7, DataTypeUnsignedByte);
-        dataOutput.writeInt(0, DataTypeUnsignedByte);
-        dataOutput.writeInt(0, DataTypeUnsignedByte);
+        dataOutput.writeInt(7, DataTypeUInt8);
+        dataOutput.writeInt(0, DataTypeUInt8);
+        dataOutput.writeInt(0, DataTypeUInt8);
 
-        dataOutput.writeInt(8, DataTypeInt);
+        dataOutput.writeInt(8, DataTypeInt32);
 
-        dataOutput.writeFloat(9.123, DataTypeFloat);
+        dataOutput.writeFloat(9.123, DataTypeFloat32);
 
-        dataOutput.writeFloat(10.123, DataTypeDouble);
+        dataOutput.writeFloat(10.123, DataTypeFloat64);
 
         dataOutput.writeString("a");
 
-        dataOutput.writeInt(11, DataTypeUnsignedByte);
+        dataOutput.writeInt(11, DataTypeUInt8);
 
         var dataInput = new DataInputStream(data);
         var haxeInput = new HaxeInputInteropStream(dataInput);

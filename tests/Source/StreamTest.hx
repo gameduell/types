@@ -97,10 +97,10 @@ class StreamTest extends haxe.unit.TestCase
         var data = new Data(4);
 
         var outputStream = new DataOutputStream(data);
-        outputStream.writeFloat(1.1, DataTypeFloat);
+        outputStream.writeFloat(1.1, DataTypeFloat32);
 
         var inputStream = new DataInputStream(data);
-        var val = inputStream.readFloat(DataTypeFloat);
+        var val = inputStream.readFloat(DataTypeFloat32);
 
         assertTrue(TestHelper.nearlyEqual(1.1, val));
     }
@@ -110,10 +110,10 @@ class StreamTest extends haxe.unit.TestCase
         var data = new Data(2);
 
         var outputStream = new DataOutputStream(data);
-        outputStream.writeInt(1, DataTypeUnsignedShort);
+        outputStream.writeInt(1, DataTypeUInt16);
 
         var inputStream = new DataInputStream(data);
-        var val = inputStream.readInt(DataTypeUnsignedShort);
+        var val = inputStream.readInt(DataTypeUInt16);
 
         assertEquals(1, val);
     }
@@ -123,10 +123,10 @@ class StreamTest extends haxe.unit.TestCase
         var data = new Data(1);
 
         var outputStream = new DataOutputStream(data);
-        outputStream.writeInt(1, DataTypeUnsignedByte);
+        outputStream.writeInt(1, DataTypeUInt8);
 
         var inputStream = new DataInputStream(data);
-        var val = inputStream.readInt(DataTypeUnsignedByte);
+        var val = inputStream.readInt(DataTypeUInt8);
 
         assertEquals(1, val);
     }
@@ -137,11 +137,11 @@ class StreamTest extends haxe.unit.TestCase
         var data = new Data(array.length * 4);
 
         var outputStream = new DataOutputStream(data);
-        outputStream.writeIntArray(array, DataTypeInt);
+        outputStream.writeIntArray(array, DataTypeInt32);
 
         var inputStream = new DataInputStream(data);
 
-        assertEqualIntArray([1, 2, 3, 4, 5], inputStream.readIntArray(5, DataTypeInt));
+        assertEqualIntArray([1, 2, 3, 4, 5], inputStream.readIntArray(5, DataTypeInt32));
     }
 
     public function testWritingAndReadingFloatArray()
@@ -150,11 +150,11 @@ class StreamTest extends haxe.unit.TestCase
         var data = new Data(array.length * 4);
 
         var outputStream = new DataOutputStream(data);
-        outputStream.writeFloatArray(array, DataTypeFloat);
+        outputStream.writeFloatArray(array, DataTypeFloat32);
 
         var inputStream = new DataInputStream(data);
 
-        assertEqualFloatArray([1.1, 2.1, 3.1, 4.1, 5.1], inputStream.readFloatArray(5, DataTypeFloat));
+        assertEqualFloatArray([1.1, 2.1, 3.1, 4.1, 5.1], inputStream.readFloatArray(5, DataTypeFloat32));
     }
 
     public function testWritingAndReadingData()
@@ -171,7 +171,7 @@ class StreamTest extends haxe.unit.TestCase
         var dataRead = new Data(array.length * 4);
         inputStream.readIntoData(dataRead);
 
-        assertEqualIntArray([1, 2, 3, 4, 5], dataRead.readIntArray(array.length, DataTypeInt));
+        assertEqualIntArray([1, 2, 3, 4, 5], dataRead.readIntArray(array.length, DataTypeInt32));
     }
 
     public function testWritingAndReadingValuesInSucession()
@@ -179,12 +179,12 @@ class StreamTest extends haxe.unit.TestCase
         var data = new Data(4 * 2);
 
         var outputStream = new DataOutputStream(data);
-        outputStream.writeInt(1, DataTypeInt);
-        outputStream.writeInt(2, DataTypeInt);
+        outputStream.writeInt(1, DataTypeInt32);
+        outputStream.writeInt(2, DataTypeInt32);
 
         var inputStream = new DataInputStream(data);
-        var val1 = inputStream.readInt(DataTypeInt);
-        var val2 = inputStream.readInt(DataTypeInt);
+        var val1 = inputStream.readInt(DataTypeInt32);
+        var val2 = inputStream.readInt(DataTypeInt32);
 
         assertEquals(1, val1);
         assertEquals(2, val2);
@@ -195,12 +195,12 @@ class StreamTest extends haxe.unit.TestCase
     {
         var array = [1, 2, 3, 4, 5];
         var data = new Data(array.length * 4);
-        data.writeIntArray(array, DataTypeInt);
+        data.writeIntArray(array, DataTypeInt32);
 
         var inputStream = new DataInputStream(data);
         inputStream.skip(8);
 
-        var val = inputStream.readInt(DataTypeInt);
+        var val = inputStream.readInt(DataTypeInt32);
 
         assertEquals(3, val);
     }
@@ -209,12 +209,12 @@ class StreamTest extends haxe.unit.TestCase
     {
         var array = [1, 2, 3, 4, 5];
         var data = new Data(array.length * 4);
-        data.writeIntArray(array, DataTypeInt);
+        data.writeIntArray(array, DataTypeInt32);
 
         var inputStream = new DataInputStream(data);
         var newData = inputStream.readAll();
 
-        assertEqualIntArray([1, 2, 3, 4, 5], newData.readIntArray(array.length, DataTypeInt));
+        assertEqualIntArray([1, 2, 3, 4, 5], newData.readIntArray(array.length, DataTypeInt32));
     }
 
     public function testString()

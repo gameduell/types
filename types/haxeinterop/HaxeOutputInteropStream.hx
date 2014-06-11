@@ -21,7 +21,7 @@ class HaxeOutputInteropStream extends Output
 
     override function writeByte( c : Int ) : Void
     {
-        outputStream.writeInt(c, DataTypeUnsignedByte);
+        outputStream.writeInt(c, DataTypeUInt8);
     }
 
     override function writeBytes( s : Bytes, pos : Int, len : Int ) : Int

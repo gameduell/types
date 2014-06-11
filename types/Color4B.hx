@@ -27,13 +27,13 @@ class Color4B
     public function get_r() : Int
     {
         data.offset = dataOffset + 0;
-        return data.readInt(DataTypeUnsignedByte);
+        return data.readInt(DataTypeUInt8);
     }
 
     public function set_r(r : Int) : Int
     {
         data.offset = dataOffset + 0;
-        data.writeInt(r, DataTypeUnsignedByte);
+        data.writeInt(r, DataTypeUInt8);
         return r;
     }
 
@@ -42,13 +42,13 @@ class Color4B
     public function get_g() : Int
     {
         data.offset = dataOffset + 1;
-        return data.readInt(DataTypeUnsignedByte);
+        return data.readInt(DataTypeUInt8);
     }
 
     public function set_g(g : Int) : Int
     {
         data.offset = dataOffset + 1;
-        data.writeInt(g, DataTypeUnsignedByte);
+        data.writeInt(g, DataTypeUInt8);
         return g;
     }
 
@@ -57,13 +57,13 @@ class Color4B
     public function get_b() : Int
     {
         data.offset = dataOffset + 2;
-        return data.readInt(DataTypeUnsignedByte);
+        return data.readInt(DataTypeUInt8);
     }
 
     public function set_b(b : Int) : Int
     {
         data.offset = dataOffset + 2;
-        data.writeInt(b, DataTypeUnsignedByte);
+        data.writeInt(b, DataTypeUInt8);
         return b;
     }
 
@@ -72,13 +72,13 @@ class Color4B
     public function get_a() : Int
     {
         data.offset = dataOffset + 3;
-        return data.readInt(DataTypeUnsignedByte);
+        return data.readInt(DataTypeUInt8);
     }
 
     public function set_a(a : Int) : Int
     {
         data.offset = dataOffset + 3;
-        data.writeInt(a, DataTypeUnsignedByte);
+        data.writeInt(a, DataTypeUInt8);
         return a;
     }
 
@@ -97,13 +97,13 @@ class Color4B
         output += "[";
 
         data.offset = dataOffset;
-        output += data.readInt(DataTypeUnsignedByte);
+        output += data.readInt(DataTypeUInt8);
 
         for(i in 1...6)
         {
             output += ", ";
             data.offset + i;
-            output += data.readInt(DataTypeUnsignedByte);
+            output += data.readInt(DataTypeUInt8);
         }
 
         output += "]";

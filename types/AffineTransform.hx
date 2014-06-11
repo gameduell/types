@@ -33,7 +33,7 @@ class AffineTransform
         if(identity == null)
         {
             identity = new Data(6*4);//a   b    c    d    tx   ty
-            identity.writeFloatArray([1.0, 0.0, 0.0, 1.0, 0.0, 0.0], DataTypeFloat);
+            identity.writeFloatArray([1.0, 0.0, 0.0, 1.0, 0.0, 0.0], DataTypeFloat32);
         }
         data.offset = 0;
         identity.offset = 0;
@@ -43,22 +43,22 @@ class AffineTransform
     public function setValues(a:Float,b:Float,c:Float,d:Float,tx:Float,ty:Float) : Void
     {
         data.offset = 0 * 4;
-        data.writeFloat( a , DataTypeFloat);   // a
+        data.writeFloat( a , DataTypeFloat32);   // a
 
         data.offset = 1 * 4;
-        data.writeFloat( b , DataTypeFloat);   // b
+        data.writeFloat( b , DataTypeFloat32);   // b
 
         data.offset = 2 * 4;
-        data.writeFloat( c , DataTypeFloat);   // c
+        data.writeFloat( c , DataTypeFloat32);   // c
 
         data.offset = 3 * 4;
-        data.writeFloat( d , DataTypeFloat);   // d
+        data.writeFloat( d , DataTypeFloat32);   // d
 
         data.offset = 4 * 4;
-        data.writeFloat(tx , DataTypeFloat);   // tx
+        data.writeFloat(tx , DataTypeFloat32);   // tx
 
         data.offset = 5 * 4;
-        data.writeFloat(ty , DataTypeFloat);   // ty
+        data.writeFloat(ty , DataTypeFloat32);   // ty
     }
 
     public function set(other : AffineTransform) : Void
@@ -71,7 +71,7 @@ class AffineTransform
     public function get(index : Int) : Float
     {
         data.offset = index * 4;
-        return data.readFloat(DataTypeFloat);
+        return data.readFloat(DataTypeFloat32);
     }
 
     public function translate(tx:Float, ty:Float) : Void
@@ -82,25 +82,25 @@ class AffineTransform
         var ld:Float = get(3);
 
         var ltx:Float = get(4);     // The offset is still at 4
-        data.writeFloat(ltx +  la * tx  +  lc * ty, DataTypeFloat);
+        data.writeFloat(ltx +  la * tx  +  lc * ty, DataTypeFloat32);
 
         var lty:Float = get(5);     // The offset is still at 5
-        data.writeFloat(lty +  lb * tx  +  ld * ty, DataTypeFloat);
+        data.writeFloat(lty +  lb * tx  +  ld * ty, DataTypeFloat32);
     }
 
     public function scale(sx:Float, sy:Float) : Void
     {
         workingData.offset = 0 * 4;
-        workingData.writeFloat(get(0) * sx, DataTypeFloat);
+        workingData.writeFloat(get(0) * sx, DataTypeFloat32);
 
         workingData.offset = 1 * 4;
-        workingData.writeFloat(get(1) * sx, DataTypeFloat);
+        workingData.writeFloat(get(1) * sx, DataTypeFloat32);
 
         workingData.offset = 2 * 4;
-        workingData.writeFloat(get(2) * sy, DataTypeFloat);
+        workingData.writeFloat(get(2) * sy, DataTypeFloat32);
 
         workingData.offset = 3 * 4;
-        workingData.writeFloat(get(3) * sy, DataTypeFloat);
+        workingData.writeFloat(get(3) * sy, DataTypeFloat32);
 
         workingData.offset = 0;
         workingData.offsetLength = 4 * 4;
@@ -120,16 +120,16 @@ class AffineTransform
         var d:Float = get(3);
 
         workingData.offset = 0 * 4;
-        workingData.writeFloat(a * cosine + c * sine, DataTypeFloat);
+        workingData.writeFloat(a * cosine + c * sine, DataTypeFloat32);
 
         workingData.offset = 1 * 4;
-        workingData.writeFloat(b * cosine + d * sine, DataTypeFloat);
+        workingData.writeFloat(b * cosine + d * sine, DataTypeFloat32);
 
         workingData.offset = 2 * 4;
-        workingData.writeFloat(c * cosine - a * sine, DataTypeFloat);
+        workingData.writeFloat(c * cosine - a * sine, DataTypeFloat32);
 
         workingData.offset = 3 * 4;
-        workingData.writeFloat(d * cosine - b * sine, DataTypeFloat);
+        workingData.writeFloat(d * cosine - b * sine, DataTypeFloat32);
 
         workingData.offset = 0;
         workingData.offsetLength = 4 * 4;
@@ -148,40 +148,40 @@ class AffineTransform
         var leftTy:Float = get(5);
 
         right.data.offset = 0 * 4;
-        var rightA:Float = right.data.readFloat(DataTypeFloat);
+        var rightA:Float = right.data.readFloat(DataTypeFloat32);
 
         right.data.offset = 1 * 4;
-        var rightB:Float = right.data.readFloat(DataTypeFloat);
+        var rightB:Float = right.data.readFloat(DataTypeFloat32);
 
         right.data.offset = 2 * 4;
-        var rightC:Float = right.data.readFloat(DataTypeFloat);
+        var rightC:Float = right.data.readFloat(DataTypeFloat32);
 
         right.data.offset = 3 * 4;
-        var rightD:Float = right.data.readFloat(DataTypeFloat);
+        var rightD:Float = right.data.readFloat(DataTypeFloat32);
 
         right.data.offset = 4 * 4;
-        var rightTx:Float = right.data.readFloat(DataTypeFloat);
+        var rightTx:Float = right.data.readFloat(DataTypeFloat32);
 
         right.data.offset = 5 * 4;
-        var rightTy:Float = right.data.readFloat(DataTypeFloat);
+        var rightTy:Float = right.data.readFloat(DataTypeFloat32);
 
         data.offset = 0 * 4;
-        data.writeFloat( leftA * rightA + leftB * rightC , DataTypeFloat);   // a
+        data.writeFloat( leftA * rightA + leftB * rightC , DataTypeFloat32);   // a
 
         data.offset = 1 * 4;
-        data.writeFloat( leftA * rightB + leftB * rightD , DataTypeFloat);   // b
+        data.writeFloat( leftA * rightB + leftB * rightD , DataTypeFloat32);   // b
 
         data.offset = 2 * 4;
-        data.writeFloat( leftC * rightA + leftD * rightC , DataTypeFloat);   // c
+        data.writeFloat( leftC * rightA + leftD * rightC , DataTypeFloat32);   // c
 
         data.offset = 3 * 4;
-        data.writeFloat( leftC * rightB + leftD * rightD , DataTypeFloat);   // d
+        data.writeFloat( leftC * rightB + leftD * rightD , DataTypeFloat32);   // d
 
         data.offset = 4 * 4;
-        data.writeFloat( leftTx * rightA + leftTy * rightC + rightTx , DataTypeFloat);   // tx
+        data.writeFloat( leftTx * rightA + leftTy * rightC + rightTx , DataTypeFloat32);   // tx
 
         data.offset = 5 * 4;
-        data.writeFloat( leftTx * rightB + leftTy * rightD + rightTy , DataTypeFloat);   // ty
+        data.writeFloat( leftTx * rightB + leftTy * rightD + rightTy , DataTypeFloat32);   // ty
     }
 
     public function invert() : Void
@@ -196,22 +196,22 @@ class AffineTransform
         var determinant:Float = 1.0 / (a * d - b * c);
 
         data.offset = 0 * 4;
-        data.writeFloat( determinant * d , DataTypeFloat);   // a
+        data.writeFloat( determinant * d , DataTypeFloat32);   // a
 
         data.offset = 1 * 4;
-        data.writeFloat(-determinant * b , DataTypeFloat);   // b
+        data.writeFloat(-determinant * b , DataTypeFloat32);   // b
 
         data.offset = 2 * 4;
-        data.writeFloat(-determinant * c , DataTypeFloat);   // c
+        data.writeFloat(-determinant * c , DataTypeFloat32);   // c
 
         data.offset = 3 * 4;
-        data.writeFloat( determinant * a, DataTypeFloat);   // d
+        data.writeFloat( determinant * a, DataTypeFloat32);   // d
 
         data.offset = 4 * 4;
-        data.writeFloat( determinant * (c * ty - d * tx), DataTypeFloat);   // tx
+        data.writeFloat( determinant * (c * ty - d * tx), DataTypeFloat32);   // tx
 
         data.offset = 5 * 4;
-        data.writeFloat( determinant * (b * tx - a * ty), DataTypeFloat);   // ty
+        data.writeFloat( determinant * (b * tx - a * ty), DataTypeFloat32);   // ty
     }
 
     public function toString() : String
@@ -220,13 +220,13 @@ class AffineTransform
         output += "[";
 
         data.offset = 0;
-        output += data.readFloat(DataTypeFloat);
+        output += data.readFloat(DataTypeFloat32);
 
         for(i in 1...6)
         {
             output += ", ";
             data.offset = i * 4;
-            output += data.readFloat(DataTypeFloat);
+            output += data.readFloat(DataTypeFloat32);
         }
 
         output += "]";
