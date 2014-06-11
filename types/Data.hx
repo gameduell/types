@@ -1,5 +1,6 @@
 package types;
 
+import js.html.DataView;
 import types.DataType;
 import js.html.ArrayBuffer;
 import js.html.ArrayBufferView;
@@ -30,7 +31,10 @@ class Data
 
 	public function set_offset(value : Int) : Int
 	{
-		_offset = value;
+        if(value == null)
+            _offset = 0;
+        else
+		    _offset = value;
 
 		return _offset;
 	}
@@ -70,6 +74,8 @@ class Data
 	public var int32Array : Int32Array;
 	public var uint32Array : Uint32Array;
 	public var float32Array : Float32Array;
+    public var float64Array : Float64Array;
+    public var dataView : DataView;
 	public var stringView : StringView;
 
 	public function new(sizeInBytes : Int) : Void
@@ -106,18 +112,19 @@ class Data
 	 	uint8Array = new Uint8Array(arrayBuffer);
 	 	stringView = new StringView(arrayBuffer);
 
-	 	if(length % 2  == 0)
-	 	{
-	 		int16Array = new Int16Array(arrayBuffer);
-	 		uint16Array = new Uint16Array(arrayBuffer);
-	 	}
-	 	if(length % 4  == 0)
-	 	{
-	 		int32Array = new Int32Array(arrayBuffer);
-	 		uint32Array = new Uint32Array(arrayBuffer);
-	 		float32Array = new Float32Array(arrayBuffer);
-	 	}
+        var truncated2Mult : Int = cast ((length - length % 2) / 2);
+        int16Array = new Int16Array(arrayBuffer, 0, truncated2Mult);
+        uint16Array = new Uint16Array(arrayBuffer, 0, truncated2Mult);
 
+        var truncated4Mult : Int = cast ((length - length % 4) / 4);
+        int32Array = new Int32Array(arrayBuffer, 0, truncated4Mult);
+        uint32Array = new Uint32Array(arrayBuffer, 0, truncated4Mult);
+        float32Array = new Float32Array(arrayBuffer, 0, truncated4Mult);
+
+        var truncated8Mult : Int = cast ((length - length % 8) / 8);
+        float64Array = new Float64Array(arrayBuffer, 0, truncated8Mult);
+
+        dataView = new DataView(arrayBuffer);
 	}
 
 
@@ -136,15 +143,35 @@ class Data
 			case DataTypeUnsignedByte:
 				return uint8Array[_offset];
 			case DataTypeShort:
-				return int16Array[cast _offset / 2];
+                if(_offset % 2 == 0)
+				    return int16Array[cast _offset / 2];
+                else
+                    return dataView.getInt16(_offset, true);
 			case DataTypeUnsignedShort:
-				return uint16Array[cast _offset / 2];
+                if(_offset % 2 == 0)
+				    return uint16Array[cast _offset / 2];
+                else
+                    return dataView.getUint16(_offset, true);
 			case DataTypeInt:
-				return int32Array[cast _offset / 4];
+                if(_offset % 4 == 0)
+				    return int32Array[cast _offset / 4];
+                else
+                    return dataView.getInt32(_offset, true);
 			case DataTypeUnsignedInt:
-				return uint32Array[cast _offset / 4];
+                if(_offset % 4 == 0)
+				    return uint32Array[cast _offset / 4];
+                else
+                    return dataView.getUint32(_offset, true);
 			case DataTypeFloat:
-				return cast float32Array[cast _offset / 4];
+                if(_offset % 4 == 0)
+				    return cast float32Array[cast _offset / 4];
+                else
+                    return cast dataView.getFloat32(_offset, true);
+            case DataTypeDouble:
+                if(_offset % 8 == 0)
+                    return cast float64Array[cast _offset / 8];
+                else
+                    return cast dataView.getFloat64(_offset, true);
 		}
 		return 0;
 	}
@@ -158,15 +185,35 @@ class Data
 			case DataTypeUnsignedByte:
 				return cast uint8Array[_offset];
 			case DataTypeShort:
-				return cast int16Array[cast _offset / 2];
+                if(_offset % 2 == 0)
+				    return cast int16Array[cast _offset / 2];
+                else
+                    return cast dataView.getInt16(_offset, true);
 			case DataTypeUnsignedShort:
-				return cast uint16Array[cast _offset / 2];
+                if(_offset % 2 == 0)
+				    return cast uint16Array[cast _offset / 2];
+                else
+                    return cast dataView.getUint16(_offset, true);
 			case DataTypeInt:
-				return cast int32Array[cast _offset / 4];
+                if(_offset % 4 == 0)
+				    return cast int32Array[cast _offset / 4];
+                else
+                    return cast dataView.getInt32(_offset, true);
 			case DataTypeUnsignedInt:
-				return cast uint32Array[cast _offset / 4];
+                if(_offset % 4 == 0)
+				    return cast uint32Array[cast _offset / 4];
+                else
+                    return cast dataView.getUint32(_offset, true);
 			case DataTypeFloat:
-				return float32Array[cast _offset / 4];
+                if(_offset % 4 == 0)
+				    return float32Array[cast _offset / 4];
+                else
+                    return dataView.getFloat32(_offset, true);
+            case DataTypeDouble:
+                if(_offset % 8 == 0)
+                    return float64Array[cast _offset / 8];
+                else
+                    return dataView.getFloat64(_offset, true);
 		}
 		return 0;
 	}
@@ -239,65 +286,104 @@ class Data
     }
 
 
-    static var intArrayOf1 : Array<Int> = [0];
 	public function writeInt(value : Int, targetDataType : DataType) : Void 
 	{
-		intArrayOf1[0] = value;
 		switch(targetDataType)
 		{
 			case DataTypeByte:
-				int8Array.set(intArrayOf1, _offset);
+				int8Array[_offset] = value;
 				return; 
 			case DataTypeUnsignedByte:
-				uint8Array.set(intArrayOf1, _offset);
+                uint8Array[_offset] = value;
 				return;
 			case DataTypeShort:
-				int16Array.set(intArrayOf1, cast _offset / 2);
+                if(_offset % 2 == 0)
+                    int16Array[cast _offset / 2] = value;
+                else
+                    dataView.setInt16(_offset, value, true);
 				return;
 			case DataTypeUnsignedShort:
-				uint16Array.set(intArrayOf1, cast _offset / 2);
+                if(_offset % 2 == 0)
+                    uint16Array[cast _offset / 2] = value;
+                else
+                    dataView.setUint16(_offset, value, true);
 				return;
 			case DataTypeInt:
-				int32Array.set(intArrayOf1, cast _offset / 4);
+                if(_offset % 4 == 0)
+                    int32Array[cast _offset / 4] = value;
+                else
+                    dataView.setInt32(_offset, value, true);
 				return;
 			case DataTypeUnsignedInt:
-				uint32Array.set(intArrayOf1, cast _offset / 4);
+                if(_offset % 4 == 0)
+                    uint32Array[cast _offset / 4] = value;
+                else
+                    dataView.setUint32(_offset, value, true);
 				return;
 			case DataTypeFloat:
-				float32Array.set(intArrayOf1, cast _offset / 4);
+                if(_offset % 4 == 0)
+                    float32Array[cast _offset / 4] = value;
+                else
+                    dataView.setFloat32(_offset, cast value, true);
 				return;
+            case DataTypeDouble:
+                if(_offset % 8 == 0)
+                    float64Array[cast _offset / 8] = value;
+                else
+                    dataView.setFloat64(_offset, cast value, true);
+                return;
 		}
 		return;
 	}
 
 	public function writeFloat(value : Float, targetDataType : DataType) : Void 
-	{	
-		intArrayOf1[0] = cast value;
-		switch(targetDataType)
-		{
-			case DataTypeByte:
-				int8Array.set(intArrayOf1, _offset);
-				return; 
-			case DataTypeUnsignedByte:
-				uint8Array.set(intArrayOf1, _offset);
-				return;
-			case DataTypeShort:
-				int16Array.set(intArrayOf1, cast _offset / 2);
-				return;
-			case DataTypeUnsignedShort:
-				uint16Array.set(intArrayOf1, cast _offset / 2);
-				return;
-			case DataTypeInt:
-				int32Array.set(intArrayOf1, cast _offset / 4);
-				return;
-			case DataTypeUnsignedInt:
-				uint32Array.set(intArrayOf1, cast _offset / 4);
-				return;
-			case DataTypeFloat:
-				float32Array.set(intArrayOf1, cast _offset / 4);
-				return;
-		}
-		return;
+	{
+        switch(targetDataType)
+        {
+            case DataTypeByte:
+                int8Array[_offset] =  cast value;
+                return;
+            case DataTypeUnsignedByte:
+                uint8Array[_offset] = cast value;
+                return;
+            case DataTypeShort:
+                if(_offset % 2 == 0)
+                    int16Array[cast _offset / 2] = cast value;
+                else
+                    dataView.setInt16(_offset, cast value, true);
+                return;
+            case DataTypeUnsignedShort:
+                if(_offset % 2 == 0)
+                    uint16Array[cast _offset / 2] = cast value;
+                else
+                    dataView.setUint16(_offset, cast value, true);
+                return;
+            case DataTypeInt:
+                if(_offset % 4 == 0)
+                    int32Array[cast _offset / 4] = cast value;
+                else
+                    dataView.setInt32(_offset, cast value, true);
+                return;
+            case DataTypeUnsignedInt:
+                if(_offset % 4 == 0)
+                    uint32Array[cast _offset / 4] = cast value;
+                else
+                    dataView.setUint32(_offset, cast value, true);
+                return;
+            case DataTypeFloat:
+                if(_offset % 4 == 0)
+                    float32Array[cast _offset / 4] = value;
+                else
+                    dataView.setFloat32(_offset, value, true);
+                return;
+            case DataTypeDouble:
+                if(_offset % 8 == 0)
+                    float64Array[cast _offset / 8] = value;
+                else
+                    dataView.setFloat64(_offset, value, true);
+                return;
+        }
+        return;
 	}
 
 	public function toString(?dataType : DataType) : String
@@ -322,6 +408,8 @@ class Data
 				view = uint32Array;
 			case DataTypeFloat:
 				view = float32Array;
+            case DataTypeDouble:
+                view = float64Array;
 		}
 
 		var dataSize = DataTypeUtils.dataTypeByteSize(dataType);

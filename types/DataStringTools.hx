@@ -7,7 +7,7 @@ class DataStringTools {
 	public static function readString(data : Data) : String 
 	{ 
 		if(data.stringView != null)
-			return data.stringView.subview(data.offset, data.offsetLength).toString(); 
+			return new StringView(data.arrayBuffer, "UTF-8", data.offset, data.offsetLength).toString();
 		else
 			return "";
 	}
@@ -16,7 +16,7 @@ class DataStringTools {
 	{
 		var stringView = new StringView(string);
 		data.uint8Array.set(stringView.rawData, data.offset);
-	}; 
+	}
 
 	public static function sizeInBytes(string : String) 
 	{    

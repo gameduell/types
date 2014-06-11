@@ -4,7 +4,8 @@
  * Date: 06/06/14
  * Time: 20:21
  */
-package types;
+package types.haxeinterop;
+
 import haxe.io.Error;
 import js.html.Uint8Array;
 import js.html.ArrayBuffer;

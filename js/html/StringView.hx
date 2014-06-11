@@ -20,7 +20,7 @@ extern class StringView extends ArrayBufferView implements ArrayAccess<Int>
 	@:overload( function( length : Int ) : Void {} )
 	@:overload( function( array : Array<Int> ) : Void {} )
 	@:overload( function( str : String ) : Void {} )
-	function new( buffer : ArrayBuffer, ?byteOffset : Int, ?length : Int ) : Void;
+	function new( buffer : ArrayBuffer, ?encoding : String, ?byteOffset : Int, ?length : Int ) : Void;
 
 	function subview( start : Int, ?end : Int ) : StringView;
 
