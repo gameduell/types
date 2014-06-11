@@ -104,7 +104,7 @@ class Color4B
         for(i in 1...4)
         {
             output += ", ";
-            data.offset += i;
+            data.offset += 1;
             output += data.readInt(DataTypeUnsignedByte);
         }
 
