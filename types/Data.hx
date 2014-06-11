@@ -138,36 +138,36 @@ class Data
 	{
 		switch(targetDataType)
 		{
-			case DataTypeByte:
+			case DataTypeInt8:
 				return int8Array[_offset];
-			case DataTypeUnsignedByte:
+			case DataTypeUInt8:
 				return uint8Array[_offset];
-			case DataTypeShort:
+			case DataTypeInt16:
                 if(_offset % 2 == 0)
 				    return int16Array[cast _offset / 2];
                 else
                     return dataView.getInt16(_offset, true);
-			case DataTypeUnsignedShort:
+			case DataTypeUInt16:
                 if(_offset % 2 == 0)
 				    return uint16Array[cast _offset / 2];
                 else
                     return dataView.getUint16(_offset, true);
-			case DataTypeInt:
+			case DataTypeInt32:
                 if(_offset % 4 == 0)
 				    return int32Array[cast _offset / 4];
                 else
                     return dataView.getInt32(_offset, true);
-			case DataTypeUnsignedInt:
+			case DataTypeUInt32:
                 if(_offset % 4 == 0)
 				    return uint32Array[cast _offset / 4];
                 else
                     return dataView.getUint32(_offset, true);
-			case DataTypeFloat:
+			case DataTypeFloat32:
                 if(_offset % 4 == 0)
 				    return cast float32Array[cast _offset / 4];
                 else
                     return cast dataView.getFloat32(_offset, true);
-            case DataTypeDouble:
+            case DataTypeFloat64:
                 if(_offset % 8 == 0)
                     return cast float64Array[cast _offset / 8];
                 else
@@ -180,36 +180,36 @@ class Data
 	{
 		switch(targetDataType)
 		{
-			case DataTypeByte:
+			case DataTypeInt8:
 				return cast int8Array[_offset];
-			case DataTypeUnsignedByte:
+			case DataTypeUInt8:
 				return cast uint8Array[_offset];
-			case DataTypeShort:
+			case DataTypeInt16:
                 if(_offset % 2 == 0)
 				    return cast int16Array[cast _offset / 2];
                 else
                     return cast dataView.getInt16(_offset, true);
-			case DataTypeUnsignedShort:
+			case DataTypeUInt16:
                 if(_offset % 2 == 0)
 				    return cast uint16Array[cast _offset / 2];
                 else
                     return cast dataView.getUint16(_offset, true);
-			case DataTypeInt:
+			case DataTypeInt32:
                 if(_offset % 4 == 0)
 				    return cast int32Array[cast _offset / 4];
                 else
                     return cast dataView.getInt32(_offset, true);
-			case DataTypeUnsignedInt:
+			case DataTypeUInt32:
                 if(_offset % 4 == 0)
 				    return cast uint32Array[cast _offset / 4];
                 else
                     return cast dataView.getUint32(_offset, true);
-			case DataTypeFloat:
+			case DataTypeFloat32:
                 if(_offset % 4 == 0)
 				    return float32Array[cast _offset / 4];
                 else
                     return dataView.getFloat32(_offset, true);
-            case DataTypeDouble:
+            case DataTypeFloat64:
                 if(_offset % 8 == 0)
                     return float64Array[cast _offset / 8];
                 else
@@ -290,43 +290,43 @@ class Data
 	{
 		switch(targetDataType)
 		{
-			case DataTypeByte:
+			case DataTypeInt8:
 				int8Array[_offset] = value;
 				return; 
-			case DataTypeUnsignedByte:
+			case DataTypeUInt8:
                 uint8Array[_offset] = value;
 				return;
-			case DataTypeShort:
+			case DataTypeInt16:
                 if(_offset % 2 == 0)
                     int16Array[cast _offset / 2] = value;
                 else
                     dataView.setInt16(_offset, value, true);
 				return;
-			case DataTypeUnsignedShort:
+			case DataTypeUInt16:
                 if(_offset % 2 == 0)
                     uint16Array[cast _offset / 2] = value;
                 else
                     dataView.setUint16(_offset, value, true);
 				return;
-			case DataTypeInt:
+			case DataTypeInt32:
                 if(_offset % 4 == 0)
                     int32Array[cast _offset / 4] = value;
                 else
                     dataView.setInt32(_offset, value, true);
 				return;
-			case DataTypeUnsignedInt:
+			case DataTypeUInt32:
                 if(_offset % 4 == 0)
                     uint32Array[cast _offset / 4] = value;
                 else
                     dataView.setUint32(_offset, value, true);
 				return;
-			case DataTypeFloat:
+			case DataTypeFloat32:
                 if(_offset % 4 == 0)
                     float32Array[cast _offset / 4] = value;
                 else
                     dataView.setFloat32(_offset, cast value, true);
 				return;
-            case DataTypeDouble:
+            case DataTypeFloat64:
                 if(_offset % 8 == 0)
                     float64Array[cast _offset / 8] = value;
                 else
@@ -340,43 +340,43 @@ class Data
 	{
         switch(targetDataType)
         {
-            case DataTypeByte:
+            case DataTypeInt8:
                 int8Array[_offset] =  cast value;
                 return;
-            case DataTypeUnsignedByte:
+            case DataTypeUInt8:
                 uint8Array[_offset] = cast value;
                 return;
-            case DataTypeShort:
+            case DataTypeInt16:
                 if(_offset % 2 == 0)
                     int16Array[cast _offset / 2] = cast value;
                 else
                     dataView.setInt16(_offset, cast value, true);
                 return;
-            case DataTypeUnsignedShort:
+            case DataTypeUInt16:
                 if(_offset % 2 == 0)
                     uint16Array[cast _offset / 2] = cast value;
                 else
                     dataView.setUint16(_offset, cast value, true);
                 return;
-            case DataTypeInt:
+            case DataTypeInt32:
                 if(_offset % 4 == 0)
                     int32Array[cast _offset / 4] = cast value;
                 else
                     dataView.setInt32(_offset, cast value, true);
                 return;
-            case DataTypeUnsignedInt:
+            case DataTypeUInt32:
                 if(_offset % 4 == 0)
                     uint32Array[cast _offset / 4] = cast value;
                 else
                     dataView.setUint32(_offset, cast value, true);
                 return;
-            case DataTypeFloat:
+            case DataTypeFloat32:
                 if(_offset % 4 == 0)
                     float32Array[cast _offset / 4] = value;
                 else
                     dataView.setFloat32(_offset, value, true);
                 return;
-            case DataTypeDouble:
+            case DataTypeFloat64:
                 if(_offset % 8 == 0)
                     float64Array[cast _offset / 8] = value;
                 else
@@ -394,21 +394,21 @@ class Data
 		var view : Dynamic;
 		switch(dataType)
 		{
-			case DataTypeByte:
+			case DataTypeInt8:
 				view = int8Array;
-			case DataTypeUnsignedByte:
+			case DataTypeUInt8:
 				view = uint8Array;
-			case DataTypeShort:
+			case DataTypeInt16:
 				view = uint16Array;
-			case DataTypeUnsignedShort:
+			case DataTypeUInt16:
 				view = uint16Array;
-			case DataTypeInt:
+			case DataTypeInt32:
 				view = int32Array;
-			case DataTypeUnsignedInt:
+			case DataTypeUInt32:
 				view = uint32Array;
-			case DataTypeFloat:
+			case DataTypeFloat32:
 				view = float32Array;
-            case DataTypeDouble:
+            case DataTypeFloat64:
                 view = float64Array;
 		}
 

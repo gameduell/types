@@ -22,7 +22,7 @@ class Matrix4
 			identity.writeFloatArray([	1.0, 0.0, 0.0, 0.0,
 									    0.0, 1.0, 0.0, 0.0,
 								 		0.0, 0.0, 1.0, 0.0,
-									    0.0, 0.0, 0.0, 1.0], DataTypeFloat);
+									    0.0, 0.0, 0.0, 1.0], DataTypeFloat32);
 		}
         data.offset = 0;
         identity.offset = 0;
