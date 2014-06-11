@@ -63,6 +63,13 @@ class DataInputStream implements InputStream
         return array;
     }
 
+    public function readAll() : Data
+    {
+        var returningData = new Data(data.offset + data.offsetLength - currentOffset);
+        readIntoData(returningData);
+        return returningData;
+    }
+
     public function readString(byteCount : Int) : String
     {
         var prevOffset = data.offset;

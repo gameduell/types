@@ -1,4 +1,4 @@
-
+import types.haxeinterop.HaxeInputInteropStream;
 import platform.AppMain;
 
 import DataTest;
@@ -7,6 +7,7 @@ import SizeTest;
 import AffineTransformTest;
 import Color4BTest;
 import StreamTest;
+import HaxeInteropTest;
 
 
 class MainTester extends AppMain
@@ -21,6 +22,7 @@ class MainTester extends AppMain
         r.add(new AffineTransformTest());
         r.add(new Color4BTest());
         r.add(new StreamTest());
+        r.add(new HaxeInteropTest());
 
 		r.run();
 		trace(r.result.toString());

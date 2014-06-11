@@ -205,6 +205,18 @@ class StreamTest extends haxe.unit.TestCase
         assertEquals(3, val);
     }
 
+    public function testReadAll()
+    {
+        var array = [1, 2, 3, 4, 5];
+        var data = new Data(array.length * 4);
+        data.writeIntArray(array, DataTypeInt);
+
+        var inputStream = new DataInputStream(data);
+        var newData = inputStream.readAll();
+
+        assertEqualIntArray([1, 2, 3, 4, 5], newData.readIntArray(array.length, DataTypeInt));
+    }
+
     public function testString()
     {
         var str = "Test String With 2 byte UTF8 character <†> and 4 byte UTF8 character <১>";
