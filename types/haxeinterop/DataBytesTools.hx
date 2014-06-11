@@ -4,7 +4,8 @@
  * Date: 06/06/14
  * Time: 20:17
  */
-package types;
+package types.haxeinterop;
+
 import haxe.io.Bytes;
 
 extern class DataBytesTools

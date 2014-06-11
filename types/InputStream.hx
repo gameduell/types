@@ -20,6 +20,9 @@ interface InputStream
 
     public function readIntoData(data : Data) : Void;
 
+    /// creates a data;
+    public function readAll() : Data;
+
     public function available() : Bool;
 
     public function skip(byteCount : Int) : Void;

@@ -9,6 +9,7 @@ enum DataType
 	DataTypeInt;
 	DataTypeUnsignedInt;
 	DataTypeFloat;
+    DataTypeDouble;
 }
 
 class DataTypeUtils
@@ -31,6 +32,8 @@ class DataTypeUtils
 				return 4;
 			case DataTypeFloat:
 				return 4;
+            case DataTypeDouble:
+                return 8;
 		}
 		return 0;
 	}
