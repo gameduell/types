@@ -18,6 +18,7 @@ class DataOutputStream implements OutputStream
     public function new(newData : Data) : Void
     {
         data = newData;
+        currentOffset = data.offset;
     }
 
     public function writeData(sourceData : Data) : Void
