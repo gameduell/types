@@ -7,7 +7,6 @@
 package types;
 class SizeF
 {
-
     public var width (get, set) : Float;
     public var height (get, set) : Float;
 

@@ -40,7 +40,7 @@ class AffineTransform
         data.writeData(identity);
     }
 
-    public function setValues(a:Float,b:Float,c:Float,d:Float,tx:Float,ty:Float) : Void
+    public function setValues(a:Float, b:Float, c:Float, d:Float, tx:Float, ty:Float) : Void
     {
         data.offset = 0 * 4;
         data.writeFloat( a , DataTypeFloat32);   // a

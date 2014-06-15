@@ -20,6 +20,10 @@ class Color4B
         {
             data = new Data(4);
         }
+        else
+        {
+            data = _data;
+        }
 
         dataOffset = _dataOffset;
     }
