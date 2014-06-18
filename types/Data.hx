@@ -348,6 +348,4 @@ class Data
 
         set_byteArray(newBuffer);
     }
-
-
 }

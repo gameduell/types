@@ -34,47 +34,72 @@ class Matrix4
 
     public function setOrtho( x0 : Float, x1 : Float, y0 : Float, y1 : Float, zNear : Float, zFar : Float) : Void
     {
+
         var oldOffset = data.offset;
-        var ral:Float = x1 + x0;
-        var rsl:Float = x1 - x0;
-        var tab:Float = y1 + y0;
-        var tsb:Float = y1 - y0;
+
+        var left:Float = -1;
+        var right:Float = 1;
+        var top:Float = -1;
+        var bottom:Float = 1;
+
+        var ral:Float = right + left;
+        var rsl:Float = right - left;
+        var tab:Float = top + bottom;
+        var tsb:Float = top - bottom;
         var fan:Float = zFar + zNear;
         var fsn:Float = zFar - zNear;
-        var counter:Int = 0;
 
+        var m00:Float = 4.0 / ( rsl * (x1 - x0) );  // To screen scaling our viewport x
+        var m01:Float = 0.0;
+        var m02:Float = 0.0;
+        var m03:Float = 0.0;
+        var m04:Float = 0.0;
+        var m05:Float = 4.0 / ( tsb * (y1 - y0) ); // To screen scaling our viewport y
+        var m06:Float = 0.0;
+        var m07:Float = 0.0;
+        var m08:Float = 0.0;
+        var m09:Float = 0.0;
+        var m10:Float = -2.0 / fsn;
+        var m11:Float = 0.0;
+        var m12:Float = (-ral / rsl) - 1; // Transform shift x
+        var m13:Float = (-tab / tsb) + 1; // Transform shift y
+        var m14:Float = -fan / fsn;
+        var m15:Float = 1.0;
+
+        var counter:Int = 0;
+        //note that the bytearray contains a transposed matrix
         data.offset = counter;
-        data.writeFloat(2.0 / rsl, DataTypeFloat32);       //0
+        data.writeFloat(m00,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(0.0, DataTypeFloat32);             //1
+        data.writeFloat(m04,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(0.0, DataTypeFloat32);             //2
+        data.writeFloat(m08,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(0.0, DataTypeFloat32);             //3
+        data.writeFloat(m12,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(0.0, DataTypeFloat32);             //4
+        data.writeFloat(m01,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(2.0 / tsb, DataTypeFloat32);       //5
+        data.writeFloat(m05,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(0.0, DataTypeFloat32);             //6
+        data.writeFloat(m09,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(0.0, DataTypeFloat32);             //7
+        data.writeFloat(m13,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(0.0, DataTypeFloat32);             //8
+        data.writeFloat(m02,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(0.0, DataTypeFloat32);             //9
+        data.writeFloat(m06,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(-2.0 / fsn, DataTypeFloat32);      //10
+        data.writeFloat(m10,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(0.0, DataTypeFloat32);             //11
+        data.writeFloat(m14,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(-ral / rsl, DataTypeFloat32);      //12
+        data.writeFloat(m03,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(-tab / tsb, DataTypeFloat32);      //13
+        data.writeFloat(m07,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(-fan / fsn, DataTypeFloat32);      //14
+        data.writeFloat(m11,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(1.0, DataTypeFloat32);             //15
+        data.writeFloat(m15,        DataTypeFloat32);
 
         data.offset = oldOffset;
     }
@@ -89,19 +114,19 @@ class Matrix4
         data.offset = counter;
         data.writeFloat( c * scale,     DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( -s * scale,    DataTypeFloat32);
+        data.writeFloat( s * scale,    DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat( posX,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( s * scale,     DataTypeFloat32);
+        data.writeFloat( -s * scale,     DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( c * scale,     DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat( posY,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
@@ -111,9 +136,9 @@ class Matrix4
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( posX,          DataTypeFloat32);
+        data.writeFloat( 0.0,          DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( posY,          DataTypeFloat32);
+        data.writeFloat( 0.0,          DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
@@ -140,8 +165,8 @@ class Matrix4
 
     public function multiply(right : Matrix4) : Void{
         var oldOffset = data.offset;
-        var a = data;
-        var b = right.data;
+        var a = right.data;
+        var b = data;
         var out = data;
         var counter:Int = 0;
         a.offset = counter;
