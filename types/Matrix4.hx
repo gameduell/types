@@ -54,7 +54,7 @@ class Matrix4
         var m02:Float = 0.0;
         var m03:Float = 0.0;
         var m04:Float = 0.0;
-        var m05:Float = 4.0 / ( tsb * (y1 - y0) ); // To screen scaling our viewport y
+        var m05:Float = 4.0 / ( tsb * (y0 - y1) ); // To screen scaling our viewport y
         var m06:Float = 0.0;
         var m07:Float = 0.0;
         var m08:Float = 0.0;
