@@ -1,0 +1,9 @@
+{
+    "name" : "types",
+    "license" : "Closed",
+    "version" : "0.0.2",
+    "description" : "An abstraction layer for performant data types and containers.",
+    "contributors" : [ "GameDuell GmbH" ],
+    "dependencies" : [ "types_cpp"]
+    "releasenote" : ""
+}
