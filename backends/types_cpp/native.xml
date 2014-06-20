@@ -1,0 +1,4 @@
+<xml>
+		<compilerflag value="-I${haxelib:types_cpp}/project/include" />
+</xml>
+
