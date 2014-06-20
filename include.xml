@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension>
+	
+	<haxelib name="types_cpp" if="cpp" />
+	<haxelib name="types_html5" if="html5" />
+	<haxelib name="types_flash" if="flash" />
+
+</extension>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="Types Testing" package="com.gameduell.tests" version="0.0.1" company="GameDuell GmbH" />
+	<app main="MainTester" path="Export" file="TypesTesting" />
+	
+	<source path="Source" />
+	
+	<haxelib name="lime" />
+	<haxelib name="types" />
+	<haxelib name="platform" />
+
+	<assets path="Assets" rename="assets" exclude="*.svg" />
+	<icon path="Assets/lime.svg" />
+
+	<window fps="60" />
+</project>
