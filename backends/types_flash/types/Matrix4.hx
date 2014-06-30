@@ -19,12 +19,12 @@ class Matrix4
             identity.offset = 0;
             identity.writeFloatArray(
                 [
-            1.0, 0.0, 0.0, 0.0,
-            0.0, 1.0, 0.0, 0.0,
-            0.0, 0.0, 1.0, 0.0,
-            0.0, 0.0, 0.0, 1.0
+                1.0, 0.0, 0.0, 0.0,
+                0.0, 1.0, 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0
                 ]
-            , DataTypeFloat32);
+                , DataTypeFloat32);
         }
 
         data.offset = 0;
@@ -67,7 +67,7 @@ class Matrix4
         var m15:Float = 1.0;
 
         var counter:Int = 0;
-        //note that the bytearray contains a transposed matrix
+//note that the bytearray contains a transposed matrix
         data.offset = counter;
         data.writeFloat(m00,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
@@ -205,7 +205,7 @@ class Matrix4
 
         counter = 0;
         b.offset = counter * dataSize;
-        // Cache only the current line of the second matrix
+// Cache only the current line of the second matrix
         var b0 = b.readFloat(DataTypeFloat32);
         b.offset = dataSize * ++counter;
         var b1 = b.readFloat(DataTypeFloat32);
