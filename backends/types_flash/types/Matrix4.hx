@@ -37,10 +37,10 @@ class Matrix4
     {
         var oldOffset = data.offset;
 
-        var left:Float = -1;
-        var right:Float = 1;
-        var top:Float = -1;
-        var bottom:Float = 1;
+        var left:Float = x0;
+        var right:Float = x1;
+        var bottom:Float = y0;
+        var top:Float = y1;
 
         var ral:Float = right + left;
         var rsl:Float = right - left;
@@ -48,23 +48,22 @@ class Matrix4
         var tsb:Float = top - bottom;
         var fan:Float = zFar + zNear;
         var fsn:Float = zFar - zNear;
-        var aperture:Float = (y0 - y1) / (x1 - x0);
 
-        var m00:Float = 4.0 / ( rsl * (x1 - x0) );  // To screen scaling our viewport x
+        var m00:Float = 2.0 / rsl;
         var m01:Float = 0.0;
         var m02:Float = 0.0;
         var m03:Float = 0.0;
         var m04:Float = 0.0;
-        var m05:Float = 4.0 / ( tsb * (y0 - y1) ); // To screen scaling our viewport y
+        var m05:Float = 2.0 / tsb;
         var m06:Float = 0.0;
         var m07:Float = 0.0;
         var m08:Float = 0.0;
         var m09:Float = 0.0;
         var m10:Float = -2.0 / fsn;
         var m11:Float = 0.0;
-        var m12:Float = (-ral / rsl) - (1.0 - aperture);// Transform shift x
-        var m13:Float = (-tab / tsb);
-        var m14:Float = -fan / fsn;
+        var m12:Float = -ral / rsl;
+        var m13:Float = -tab / tsb;
+        var m14:Float =  fan / fsn;
         var m15:Float = 1.0;
 
         var counter:Int = 0;
@@ -107,27 +106,29 @@ class Matrix4
 
     public function set2D( posX : Float, posY : Float, scale : Float,rotation : Float) : Void {
         var oldOffset = data.offset;
+
         var theta = rotation * Math.PI / 180.0;
         var c = Math.cos(theta);
         var s = Math.sin(theta);
+
         var counter:Int = 0;
 
         data.offset = counter;
         data.writeFloat( c * scale,     DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( s * scale,    DataTypeFloat32);
+        data.writeFloat( -s * scale,    DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( posX,           DataTypeFloat32);
+        data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( -s * scale,     DataTypeFloat32);
+        data.writeFloat( s * scale,     DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( c * scale,     DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( posY,           DataTypeFloat32);
+        data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
@@ -137,9 +138,9 @@ class Matrix4
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,          DataTypeFloat32);
+        data.writeFloat( posX,          DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,          DataTypeFloat32);
+        data.writeFloat( posY,          DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat( 0.0,           DataTypeFloat32);
         data.offset = dataSize * ++counter;
