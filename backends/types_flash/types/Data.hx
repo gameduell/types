@@ -72,7 +72,7 @@ class Data
     public function writeData(data : Data) : Void
     {
         var prevOffset = byteArray.position;
-        byteArray.writeBytes(data.byteArray, 0, data.byteArray.length);
+        byteArray.writeBytes(data.byteArray, data.offset, data.offsetLength);
         byteArray.position = prevOffset;
     }
 

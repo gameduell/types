@@ -16,16 +16,10 @@ class AffineTransform
     public var data(default, null) : Data;
 
     private static var identity : Data;
-    private static var workingData : Data;
 
     public function new() : Void
     {
         data = new Data(6*4);
-
-        if (workingData == null)
-        {
-            workingData = new Data(6*4);
-        }
     }
 
     public function setIdentity() : Void
@@ -90,23 +84,10 @@ class AffineTransform
 
     public function scale(sx:Float, sy:Float) : Void
     {
-        workingData.offset = 0 * 4;
-        workingData.writeFloat(get(0) * sx, DataTypeFloat32);
-
-        workingData.offset = 1 * 4;
-        workingData.writeFloat(get(1) * sx, DataTypeFloat32);
-
-        workingData.offset = 2 * 4;
-        workingData.writeFloat(get(2) * sy, DataTypeFloat32);
-
-        workingData.offset = 3 * 4;
-        workingData.writeFloat(get(3) * sy, DataTypeFloat32);
-
-        workingData.offset = 0;
-        workingData.offsetLength = 4 * 4;
-
-        data.offset = 0;
-        data.writeData(workingData);
+        data.writeFloat(get(0) * sx, DataTypeFloat32);
+        data.writeFloat(get(1) * sx, DataTypeFloat32);
+        data.writeFloat(get(2) * sy, DataTypeFloat32);
+        data.writeFloat(get(3) * sy, DataTypeFloat32);
     }
 
     public function rotate(angle:Float) : Void
@@ -119,23 +100,17 @@ class AffineTransform
         var c:Float = get(2);
         var d:Float = get(3);
 
-        workingData.offset = 0 * 4;
-        workingData.writeFloat(a * cosine + c * sine, DataTypeFloat32);
+        data.offset = 0 * 4;
+        data.writeFloat(a * cosine + c * sine, DataTypeFloat32);
 
-        workingData.offset = 1 * 4;
-        workingData.writeFloat(b * cosine + d * sine, DataTypeFloat32);
+        data.offset = 1 * 4;
+        data.writeFloat(b * cosine + d * sine, DataTypeFloat32);
 
-        workingData.offset = 2 * 4;
-        workingData.writeFloat(c * cosine - a * sine, DataTypeFloat32);
+        data.offset = 2 * 4;
+        data.writeFloat(c * cosine - a * sine, DataTypeFloat32);
 
-        workingData.offset = 3 * 4;
-        workingData.writeFloat(d * cosine - b * sine, DataTypeFloat32);
-
-        workingData.offset = 0;
-        workingData.offsetLength = 4 * 4;
-
-        data.offset = 0;
-        data.writeData(workingData);
+        data.offset = 3 * 4;
+        data.writeFloat(d * cosine - b * sine, DataTypeFloat32);
     }
 
     public function concat(right : AffineTransform) : Void
