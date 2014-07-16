@@ -63,7 +63,7 @@ class Matrix4
         var m11:Float = 0.0;
         var m12:Float = -ral / rsl;
         var m13:Float = -tab / tsb;
-        var m14:Float =  fan / fsn;
+        var m14:Float = -fan / fsn;
         var m15:Float = 1.0;
 
         var counter:Int = 0;
