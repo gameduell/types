@@ -7,29 +7,23 @@ class AffineTransformMatrix4Tools
 {
     static public function setFromMatrix4(affineT : AffineTransform, matrix4 : Matrix4) : Void
     {
-        affineT.data.offset = 0 * 4;
         matrix4.data.offset = 0 * 4;
-        affineT.data.writeFloat(matrix4.data.readFloat(DataTypeFloat32), DataTypeFloat32);
+        affineT.a = matrix4.data.readFloat(DataTypeFloat32);
 
-        affineT.data.offset = 1 * 4;
         matrix4.data.offset = 1 * 4;
-        affineT.data.writeFloat(matrix4.data.readFloat(DataTypeFloat32), DataTypeFloat32);
+        affineT.b = matrix4.data.readFloat(DataTypeFloat32);
 
-        affineT.data.offset = 2 * 4;
         matrix4.data.offset = 4 * 4;
-        affineT.data.writeFloat(matrix4.data.readFloat(DataTypeFloat32), DataTypeFloat32);
+        affineT.c = matrix4.data.readFloat(DataTypeFloat32);
 
-        affineT.data.offset = 3 * 4;
         matrix4.data.offset = 5 * 4;
-        affineT.data.writeFloat(matrix4.data.readFloat(DataTypeFloat32), DataTypeFloat32);
+        affineT.d = matrix4.data.readFloat(DataTypeFloat32);
 
-        affineT.data.offset = 4 * 4;
         matrix4.data.offset = 12 * 4;
-        affineT.data.writeFloat(matrix4.data.readFloat(DataTypeFloat32), DataTypeFloat32);
+        affineT.tx = matrix4.data.readFloat(DataTypeFloat32);
 
-        affineT.data.offset = 5 * 4;
         matrix4.data.offset = 13 * 4;
-        affineT.data.writeFloat(matrix4.data.readFloat(DataTypeFloat32), DataTypeFloat32);
+        affineT.ty = matrix4.data.readFloat(DataTypeFloat32);
     }
 
     static public function setFromAffineTransform( matrix4 : Matrix4, affineT : AffineTransform) : Void
@@ -37,27 +31,21 @@ class AffineTransformMatrix4Tools
         matrix4.setIdentity();
 
         matrix4.data.offset = 0 * 4;
-        affineT.data.offset = 0 * 4;
-        matrix4.data.writeFloat(affineT.data.readFloat(DataTypeFloat32),DataTypeFloat32);
+        matrix4.data.writeFloat(affineT.a, DataTypeFloat32);
 
         matrix4.data.offset = 1 * 4;
-        affineT.data.offset = 1 * 4;
-        matrix4.data.writeFloat(affineT.data.readFloat(DataTypeFloat32),DataTypeFloat32);
+        matrix4.data.writeFloat(affineT.b, DataTypeFloat32);
 
         matrix4.data.offset = 4 * 4;
-        affineT.data.offset = 2 * 4;
-        matrix4.data.writeFloat(affineT.data.readFloat(DataTypeFloat32),DataTypeFloat32);
+        matrix4.data.writeFloat(affineT.c, DataTypeFloat32);
 
         matrix4.data.offset = 5 * 4;
-        affineT.data.offset = 3 * 4;
-        matrix4.data.writeFloat(affineT.data.readFloat(DataTypeFloat32),DataTypeFloat32);
+        matrix4.data.writeFloat(affineT.d, DataTypeFloat32);
 
         matrix4.data.offset = 12 * 4;
-        affineT.data.offset = 4 * 4;
-        matrix4.data.writeFloat(affineT.data.readFloat(DataTypeFloat32),DataTypeFloat32);
+        matrix4.data.writeFloat(affineT.tx, DataTypeFloat32);
 
         matrix4.data.offset = 13 * 4;
-        affineT.data.offset = 5 * 4;
-        matrix4.data.writeFloat(affineT.data.readFloat(DataTypeFloat32),DataTypeFloat32);
+        matrix4.data.writeFloat(affineT.ty, DataTypeFloat32);
     }
 }

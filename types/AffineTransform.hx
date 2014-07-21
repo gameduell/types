@@ -7,87 +7,57 @@
 
 package types;
 
-import types.Data;
-import types.DataType;
-
-
 class AffineTransform
 {
-    public var data(default, null) : Data;
+    public var a:Float;
+    public var b:Float;
+    public var c:Float;
+    public var d:Float;
+    public var tx:Float;
+    public var ty:Float;
 
-    private static var identity : Data;
-
-    public function new() : Void
-    {
-        data = new Data(6*4);
-    }
+    public function new() : Void {}
 
     public function setIdentity() : Void
     {
-        if(identity == null)
-        {
-            identity = new Data(6*4);//a   b    c    d    tx   ty
-            identity.writeFloatArray([1.0, 0.0, 0.0, 1.0, 0.0, 0.0], DataTypeFloat32);
-        }
-        data.offset = 0;
-        identity.offset = 0;
-        data.writeData(identity);
-    }
-
-    public function setValues(a:Float, b:Float, c:Float, d:Float, tx:Float, ty:Float) : Void
-    {
-        data.offset = 0 * 4;
-        data.writeFloat( a , DataTypeFloat32);   // a
-
-        data.offset = 1 * 4;
-        data.writeFloat( b , DataTypeFloat32);   // b
-
-        data.offset = 2 * 4;
-        data.writeFloat( c , DataTypeFloat32);   // c
-
-        data.offset = 3 * 4;
-        data.writeFloat( d , DataTypeFloat32);   // d
-
-        data.offset = 4 * 4;
-        data.writeFloat(tx , DataTypeFloat32);   // tx
-
-        data.offset = 5 * 4;
-        data.writeFloat(ty , DataTypeFloat32);   // ty
+        a = 1.0;
+        b = 0.0;
+        c = 0.0;
+        d = 1.0;
+        tx = 0.0;
+        ty = 0.0;
     }
 
     public function set(other : AffineTransform) : Void
     {
-        data.resetOffset();
-        other.data.resetOffset();
-        data.writeData(other.data);
+        a = other.a;
+        b = other.b;
+        c = other.c;
+        d = other.d;
+        tx = other.tx;
+        ty = other.ty;
     }
 
+    /*
     public function get(index : Int) : Float
     {
         data.offset = index * 4;
         return data.readFloat(DataTypeFloat32);
     }
+    */
 
-    public function translate(tx:Float, ty:Float) : Void
+    public function translate(_tx:Float, _ty:Float) : Void
     {
-        var la:Float = get(0);
-        var lb:Float = get(1);
-        var lc:Float = get(2);
-        var ld:Float = get(3);
-
-        var ltx:Float = get(4);     // The offset is still at 4
-        data.writeFloat(ltx +  la * tx  +  lc * ty, DataTypeFloat32);
-
-        var lty:Float = get(5);     // The offset is still at 5
-        data.writeFloat(lty +  lb * tx  +  ld * ty, DataTypeFloat32);
+        tx += a * _tx + c * _ty;
+        ty += b * _tx + d * _ty;
     }
 
     public function scale(sx:Float, sy:Float) : Void
     {
-        data.writeFloat(get(0) * sx, DataTypeFloat32);
-        data.writeFloat(get(1) * sx, DataTypeFloat32);
-        data.writeFloat(get(2) * sy, DataTypeFloat32);
-        data.writeFloat(get(3) * sy, DataTypeFloat32);
+        a *= sx;
+        b *= sx;
+        c *= sy;
+        d *= sy;
     }
 
     public function rotate(angle:Float) : Void
@@ -95,116 +65,55 @@ class AffineTransform
         var sine:Float = Math.sin(angle);
         var cosine:Float = Math.cos(angle);
 
-        var a:Float = get(0);
-        var b:Float = get(1);
-        var c:Float = get(2);
-        var d:Float = get(3);
+        var ta:Float = a;
+        var tb:Float = b;
+        var tc:Float = c;
+        var td:Float = d;
 
-        data.offset = 0 * 4;
-        data.writeFloat(a * cosine + c * sine, DataTypeFloat32);
-
-        data.offset = 1 * 4;
-        data.writeFloat(b * cosine + d * sine, DataTypeFloat32);
-
-        data.offset = 2 * 4;
-        data.writeFloat(c * cosine - a * sine, DataTypeFloat32);
-
-        data.offset = 3 * 4;
-        data.writeFloat(d * cosine - b * sine, DataTypeFloat32);
+        a = ta * cosine + tc * sine;
+        b = tb * cosine + td * sine;
+        c = tc * cosine - ta * sine;
+        d = td * cosine - tb * sine;
     }
 
     public function concat(right : AffineTransform) : Void
     {
-        var leftA:Float = get(0);
-        var leftB:Float = get(1);
-        var leftC:Float = get(2);
-        var leftD:Float = get(3);
-        var leftTx:Float = get(4);
-        var leftTy:Float = get(5);
+        var leftA:Float = a;
+        var leftB:Float = b;
+        var leftC:Float = c;
+        var leftD:Float = d;
+        var leftTx:Float = tx;
+        var leftTy:Float = ty;
 
-        right.data.offset = 0 * 4;
-        var rightA:Float = right.data.readFloat(DataTypeFloat32);
-
-        right.data.offset = 1 * 4;
-        var rightB:Float = right.data.readFloat(DataTypeFloat32);
-
-        right.data.offset = 2 * 4;
-        var rightC:Float = right.data.readFloat(DataTypeFloat32);
-
-        right.data.offset = 3 * 4;
-        var rightD:Float = right.data.readFloat(DataTypeFloat32);
-
-        right.data.offset = 4 * 4;
-        var rightTx:Float = right.data.readFloat(DataTypeFloat32);
-
-        right.data.offset = 5 * 4;
-        var rightTy:Float = right.data.readFloat(DataTypeFloat32);
-
-        data.offset = 0 * 4;
-        data.writeFloat( leftA * rightA + leftB * rightC , DataTypeFloat32);   // a
-
-        data.offset = 1 * 4;
-        data.writeFloat( leftA * rightB + leftB * rightD , DataTypeFloat32);   // b
-
-        data.offset = 2 * 4;
-        data.writeFloat( leftC * rightA + leftD * rightC , DataTypeFloat32);   // c
-
-        data.offset = 3 * 4;
-        data.writeFloat( leftC * rightB + leftD * rightD , DataTypeFloat32);   // d
-
-        data.offset = 4 * 4;
-        data.writeFloat( leftTx * rightA + leftTy * rightC + rightTx , DataTypeFloat32);   // tx
-
-        data.offset = 5 * 4;
-        data.writeFloat( leftTx * rightB + leftTy * rightD + rightTy , DataTypeFloat32);   // ty
+        a = leftA * right.a + leftB * right.c;
+        b = leftA * right.b + leftB * right.d;
+        c = leftC * right.a + leftD * right.c;
+        d = leftC * right.b + leftD * right.d;
+        tx = leftTx * right.a + leftTy * right.c + right.tx;
+        ty = leftTx * right.b + leftTy * right.d + right.ty;
     }
 
     public function invert() : Void
     {
-        var a:Float = get(0);
-        var b:Float = get(1);
-        var c:Float = get(2);
-        var d:Float = get(3);
-        var tx:Float = get(4);
-        var ty:Float = get(5);
+        var ta:Float = a;
+        var tb:Float = b;
+        var tc:Float = c;
+        var td:Float = d;
+        var ttx:Float = tx;
+        var tty:Float = ty;
 
-        var determinant:Float = 1.0 / (a * d - b * c);
+        var determinant:Float = 1.0 / (ta * td - tb * tc);
 
-        data.offset = 0 * 4;
-        data.writeFloat( determinant * d , DataTypeFloat32);   // a
-
-        data.offset = 1 * 4;
-        data.writeFloat(-determinant * b , DataTypeFloat32);   // b
-
-        data.offset = 2 * 4;
-        data.writeFloat(-determinant * c , DataTypeFloat32);   // c
-
-        data.offset = 3 * 4;
-        data.writeFloat( determinant * a, DataTypeFloat32);   // d
-
-        data.offset = 4 * 4;
-        data.writeFloat( determinant * (c * ty - d * tx), DataTypeFloat32);   // tx
-
-        data.offset = 5 * 4;
-        data.writeFloat( determinant * (b * tx - a * ty), DataTypeFloat32);   // ty
+        a =  determinant * td;
+        b = -determinant * tb;
+        c = -determinant * tc;
+        d =  determinant * ta;
+        tx = determinant * (tc * tty - td * ttx);
+        ty = determinant * (tb * ttx - ta * tty);
     }
 
     public function toString() : String
     {
-        var output = "";
-        output += "[";
-
-        data.offset = 0;
-        output += data.readFloat(DataTypeFloat32);
-
-        for(i in 1...6)
-        {
-            output += ", ";
-            data.offset = i * 4;
-            output += data.readFloat(DataTypeFloat32);
-        }
-
-        output += "]";
-        return output;
+        return "[" + a + ", " + b + ", " + c + ", " + d + ", " + tx + ", " + ty + "]";
     }
 }
