@@ -10,8 +10,18 @@
 	<haxelib name="types" />
 	<haxelib name="platform" />
 
-	<assets path="Assets" rename="assets" exclude="*.svg" />
-	<icon path="Assets/lime.svg" />
+
+	<assets path="Assets" rename="" exclude="*.svg" />
+    <icon path="Assets/lime.svg" />
+
+    <set name="ANDROID_INSTALL_LOCATION" value="auto" />
+
+    <package name="com.gameduell.test" />
+
+    <app swf-version="11.3" if="flash" />
+
+    <haxedef name="advanced-telemetry" if="flash" />
 
 	<window fps="60" />
+
 </project>

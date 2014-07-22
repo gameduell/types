@@ -48,7 +48,13 @@ class AffineTransformTest extends haxe.unit.TestCase
     {
         var aTransform = new AffineTransform();
 
-        aTransform.setValues(0, 0, 0, 0, 42, 24);
+        aTransform.a = 0.0;
+        aTransform.b = 0.0;
+        aTransform.c = 0.0;
+        aTransform.d = 0.0;
+        aTransform.tx = 42.0;
+        aTransform.ty = 24.0;
+
         assertAffineTransform([0, 0, 0, 0, 42, 24], aTransform);
 
         var bTransform = new AffineTransform();

@@ -29,7 +29,6 @@ class Color4BTest extends haxe.unit.TestCase
         assertColor4B([0, 0, 0, 0], color);
     }
 
-
     public function testSettingComponents()
     {
         var color = new Color4B();

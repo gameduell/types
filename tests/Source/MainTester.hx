@@ -26,10 +26,9 @@ class MainTester extends AppMain
         r.add(new AffineTransformTest());
         r.add(new Color4BTest());
         r.add(new StreamTest());
-        //r.add(new HaxeInteropTest());
+        r.add(new HaxeInteropTest());
 
 		r.run();
-		trace(r.result.toString());
 	}
 
 }

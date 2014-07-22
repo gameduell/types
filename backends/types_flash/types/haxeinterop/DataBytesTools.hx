@@ -8,10 +8,14 @@ package types.haxeinterop;
 
 import haxe.io.Bytes;
 
-extern class DataBytesTools
+@:access(types.Data)
+@:access(haxe.io.Bytes)
+class DataBytesTools
 {
     ///creates a copy, use with care for performance
-    public static function getBytes(data : Data) : Bytes{
+    public static function getBytes(data : Data) : Bytes
+    {
+        data.setByteArrayPositionLazily();
         return new Bytes(data.offsetLength, data.byteArray);
     }
 }

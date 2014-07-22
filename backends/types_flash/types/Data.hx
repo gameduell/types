@@ -5,134 +5,154 @@ import types.DataType;
 
 class Data
 {
-    private var _offsetLength : Int;
-
-    public var allocedLength(get, null) : Int;
-
-    public function get_allocedLength() : Int
-    {
-        return byteArray.length;
-    }
 
     public var offset(get, set) : Int;
-
-    public function set_offset(value : Int) : Int
-    {
-        byteArray.position = value;
-        return byteArray.position;
-    }
-
-    public function get_offset() : Int
-    {
-        return byteArray.position;
-    }
+    private var _offsetWanted : Int = 0;
 
     public var offsetLength(get, set) : Int;
+    private var _offsetLength : Int = 0;
 
-    public function set_offsetLength(value : Int) : Int
+    public var allocedLength(get, null) : Int;
+    private var _allocedLength : Int = 0;
+
+    public var byteArray(default, set) : ByteArray;
+    private var _internalByteArrayOffset : Int = 0;
+
+
+    private function set_offset(value : Int) : Int
+    {
+        _offsetWanted = value;
+        return _offsetWanted;
+    }
+
+    private function get_offset() : Int
+    {
+        return _offsetWanted;
+    }
+
+    private function get_allocedLength() : Int
+    {
+        return _allocedLength;
+    }
+
+    private function set_offsetLength(value : Int) : Int
     {
         _offsetLength = value;
         return _offsetLength;
     }
 
-    public function get_offsetLength() : Int
+    private function get_offsetLength() : Int
     {
         return _offsetLength;
     }
 
+
     public function resetOffset() : Void
     {
-        offset = 0;
-        _offsetLength = byteArray.length;
+        _offsetWanted = 0;
+        _offsetLength = _allocedLength;
     }
-
-
-    public var byteArray(default, set) : ByteArray;
-
 
     public function new(sizeInBytes : Int) : Void
     {
         if(sizeInBytes != 0)
         {
-            _offsetLength = sizeInBytes;
-            byteArray = new ByteArray();
-            byteArray.endian = Endian.LITTLE_ENDIAN;
-            byteArray.length = sizeInBytes;
-            byteArray.position = 0;
+            var newByteArray : ByteArray = new ByteArray();
+            newByteArray.endian = Endian.LITTLE_ENDIAN;
+            newByteArray.length = sizeInBytes;
+            newByteArray.position = 0;
+
+            set_byteArray(newByteArray);
         }
     }
 
-
-    public function set_byteArray(value : ByteArray) : ByteArray
+    private function set_byteArray(value : ByteArray) : ByteArray
     {
         byteArray = value;
-        return value;
+        _allocedLength = byteArray.length;
+        _internalByteArrayOffset = byteArray.position;
+        resetOffset();
+        return byteArray;
     }
 
     public function writeData(data : Data) : Void
     {
-        var prevOffset = byteArray.position;
+        setByteArrayPositionLazily();
         byteArray.writeBytes(data.byteArray, data.offset, data.offsetLength);
-        byteArray.position = prevOffset;
+        _internalByteArrayOffset += data.offsetLength;
     }
 
-    public function readIntArray(length:Int, targetDataType : DataType) : Array<Int>
+    public function readIntArray(count : Int, targetDataType : DataType) : Array<Int>
     {
         var dataSize = types.DataTypeUtils.dataTypeByteSize(targetDataType);
-        var prevOffset = byteArray.position;
+        var prevOffset = _offsetWanted;
         var returnArray = new Array<Int>();
 
-        for(i in 0...length)
+        for(i in 0...count)
         {
-            byteArray.position = prevOffset + (i * dataSize);
+            _offsetWanted = prevOffset + (i * dataSize);
             returnArray.push(readInt(targetDataType));
         }
 
-        byteArray.position = prevOffset;
+        _offsetWanted = prevOffset;
 
         return returnArray;
     }
 
-    public function readUIntArray(targetDataType : DataType) : Array<UInt>
+    public function readUIntArray(count : Int, targetDataType : DataType) : Array<UInt>
     {
         var dataSize = types.DataTypeUtils.dataTypeByteSize(targetDataType);
         var returnArray = new Array<UInt>();
-        var prevOffset = byteArray.position;
-        var length:Int  = cast byteArray.length / dataSize;
+        var prevOffset = _offsetWanted;
 
-        for(i in 0...length)
+        for(i in 0...count)
         {
-            byteArray.position = prevOffset + (i * dataSize);
+            _offsetWanted = prevOffset + (i * dataSize);
             returnArray.push(readInt(targetDataType));
         }
 
-        byteArray.position = prevOffset;
+        _offsetWanted = prevOffset;
 
         return returnArray;
     }
 
-    public function readFloatArray(targetDataType : DataType) : Array<Float>
+    public function readFloatArray(count : Int, targetDataType : DataType) : Array<Float>
     {
         var dataSize = types.DataTypeUtils.dataTypeByteSize(targetDataType);
-        var prevOffset = byteArray.position;
+        var prevOffset = _offsetWanted;
         var returnArray = new Array<Float>();
-        var length:Int  = cast byteArray.length / dataSize;
 
-        for(i in 0...length)
+        for(i in 0...count)
         {
-            byteArray.position = prevOffset + (i * dataSize);
+            _offsetWanted = prevOffset + (i * dataSize);
             returnArray.push(readFloat(targetDataType));
         }
 
-        byteArray.position = prevOffset;
+        _offsetWanted = prevOffset;
 
         return returnArray;
+    }
+
+
+    private function setByteArrayPositionLazily() : Void
+    {
+        if (_internalByteArrayOffset != _offsetWanted)
+        {
+            byteArray.position = _offsetWanted;
+            _internalByteArrayOffset = _offsetWanted;
+        }
+    }
+
+    private function advanceInternalByteArrayOffset(targetDataType : DataType) : Void
+    {
+        _internalByteArrayOffset += DataTypeUtils.dataTypeByteSize(targetDataType);
     }
 
     public function readInt(targetDataType : DataType) : Int
     {
-        var prevOffset = byteArray.position;
         var returnValue:Int;
+
+        setByteArrayPositionLazily();
 
         switch(targetDataType)
         {
@@ -161,15 +181,17 @@ class Data
                 returnValue =  Std.int(byteArray.readDouble());
         }
 
-        byteArray.position = prevOffset;
+        advanceInternalByteArrayOffset(targetDataType);
 
         return returnValue;
     }
 
+
     public function readFloat(targetDataType : DataType) : Float
     {
-        var prevOffset = byteArray.position;
         var returnValue:Float;
+
+        setByteArrayPositionLazily();
 
         switch(targetDataType)
         {
@@ -198,42 +220,43 @@ class Data
                 returnValue = byteArray.readDouble();
         }
 
-        byteArray.position = prevOffset;
+        advanceInternalByteArrayOffset(targetDataType);
 
         return returnValue;
     }
 
+
     public function writeIntArray(array : Array<Int>, dataType : DataType) : Void
     {
         var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
-        var prevOffset = byteArray.position;
+        var prevOffset = _offsetWanted;
 
         for(i in 0...array.length)
         {
-            byteArray.position = prevOffset + (i * dataSize);
+            _offsetWanted = prevOffset + (i * dataSize);
             writeInt(array[i], dataType);
         }
 
-        byteArray.position = prevOffset;
+        _offsetWanted = prevOffset;
     }
 
     public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void
     {
         var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
-        var prevOffset = byteArray.position;
+        var prevOffset = _offsetWanted;
 
         for(i in 0...array.length)
         {
-            byteArray.position = prevOffset + (i * dataSize);
+            _offsetWanted = prevOffset + (i * dataSize);
             writeFloat(array[i], dataType);
         }
 
-        byteArray.position = prevOffset;
+        _offsetWanted = prevOffset;
     }
 
     public function writeInt(value : Int, targetDataType : DataType) : Void
     {
-        var prevOffset = byteArray.position;
+        setByteArrayPositionLazily();
 
         switch(targetDataType)
         {
@@ -262,12 +285,12 @@ class Data
                 byteArray.writeDouble(value);
         }
 
-        byteArray.position = prevOffset;
+        advanceInternalByteArrayOffset(targetDataType);
     }
 
     public function writeFloat(value : Float, targetDataType : DataType) : Void
     {
-        var prevOffset = byteArray.position;
+        setByteArrayPositionLazily();
 
         switch(targetDataType)
         {
@@ -296,7 +319,7 @@ class Data
                 byteArray.writeDouble(value);
         }
 
-        byteArray.position = prevOffset;
+        advanceInternalByteArrayOffset(targetDataType);
     }
 
     public function toString(?dataType : DataType = null) : String
@@ -307,7 +330,7 @@ class Data
         }
 
         var dataTypeSize : Int = DataTypeUtils.dataTypeByteSize(dataType);
-        var prevPosition : Int = byteArray.position;
+        var prevPosition : Int = _offsetWanted;
         var func: types.DataType -> Float;
 
         if(dataType == DataTypeFloat32 || dataType == DataTypeFloat64){
@@ -318,33 +341,38 @@ class Data
 
         var returnString:String = "";
         var nextPosition : Int;
-        byteArray.position = 0;
+        _offsetWanted = 0;
 
-        while (byteArray.bytesAvailable >0) {
-
-            nextPosition = byteArray.position + dataTypeSize;
+        while (byteArray.bytesAvailable > 0)
+        {
+            nextPosition = _offsetWanted + dataTypeSize;
             returnString += func(dataType);
 
-            byteArray.position = nextPosition;
+            _offsetWanted = nextPosition;
 
-            if(byteArray.bytesAvailable>0)returnString += ",";
+            if(byteArray.bytesAvailable > 0)returnString += ",";
         }
 
-        byteArray.position = prevPosition;
+        _offsetWanted = prevPosition;
 
         return returnString;
     }
 
     public function resize(newSize : Int) : Void
     {
-        var prevPosition : Int = byteArray.position;
-
         var newBuffer:ByteArray = new ByteArray();
+        newBuffer.endian = Endian.LITTLE_ENDIAN;
         newBuffer.length = newSize;
-        newBuffer.writeBytes(byteArray, 0, byteArray.length);
-        _offsetLength = newSize;
+        newBuffer.position = 0;
 
-        newBuffer.position = prevPosition;
+        if (newSize > _allocedLength)
+        {
+            newBuffer.writeBytes(byteArray, 0, _allocedLength);
+        }
+        else
+        {
+            newBuffer.writeBytes(byteArray, 0, newSize);
+        }
 
         set_byteArray(newBuffer);
     }

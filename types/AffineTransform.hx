@@ -9,12 +9,12 @@ package types;
 
 class AffineTransform
 {
-    public var a:Float;
-    public var b:Float;
-    public var c:Float;
-    public var d:Float;
-    public var tx:Float;
-    public var ty:Float;
+    public var a:Float = 0.0;
+    public var b:Float = 0.0;
+    public var c:Float = 0.0;
+    public var d:Float = 0.0;
+    public var tx:Float = 0.0;
+    public var ty:Float = 0.0;
 
     public function new() : Void {}
 
@@ -38,13 +38,20 @@ class AffineTransform
         ty = other.ty;
     }
 
-    /*
     public function get(index : Int) : Float
     {
-        data.offset = index * 4;
-        return data.readFloat(DataTypeFloat32);
+        switch (index)
+        {
+            case 0: return a;
+            case 1: return b;
+            case 2: return c;
+            case 3: return d;
+            case 4: return tx;
+            case 5: return ty;
+
+            default: return 0;
+        }
     }
-    */
 
     public function translate(_tx:Float, _ty:Float) : Void
     {

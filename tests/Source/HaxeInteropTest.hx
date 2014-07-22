@@ -13,6 +13,9 @@ import types.haxeinterop.HaxeOutputInteropStream;
 import haxe.io.Bytes;
 import types.Data;
 
+import types.haxeinterop.DataBytesTools;
+import types.DataStringTools;
+
 import types.DataType;
 
 import TestHelper;

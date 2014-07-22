@@ -84,7 +84,7 @@ class Data
 		{
 			_offsetLength = sizeInBytes;
 			_offset = 0;
-			arrayBuffer = new ArrayBuffer(sizeInBytes);
+            set_arrayBuffer(new ArrayBuffer(sizeInBytes));
 		}
 
 		_allocedLength = sizeInBytes;

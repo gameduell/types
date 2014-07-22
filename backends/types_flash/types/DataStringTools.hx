@@ -1,7 +1,11 @@
 package types;
 import types.Data;
-class DataStringTools{
-    public static function sizeInBytes(string : String) : Int{
+
+@:access(types.Data)
+class DataStringTools
+{
+    public static function sizeInBytes(string : String) : Int
+    {
         var byteLen = 0;
 
         for(i in 0...string.length)
@@ -18,16 +22,18 @@ class DataStringTools{
         return byteLen;
     }
 
-    public static function readString(data : Data) : String{
-        var prevPos:Int = data.offset;
+    public static function readString(data : Data) : String
+    {
+        data.setByteArrayPositionLazily();
         var string:String = data.byteArray.readUTFBytes(data.offsetLength);
-        data.offset = prevPos;
+        data._internalByteArrayOffset += data.offsetLength;
         return string;
     }
 
-    public static function writeString(data : Data, string : String) : Void {
-        var prevPos:Int = data.offset;
+    public static function writeString(data : Data, string : String) : Void
+    {
+        data.setByteArrayPositionLazily();
         data.byteArray.writeUTFBytes(string);
-        data.offset = prevPos;
+        data._internalByteArrayOffset += sizeInBytes(string);
     }
 }
