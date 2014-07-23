@@ -68,83 +68,105 @@ class Matrix4
 
         var counter:Int = 0;
 
+        // Write Right Handed/Transposed
+
         data.offset = counter;
         data.writeFloat(m00,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(m01,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m02,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m03,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
         data.writeFloat(m04,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m05,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m06,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m07,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat(m08,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat(m09,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m10,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m11,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
         data.writeFloat(m12,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m01,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m05,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m09,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat(m13,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
+        data.writeFloat(m02,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m06,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m10,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
         data.writeFloat(m14,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m03,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m07,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m11,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
         data.writeFloat(m15,        DataTypeFloat32);
 
         data.offset = oldOffset;
     }
 
-    public function set2D( posX : Float, posY : Float, scale : Float,rotation : Float) : Void {
+    public function set2D( posX : Float, posY : Float, scale : Float,rotation : Float) : Void
+    {
         var oldOffset = data.offset;
 
         var theta = rotation * Math.PI / 180.0;
         var c = Math.cos(theta);
         var s = Math.sin(theta);
 
+        var m00:Float = c * scale;
+        var m01:Float = -s * scale;
+        var m02:Float = 0.0;
+        var m03:Float = 0.0;
+        var m04:Float = s * scale;
+        var m05:Float = c * scale;
+        var m06:Float = 0.0;
+        var m07:Float = 0.0;
+        var m08:Float = 0.0;
+        var m09:Float = 0.0;
+        var m10:Float = 1.0;
+        var m11:Float = 0.0;
+        var m12:Float = posX;
+        var m13:Float = posY;
+        var m14:Float = 0.0;
+        var m15:Float = 1.0;
+
         var counter:Int = 0;
 
+        // Write Right Handed/Transposed
+
         data.offset = counter;
-        data.writeFloat( c * scale,     DataTypeFloat32);
+        data.writeFloat(m00,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( -s * scale,    DataTypeFloat32);
+        data.writeFloat(m04,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat(m08,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat(m12,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( s * scale,     DataTypeFloat32);
+        data.writeFloat(m01,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( c * scale,     DataTypeFloat32);
+        data.writeFloat(m05,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat(m09,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat(m13,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat(m02,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat(m06,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 1.0,           DataTypeFloat32);
+        data.writeFloat(m10,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat(m14,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( posX,          DataTypeFloat32);
+        data.writeFloat(m03,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( posY,          DataTypeFloat32);
+        data.writeFloat(m07,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 0.0,           DataTypeFloat32);
+        data.writeFloat(m11,        DataTypeFloat32);
         data.offset = dataSize * ++counter;
-        data.writeFloat( 1.0,           DataTypeFloat32);
+        data.writeFloat(m15,        DataTypeFloat32);
 
         data.offset = oldOffset;
     }

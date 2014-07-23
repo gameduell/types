@@ -45,21 +45,26 @@ class Matrix4
     	var fan = zFar + zNear;
     	var fsn = zFar - zNear;
 
+        // Write Right Handed / Transposed
+
     	floatView[0] = 2.0 / rsl;
-    	floatView[1] = 0.0;
-    	floatView[2] = 0.0;
-    	floatView[3] = 0.0;
+        floatView[1] = 0.0;
+        floatView[2] = 0.0;
+        floatView[3] = -ral / rsl;
+
     	floatView[4] = 0.0;
-    	floatView[5] = 2.0 / tsb;
-    	floatView[6] = 0.0;
-    	floatView[7] = 0.0;
+        floatView[5] = 2.0 / tsb;
+        floatView[6] = 0.0;
+        floatView[7] = -tab / tsb;
+
     	floatView[8] = 0.0;
-    	floatView[9] = 0.0;
-    	floatView[10] = -2.0 / fsn;
-    	floatView[11] = 0.0;
-    	floatView[12] = -ral / rsl;
-    	floatView[13] = -tab / tsb;
-    	floatView[14] = -fan / fsn;
+        floatView[9] = 0.0;
+        floatView[10] = -2.0 / fsn;
+        floatView[11] = -fan / fsn;
+
+    	floatView[12] = 0.0;
+    	floatView[13] = 0.0;
+    	floatView[14] = 0.0;
     	floatView[15] = 1.0;
 	}
 
@@ -74,19 +79,25 @@ class Matrix4
       	var c = Math.cos(theta);
       	var s = Math.sin(theta);
 
+        // Write Right Handed / Transposed
+
     	floatView[0] = c * scale;
-    	floatView[1] = -s * scale;
-    	floatView[2] = 0.0;
-    	floatView[3] = 0.0;
-    	floatView[4] = s * scale;
-    	floatView[5] = c * scale;
-    	floatView[6] = 0.0;
-    	floatView[7] = 0.0;
+        floatView[1] = s * scale;
+        floatView[2] = 0.0;
+        floatView[3] = posX;
+
+    	floatView[4] = -s * scale;
+        floatView[5] = c * scale;
+        floatView[6] = 0.0;
+        floatView[7] = posY;
+
     	floatView[8] = 0.0;
-    	floatView[10] = 1.0;
-    	floatView[11] = 0.0;
-    	floatView[12] = posX;
-    	floatView[13] = posY;
+        floatView[9] = 0.0;
+        floatView[10] = 1.0;
+        floatView[11] = 0.0;
+
+    	floatView[12] = 0.0;
+    	floatView[13] = 0.0;
     	floatView[14] = 0.0;
     	floatView[15] = 1.0;
 	}

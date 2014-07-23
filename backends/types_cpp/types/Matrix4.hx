@@ -43,12 +43,11 @@ inline UTKMatrix4 UTKMatrix4MakeOrtho(	float left, float right,
     float tsb = top - bottom;
     float fan = farZ + nearZ;
     float fsn = farZ - nearZ;
-    
-    UTKMatrix4 m = { 2.0f / rsl, 0.0f, 0.0f, 0.0f,
-                     0.0f, 2.0f / tsb, 0.0f, 0.0f,
-                     0.0f, 0.0f, -2.0f / fsn, 0.0f,
-                     -ral / rsl, -tab / tsb, -fan / fsn, 1.0f };
-                     
+
+    UTKMatrix4 m = { 2.0f / rsl, 0.0f      , 0.0f       , -ral / rsl,
+                     0.0f      , 2.0f / tsb, 0.0f       , -tab / tsb,
+                     0.0f      , 0.0f      , -2.0f / fsn, -fan / fsn,
+                     0.0f      , 0.0f      , 0.0f       , 1.0f };
     return m;
 }
 
@@ -59,10 +58,10 @@ inline UTKMatrix4 UTKMatrix4Make2D(	float translateX, float translateY,
     float c = ::Math_obj::cos(theta);
     float s = ::Math_obj::sin(theta);
     
-    UTKMatrix4 m = { c * scale,		-s * scale,		0.0f, 0.0f,
-                     s * scale,		c * scale,		0.0f, 0.0f,
-                     0.0f,			0.0f,			1.0f, 0.0f,
-                     translateX, 	translateY, 	0.0f, 1.0f };
+    UTKMatrix4 m = { c * scale,	s * scale, 0.0f, translateX,
+                    -s * scale,	c * scale, 0.0f, translateY,
+                     0.0f     ,	0.0f     , 1.0f, 0.0f,
+                     0.0f     , 0.0f     , 0.0f, 1.0f };
                      
     return m;
 }
