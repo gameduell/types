@@ -5,7 +5,7 @@ class Matrix4
 {
     public var data(default, null) : Data;
 
-    static private  var identity : Data;
+    static private var identity : Data;
     static private var dataSize:Int = 4;
 
     public function new() : Void{
@@ -33,21 +33,16 @@ class Matrix4
         data.writeData(identity);
     }
 
-    public function setOrtho( x0 : Float, x1 : Float, y0 : Float, y1 : Float, zNear : Float, zFar : Float) : Void
+    /// http://msdn.microsoft.com/de-de/library/windows/desktop/bb205349(v=vs.85).aspx
+    public function setOrtho( left : Float, right : Float, bottom : Float, top : Float, zNear : Float, zFar : Float) : Void
     {
         var oldOffset = data.offset;
-
-        var left:Float = x0;
-        var right:Float = x1;
-        var bottom:Float = y0;
-        var top:Float = y1;
 
         var ral:Float = right + left;
         var rsl:Float = right - left;
         var tab:Float = top + bottom;
         var tsb:Float = top - bottom;
-        var fan:Float = zFar + zNear;
-        var fsn:Float = zFar - zNear;
+        var nsf:Float = zNear - zFar;
 
         var m00:Float = 2.0 / rsl;
         var m01:Float = 0.0;
@@ -59,11 +54,11 @@ class Matrix4
         var m07:Float = 0.0;
         var m08:Float = 0.0;
         var m09:Float = 0.0;
-        var m10:Float = -2.0 / fsn;
+        var m10:Float = 1.0 / nsf;
         var m11:Float = 0.0;
-        var m12:Float = -ral / rsl;
-        var m13:Float = -tab / tsb;
-        var m14:Float = -fan / fsn;
+        var m12:Float = -ral / rsl;     // Offset x
+        var m13:Float = -tab / tsb;     // Offset y
+        var m14:Float = zNear / nsf;
         var m15:Float = 1.0;
 
         var counter:Int = 0;
@@ -338,7 +333,8 @@ class Matrix4
         data.offset = oldOffset;
     }
 
-    public function toString() : String{
+    public function toString() : String
+    {
         return data.toString(DataTypeFloat32);
     }
 }

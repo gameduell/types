@@ -29,44 +29,56 @@ class Matrix4
 		data.writeData(identity);
 	}
 
-	public function setOrtho(	x0 : Float, 
-								x1 : Float, 
-								y0 : Float, 
-								y1 : Float, 
-								zNear : Float, 
-								zFar : Float) : Void 
-	{
-		var floatView = data.float32Array;
+    /// http://msdn.microsoft.com/de-de/library/windows/desktop/bb205349(v=vs.85).aspx
+    public function setOrtho(left : Float, right : Float, bottom : Float, top : Float, zNear : Float, zFar : Float) : Void
+    {
+        var floatView = data.float32Array;
 
-    	var ral = x1 + x0;
-    	var rsl = x1 - x0;
-    	var tab = y1 + y0;
-    	var tsb = y1 - y0;
-    	var fan = zFar + zNear;
-    	var fsn = zFar - zNear;
+        var ral:Float = right + left;
+        var rsl:Float = right - left;
+        var tab:Float = top + bottom;
+        var tsb:Float = top - bottom;
+        var nsf:Float = zNear - zFar;
+
+        var m00:Float = 2.0 / rsl;
+        var m01:Float = 0.0;
+        var m02:Float = 0.0;
+        var m03:Float = 0.0;
+        var m04:Float = 0.0;
+        var m05:Float = 2.0 / tsb;
+        var m06:Float = 0.0;
+        var m07:Float = 0.0;
+        var m08:Float = 0.0;
+        var m09:Float = 0.0;
+        var m10:Float = 1.0 / nsf;
+        var m11:Float = 0.0;
+        var m12:Float = -ral / rsl;     // Offset x
+        var m13:Float = -tab / tsb;     // Offset y
+        var m14:Float = zNear / nsf;
+        var m15:Float = 1.0;
 
         // Write Right Handed / Transposed
 
-    	floatView[0] = 2.0 / rsl;
-        floatView[1] = 0.0;
-        floatView[2] = 0.0;
-        floatView[3] = -ral / rsl;
+        floatView[0] = m00;
+        floatView[1] = m04;
+        floatView[2] = m08;
+        floatView[3] = m12;
 
-    	floatView[4] = 0.0;
-        floatView[5] = 2.0 / tsb;
-        floatView[6] = 0.0;
-        floatView[7] = -tab / tsb;
+        floatView[4] = m01;
+        floatView[5] = m05;
+        floatView[6] = m09;
+        floatView[7] = m13;
 
-    	floatView[8] = 0.0;
-        floatView[9] = 0.0;
-        floatView[10] = -2.0 / fsn;
-        floatView[11] = -fan / fsn;
+        floatView[8] = m02;
+        floatView[9] = m06;
+        floatView[10] = m10;
+        floatView[11] = m14;
 
-    	floatView[12] = 0.0;
-    	floatView[13] = 0.0;
-    	floatView[14] = 0.0;
-    	floatView[15] = 1.0;
-	}
+        floatView[12] = m03;
+        floatView[13] = m07;
+        floatView[14] = m11;
+        floatView[15] = m15;
+    }
 
 	public function set2D(	posX : Float, 
 							posY : Float, 

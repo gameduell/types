@@ -27,7 +27,7 @@ union _UTKMatrix4
 };
 typedef union _UTKMatrix4 UTKMatrix4;
 
-
+/// http://msdn.microsoft.com/de-de/library/windows/desktop/bb205349(v=vs.85).aspx
 static UTKMatrix4 identityMatrix = {1, 0, 0, 0,
                 	     	   		0, 1, 0, 0,
                 	     			0, 0, 1, 0,
@@ -41,12 +41,11 @@ inline UTKMatrix4 UTKMatrix4MakeOrtho(	float left, float right,
     float rsl = right - left;
     float tab = top + bottom;
     float tsb = top - bottom;
-    float fan = farZ + nearZ;
-    float fsn = farZ - nearZ;
+    float nsf = nearZ - farZ;
 
     UTKMatrix4 m = { 2.0f / rsl, 0.0f      , 0.0f       , -ral / rsl,
                      0.0f      , 2.0f / tsb, 0.0f       , -tab / tsb,
-                     0.0f      , 0.0f      , -2.0f / fsn, -fan / fsn,
+                     0.0f      , 0.0f      , 1.0f / nsf , nearZ / nsf,
                      0.0f      , 0.0f      , 0.0f       , 1.0f };
     return m;
 }

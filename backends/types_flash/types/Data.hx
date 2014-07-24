@@ -343,6 +343,8 @@ class Data
         var nextPosition : Int;
         _offsetWanted = 0;
 
+        setByteArrayPositionLazily();
+
         while (byteArray.bytesAvailable > 0)
         {
             nextPosition = _offsetWanted + dataTypeSize;
