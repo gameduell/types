@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<app title="Types Tests" package="com.gameduell.tests" version="0.0.1" company="GameDuell GmbH" />
+
+	<output path="Export" />
+
+	<main name="Main" />
+
+	<source path="Source" />
+
+	<duelllib name="types" />
+	<duelllib name="graphics" />
+	<duelllib name="platform" />
+	
+	<haxelib name="format" />
+	<haxelib name="msignal" />
+
+
+	<haxe-compile-arg value="-D" />
+	<haxe-compile-arg value="NAPE_RELEASE_BUILD" />
+	
+	<platform-config>
+
+		<ios>
+			<icon path="Icon/ios" />
+			<splashscreen path="Splashscreen/ios" />
+
+			<orientation value="UIInterfaceOrientationLandscapeRight,UIInterfaceOrientationLandscapeLeft" />
+
+			<architecture name="armv7" />
+
+			<required-capability name="armv7" value="true" />
+			<required-capability name="opengles-2" value="true" />
+		</ios>
+
+		<android>
+
+			<manifestdef name="ANDROID_INSTALL_LOCATION" value="auto" />
+			<architecture name="armv7" exclude="armv6" />
+
+		</android>
+
+	</platform-config>
+
+	<library-config>
+
+		<graphics>
+
+			<window 
+		          width="800" 
+		          height="600" 
+		          fps="60" if="html5" />
+
+			<window 
+		          fps="60" unless="html5" />
+		</graphics>
+
+		<filesystem>
+			<static path="Assets" rename="assets" exclude="*.svg" />
+		</filesystem>
+
+	</library-config>
+
+	
+</project>

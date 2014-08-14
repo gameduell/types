@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<library>
+
+	<ndll name="nativedata" build-file-path="project/Build.xml" bin-path="ndll" />
+	
+</library>
