@@ -51,8 +51,7 @@ class Matrix4Test extends haxe.unit.TestCase
     {
         var matrix = new Matrix4();
     	matrix.setOrtho(0, 1024, 1024, 0, -1024, 1024);
-
-        assertMatrix4([0.00195312, 0, 0, 0, 0, -0.00195312, 0, 0, 0, 0, -0.000976562, 0, -1, 1, 0, 1], matrix);
+        assertMatrix4([0.00195312, 0, 0, -1, 0, -0.00195312, 0, 1, 0, 0, -0.000488281, 0.5, 0, 0, 0, 1], matrix);
     }
 
     public function testSet2D()
@@ -60,7 +59,7 @@ class Matrix4Test extends haxe.unit.TestCase
     	var matrix = new Matrix4();
     	matrix.set2D(123.45, 543.21, 2.5, 30.0);
 
-        assertMatrix4([2.16506, -1.25, 0, 0, 1.25, 2.16506, 0, 0, 0, 0, 1, 0, 123.45, 543.21, 0, 1], matrix);
+        assertMatrix4([2.16506, 1.25, 0, 123.45, -1.25, 2.16506, 0, 543.21, 0, 0, 1, 0, 0, 0, 0, 1], matrix);
     }
 
     public function testMultiply()
@@ -75,10 +74,10 @@ class Matrix4Test extends haxe.unit.TestCase
         third.set2D(0, 0, 1, 30.0);
 
     	second.multiply(third);
-        assertMatrix4([2.16506, -1.25, 0, 0, 1.25, 2.16506, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], second);
+        assertMatrix4([2.16506, 1.25, 0, 0, -1.25, 2.16506, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], second);
 
     	first.multiply(second);
-        assertMatrix4([2.16506, -1.25, 0, 0, 1.25, 2.16506, 0, 0, 0, 0, 1, 0, 123.45, 543.21, 0, 1], first);
+        assertMatrix4([2.16506, 1.25, 0, 946.29, -1.25, 2.16506, 0, 1021.77, 0, 0, 1, 0, 0, 0, 0, 1], first);
     }
 
     public function testSet()
@@ -88,7 +87,7 @@ class Matrix4Test extends haxe.unit.TestCase
 
         var matrix2 = new Matrix4();
         matrix2.set(matrix1);
-        assertMatrix4([2.16506, -1.25, 0, 0, 1.25, 2.16506, 0, 0, 0, 0, 1, 0, 123.45, 543.21, 0, 1], matrix2);
+        assertMatrix4([2.16506, 1.25, 0, 123.45, -1.25, 2.16506, 0, 543.21, 0, 0, 1, 0, 0, 0, 0, 1], matrix2);
     }
 
     public function testSetFromAffineTransform()
@@ -100,7 +99,7 @@ class Matrix4Test extends haxe.unit.TestCase
         var matrix = new Matrix4();
         matrix.setFromAffineTransform(affineTransform);
 
-        assertMatrix4([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 42, 24, 0, 1], matrix);
+        assertMatrix4([1, 0, 0, 42, 0, 1, 0, 24, 0, 0, 1, 0, 0, 0, 0, 1], matrix);
     }
 
 }
