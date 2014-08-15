@@ -53,18 +53,46 @@ static inline std::wstring staticReadValueIntoString(void *pointer, types::DataT
 		}
 		;break;
 		case (int)6: {
-			oss << ((float*)pointer)[0];
+			#ifdef __arm__ /// ARM DOESNT LIKE UNLIGNED
+			if ((((intptr_t)pointer) & 0x3) == 0) 
+			{
+			#endif
+				oss << ((float*)pointer)[0];
+			#ifdef __arm__
+			}
+			else
+			{
+				float f;
+				memcpy(&f, pointer, sizeof(float));
+				oss << f;
+			}
+			#endif
+
 		}
 		;break;
 		case (int)7: {
-			oss << ((double*)pointer)[0];
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x7) == 0) 
+			{
+			#endif
+				oss << ((double*)pointer)[0];
+			#ifdef __arm__
+			}
+			else
+			{
+				double d;
+				memcpy(&d, pointer, sizeof(double));
+				oss << d;
+			}
+			#endif
 		}
 		;break;
 	}
 	return oss.str();
 }
 
-static inline void staticWriteFloatIntoPointer(void *pointer, float value, types::DataType &dataType)
+
+static inline void staticWriteFloatIntoPointer(void *pointer, double value, types::DataType &dataType)
 {
 	switch( (int)(dataType->__Index())){
 		case (int)0: {
@@ -92,11 +120,34 @@ static inline void staticWriteFloatIntoPointer(void *pointer, float value, types
 		}
 		;break;
 		case (int)6: {
-			((float *)pointer)[0] = (float)value;
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x3) == 0) 
+			{
+			#endif
+				((float *)pointer)[0] = (float)value;
+			#ifdef __arm__
+			}
+			else
+			{
+				float floatValue = (float)value;
+				memcpy(pointer, &floatValue, sizeof(float));
+			}
+			#endif
 		}
 		;break;
 		case (int)7: {
-			((double *)pointer)[0] = (double)value;
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x7) == 0) 
+			{
+			#endif
+				((double *)pointer)[0] = (double)value;
+			#ifdef __arm__
+			}
+			else
+			{
+				memcpy(pointer, &value, sizeof(double));
+			}
+			#endif
 		}
 		;break;
 	}
@@ -124,10 +175,36 @@ static inline float staticReadFloatFromPointer(void *pointer, types::DataType &d
 			return (float)(((uint32_t*)pointer)[0]);
 		}
 		case (int)6: {
-			return ((float*)pointer)[0];
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x3) == 0) 
+			{
+			#endif
+				return ((float*)pointer)[0];
+			#ifdef __arm__
+			}
+			else
+			{
+				float f;
+				memcpy(&f, pointer, sizeof(float));
+				return f;
+			}
+			#endif
 		}
 		case (int)7: {
-			return ((double*)pointer)[0];
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x7) == 0) 
+			{
+			#endif
+				return ((double*)pointer)[0];
+			#ifdef __arm__
+			}
+			else
+			{
+				double d;
+				memcpy(&d, pointer, sizeof(double));
+				return d;
+			}
+			#endif
 		}
 	}
 	return 0;
@@ -161,11 +238,35 @@ static inline void staticWriteIntIntoPointer(void *pointer, int &value, types::D
 		}
 		;break;
 		case (int)6: {
-			((float *)pointer)[0] = (float)value;
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x3) == 0) 
+			{
+			#endif
+				((float *)pointer)[0] = (float)value;
+			#ifdef __arm__
+			}
+			else
+			{
+				float floatValue = (float)value;
+				memcpy(pointer, &floatValue, sizeof(float));
+			}
+			#endif
 		}
 		;break;
 		case (int)7: {
-			((double *)pointer)[0] = (double)value;
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x7) == 0) 
+			{
+			#endif
+				((double *)pointer)[0] = (double)value;
+			#ifdef __arm__
+			}
+			else
+			{
+				double doubleValue = (double)value;
+				memcpy(pointer, &doubleValue, sizeof(double));
+			}
+			#endif
 		}
 		;break;
 	}
@@ -193,10 +294,38 @@ static inline int staticReadIntFromPointer(void *pointer, types::DataType &dataT
 			return (int)(((uint32_t*)pointer)[0]);
 		}
 		case (int)6: {
-			return ((int*)pointer)[0];
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x3) == 0) 
+			{
+			#endif
+				return ((float*)pointer)[0];
+			#ifdef __arm__
+			}
+			else
+			{
+				float f;
+				memcpy(&f, pointer, sizeof(float));
+				return f;
+
+			}
+			#endif
 		}
 		case (int)7: {
-			return ((double*)pointer)[0];
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x7) == 0) 
+			{
+			#endif
+				return ((double*)pointer)[0];
+			#ifdef __arm__
+			}
+			else
+			{
+				double d;
+				memcpy(&d, pointer, sizeof(double));
+				return d;
+
+			}
+			#endif
 		}
 	}
 	return 0;
