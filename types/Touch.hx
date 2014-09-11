@@ -10,11 +10,11 @@ enum TouchState
 
 class Touch
 {
-    public var id(default, null) : Int; 
-    public var x(default, null) : Int;
-    public var y(default, null) : Int;
-    public var state(default, null) : TouchState;
-    public var timestamp(default, null) : Float;
+    public var id(default, default) : Int; 
+    public var x(default, default) : Int;
+    public var y(default, default) : Int;
+    public var state(default, default) : TouchState;
+    public var timestamp(default, default) : Float;
 
     public function new() 
     {
