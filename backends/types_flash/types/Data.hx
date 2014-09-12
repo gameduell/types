@@ -367,6 +367,12 @@ class Data
         newBuffer.length = newSize;
         newBuffer.position = 0;
 
+        if(_allocedLength == 0 || byteArray == null)
+        {
+                set_byteArray(newBuffer);
+                return;
+        }
+
         if (newSize > _allocedLength)
         {
             newBuffer.writeBytes(byteArray, 0, _allocedLength);
@@ -378,4 +384,5 @@ class Data
 
         set_byteArray(newBuffer);
     }
+
 }
