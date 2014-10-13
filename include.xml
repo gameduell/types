@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<extension>
-
-    <include path="backends/types_cpp/include.xml" if="cpp" />
-    <include path="backends/types_html5/include.xml" if="html5" />
-    <include path="backends/types_flash/include.xml" if="flash" />
-
-</extension>

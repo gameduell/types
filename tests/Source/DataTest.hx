@@ -9,7 +9,7 @@ import TestHelper;
 
 using types.DataStringTools;
 
-class DataTest extends haxe.unit.TestCase
+class DataTest extends unittest.TestCase
 {
     private function assertFloatArray(floatArray : Array<Float>, data : Data, dataType : DataType)
     {

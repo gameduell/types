@@ -3,7 +3,7 @@ import types.SizeI;
 
 import TestHelper;
 
-class SizeTest extends haxe.unit.TestCase
+class SizeTest extends unittest.TestCase
 {
     private function assertSizeF(_width : Float, _height : Float, _size : SizeF)
     {

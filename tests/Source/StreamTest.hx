@@ -18,7 +18,7 @@ import TestHelper;
 
 using types.DataStringTools;
 
-class StreamTest extends haxe.unit.TestCase
+class StreamTest extends unittest.TestCase
 {
     private function assertEqualFloatArray(expectedArray : Array<Float>, actualArray : Array<Float>)
     {

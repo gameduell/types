@@ -9,7 +9,7 @@ import TestHelper;
 
 using types.AffineTransformMatrix4Tools;
 
-class Matrix4Test extends haxe.unit.TestCase
+class Matrix4Test extends unittest.TestCase
 {
     private function assertMatrix4(floatArray : Array<Float>, matrix : Matrix4)
     {

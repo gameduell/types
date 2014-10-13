@@ -6,7 +6,7 @@ import TestHelper;
 
 using types.AffineTransformMatrix4Tools;
 
-class AffineTransformTest extends haxe.unit.TestCase
+class AffineTransformTest extends unittest.TestCase
 {
     private function assertAffineTransform(floatArray : Array<Float>, affineTransform : AffineTransform)
     {

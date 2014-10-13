@@ -2,7 +2,7 @@ import types.Vector2;
 
 import TestHelper;
 
-class Vector2Test extends haxe.unit.TestCase
+class Vector2Test extends unittest.TestCase
 {
     private function assertVector2(floatArray : Array<Float>, vector2 : Vector2)
     {

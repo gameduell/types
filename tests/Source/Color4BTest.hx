@@ -13,7 +13,7 @@ import types.DataType;
 import TestHelper;
 
 
-class Color4BTest extends haxe.unit.TestCase
+class Color4BTest extends unittest.TestCase
 {
     private function assertColor4B(intArray : Array<Int>, color : Color4B)
     {

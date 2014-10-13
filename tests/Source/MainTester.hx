@@ -1,5 +1,8 @@
 import types.haxeinterop.HaxeInputInteropStream;
-import platform.AppMain;
+
+import unittest.TestRunner;
+import unittest.implementations.TestHTTPLogger;
+import unittest.implementations.TestJUnitLogger;    
 
 import DataTest;
 import Matrix4Test;
@@ -11,13 +14,18 @@ import Color4BTest;
 import StreamTest;
 import HaxeInteropTest;
 
+import duell.DuellKit;
 
-class MainTester extends AppMain
+class MainTester
 {
-	override function start() : Void 
+	static function main() : Void 
 	{
-        var a :Array<Int>;
-		var r = new haxe.unit.TestRunner();
+		DuellKit.initialize(start);
+	}
+
+	static function start()
+	{
+		var r = new TestRunner(testComplete);
 		r.add(new DataTest());
 		r.add(new Matrix4Test());
         r.add(new Vector2Test());
@@ -28,7 +36,17 @@ class MainTester extends AppMain
         r.add(new StreamTest());
         r.add(new HaxeInteropTest());
 
+        #if test
+        r.addLogger(new TestHTTPLogger(new TestJUnitLogger()));
+        #else
+        r.addLogger(new TestSimpleLogger());
+        #end
+
 		r.run();
 	}
 
+    static function testComplete()
+    {
+
+    }
 }

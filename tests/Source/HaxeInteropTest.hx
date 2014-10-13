@@ -23,7 +23,7 @@ import TestHelper;
 using types.DataStringTools;
 using types.haxeinterop.DataBytesTools;
 
-class HaxeInteropTest extends haxe.unit.TestCase
+class HaxeInteropTest extends unittest.TestCase
 {
     private function assertFloatArray(floatArray : Array<Float>, data : Data, dataType : DataType)
     {
