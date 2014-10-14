@@ -3,6 +3,8 @@ set -e
 
 cd tests
 
+rm -rf Export
+
 expect -c "
 spawn haxelib run duell build android -test -verbose
 
