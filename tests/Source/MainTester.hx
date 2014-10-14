@@ -19,6 +19,7 @@ import duell.DuellKit;
 
 class MainTester
 {
+    static var r : TestRunner;
 	static function main() : Void 
 	{
 		DuellKit.initialize(start);
@@ -26,7 +27,7 @@ class MainTester
 
 	static function start()
 	{
-		var r = new TestRunner(testComplete);
+		r = new TestRunner(testComplete);
 		r.add(new DataTest());
 		r.add(new Matrix4Test());
         r.add(new Vector2Test());
@@ -48,6 +49,6 @@ class MainTester
 
     static function testComplete()
     {
-
+        trace(r.result);
     }
 }
