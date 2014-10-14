@@ -2,7 +2,8 @@ import types.haxeinterop.HaxeInputInteropStream;
 
 import unittest.TestRunner;
 import unittest.implementations.TestHTTPLogger;
-import unittest.implementations.TestJUnitLogger;    
+import unittest.implementations.TestJUnitLogger;  
+import unittest.implementations.TestSimpleLogger;   
 
 import DataTest;
 import Matrix4Test;
