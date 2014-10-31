@@ -5,74 +5,44 @@
  * Time: 11:37
  */
 package types;
-class SizeF
+
+class SizeF extends Vector2
 {
-    public var width (get, set) : Float;
-    public var height (get, set) : Float;
+    public var width(get, set): Float;
+    public var height(get, set): Float;
 
-    private var _width : Float;
-    private var _height : Float;
-
-    public function new(width : Float = 0, height : Float = 0) : Void
+    private inline function set_width(width: Float): Float
     {
-        setWidthAndHeight(width, height);
+        x = width;
+        return x;
     }
 
-    public inline function setWidthAndHeight(width : Float, height : Float) : Void
+    private inline function set_height(height: Float): Float
     {
-        set_width(width);
-        set_height(height);
+        y = height;
+        return y;
     }
 
-    private inline function set_width(width : Float) : Float
+    private inline function get_width(): Float
     {
-        if (width < 0)
-        {
-            _width = 0;
-        }
-        else
-        {
-            _width = width;
-        }
-
-        return width;
+        return x;
     }
 
-
-    private inline function set_height(height : Float) : Float
+    private inline function get_height(): Float
     {
-        if (height < 0)
-        {
-            _height = 0;
-        }
-        else
-        {
-            _height = height;
-        }
-
-        return height;
+        return y;
     }
 
-    private inline function get_width() : Float
+    public inline function flip(): Float
     {
-        return _width;
+        var temp = x;
+        x = y;
+        y = temp;
     }
 
-    private inline function get_height() : Float
+    public function toString(): String
     {
-        return _height;
-    }
-
-    public inline function flip()
-    {
-        var temp = width;
-        width = height;
-        height = temp;
-    }
-
-    public function toString() : String
-    {
-        return "Width: " + _width + " Height: " + _height;
+        return "Width: " + x + " Height: " + y;
     }
 
 

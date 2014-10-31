@@ -7,60 +7,23 @@
 package types;
 class SizeI
 {
-    public var width (get, set) : Int;
-    public var height (get, set) : Int;
+    public var width(default, set): Int = 0;
+    public var height(default, set): Int = 0;
 
-    private var _width : Int;
-    private var _height : Int;
-
-    public function new(width : Int = 0, height : Int = 0) : Void
+    public function new() : Void
     {
-        setWidthAndHeight(width, height);
     }
 
-    public inline function setWidthAndHeight(width : Int, height : Int) : Void
+    private inline function set_width(value: Int): Int
     {
-        set_width(width);
-        set_height(height);
+        width = value;
+        return value;
     }
 
-    private inline function set_width(width : Int) : Int
+    private inline function set_height(value: Int): Int
     {
-        if (width < 0)
-        {
-            _width = 0;
-        }
-        else
-        {
-            _width = width;
-        }
-
-        return width;
-    }
-
-
-    private inline function set_height(height : Int) : Int
-    {
-        if (height < 0)
-        {
-            _height = 0;
-        }
-        else
-        {
-            _height = height;
-        }
-
-        return height;
-    }
-
-    private inline function get_width() : Int
-    {
-        return _width;
-    }
-
-    private inline function get_height() : Int
-    {
-        return _height;
+        height = value;
+        return value;
     }
 
     public inline function flip()
@@ -72,8 +35,6 @@ class SizeI
 
     public function toString() : String
     {
-        return "Width: " + _width + " Height: " + _height;
+        return "Width: " + width + " Height: " + height;
     }
-
-
 }

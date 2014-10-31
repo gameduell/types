@@ -49,7 +49,7 @@ class AffineTransform
             case 4: return tx;
             case 5: return ty;
 
-            default: return 0;
+            default: return 0.0;
         }
     }
 
