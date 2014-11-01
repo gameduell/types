@@ -58,15 +58,6 @@ class SizeTest extends unittest.TestCase
         assertSizeI(0, 0, sizei);
     }
 
-    public function testCreationWithValue()
-    {
-        var sizef = new SizeF(4.23, 5.67);
-        assertSizeF(4.23, 5.67, sizef);
-
-        var sizei = new SizeI(4, 5);
-        assertSizeI(4, 5, sizei);
-    }
-
     public function testAssignment()
     {
         var sizef = new SizeF();
@@ -82,26 +73,17 @@ class SizeTest extends unittest.TestCase
 
     public function testFlip()
     {
-        var sizef = new SizeF(4.23, 5.67);
+        var sizef = new SizeF();
+        sizef.width = 4.23;
+        sizef.height = 5.67;
         sizef.flip();
         assertSizeF(5.67, 4.23, sizef);
 
-        var sizei = new SizeI(4, 5);
+        var sizei = new SizeI();
+        sizei.width = 4;
+        sizei.height = 5;
         sizei.flip();
         assertSizeI(5, 4, sizei);
-    }
-
-    public function testSetNegativeValues()
-    {
-        var sizef = new SizeF();
-        sizef.width = -4000.12;
-        sizef.height = -50.123;
-        assertSizeF(0, 0,sizef);
-
-        var sizei = new SizeI();
-        sizei.width = -4000;
-        sizei.height = -50;
-        assertSizeI(0, 0,sizei);
     }
 
 }

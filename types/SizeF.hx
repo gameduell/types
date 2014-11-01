@@ -33,14 +33,14 @@ class SizeF extends Vector2
         return y;
     }
 
-    public inline function flip(): Float
+    public inline function flip(): Void
     {
         var temp = x;
         x = y;
         y = temp;
     }
 
-    public function toString(): String
+    override public function toString(): String
     {
         return "Width: " + x + " Height: " + y;
     }

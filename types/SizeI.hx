@@ -26,7 +26,7 @@ class SizeI
         return value;
     }
 
-    public inline function flip()
+    public inline function flip(): Void
     {
         var temp = width;
         width = height;
