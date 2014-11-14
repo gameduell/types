@@ -39,7 +39,13 @@ class MainTester
         r.add(new HaxeInteropTest());
 
         #if test
+
+        #if jenkins
         r.addLogger(new TestHTTPLogger(new TestJUnitLogger()));
+        #else
+        r.addLogger(new TestHTTPLogger(new TestSimpleLogger()));
+        #end
+
         #else
         r.addLogger(new TestSimpleLogger());
         #end
