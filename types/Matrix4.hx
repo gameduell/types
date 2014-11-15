@@ -8,12 +8,12 @@ extern class Matrix4
 
 	public function setIdentity() : Matrix4;
 
-	public function setOrtho(	x0 : Float, 
-								x1 : Float, 
-								y0 : Float, 
-								y1 : Float, 
-								zNear : Float, 
-								zFar : Float) : Void;
+	public function setOrtho(left: Float,
+							right: Float,
+	 					   bottom: Float,
+							  top: Float,
+						    zNear: Float,
+							 zFar: Float) : Void;
 
 	public function set2D(	posX : Float,
 							posY : Float, 
