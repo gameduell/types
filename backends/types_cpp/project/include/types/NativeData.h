@@ -1,9 +1,8 @@
 #ifndef __TYPES_NATIVE_DATA__
 #define __TYPES_NATIVE_DATA__
 
-#include <hx/CFFI.h>
 
-DECLARE_KIND(k_NativeData) 
+class value;
 
 
 	class NativeData
