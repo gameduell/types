@@ -2,9 +2,7 @@
 #define __TYPES_NATIVE_DATA__
 
 
-class value;
-
-
+#include <stdint.h>
 	class NativeData
 	{
 		public: 
@@ -27,7 +25,7 @@ class value;
 			/// does not work if setup was done with existing pointer
 			virtual void resize(int newSize) = 0;
 
-			static value createHaxePointer();
+			static void* createHaxePointer();
 
 		protected: 
 			NativeData() {} // use types_cpp_createNativeData method

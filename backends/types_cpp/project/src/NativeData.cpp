@@ -108,12 +108,12 @@ static void finalizer(value abstract_object)
 
 DEFINE_KIND(k_NativeData) 
 
-value NativeData::createHaxePointer()
+void* NativeData::createHaxePointer()
 {
 	value v;
 	v = alloc_abstract(k_NativeData, new NativeData_Impl());
 	val_gc(v, (hxFinalizer) &finalizer);
-	return v;
+	return (void*)v;
 }
 
 

@@ -12,7 +12,7 @@ extern NativeData * createNativeData();
 
 static value nativedata_createNativeData() 
 {
-	return NativeData::createHaxePointer();
+	return (value)NativeData::createHaxePointer();
 }
 DEFINE_PRIM (nativedata_createNativeData, 0);
 
