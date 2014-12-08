@@ -13,25 +13,15 @@ import haxe.io.Error;
 class HaxeOutputInteropStream extends Output
 {
     private var outputStream : OutputStream;
-    private var workingData: Data;
     public function new(newOutputStream : OutputStream)
     {
-        #if debug
-        if (newOutputStream.isAsync())
-        {
-            throw "HaxeOutputInteropStream only works with sync streams";
-        }
-        #end
-        workingData = new Data(8);
         outputStream = newOutputStream;
         bigEndian = false;
     }
 
     override function writeByte( c : Int ) : Void
     {
-        workingData.offsetLength = 1;
-        workingData.writeInt(c, DataTypeUInt8);
-        outputStream.writeData(workingData);
+        outputStream.writeInt(c, DataTypeUInt8);
     }
 
     override function writeBytes( s : Bytes, pos : Int, len : Int ) : Int

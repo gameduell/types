@@ -14,56 +14,36 @@ using types.haxeinterop.DataBytesTools;
 
 class HaxeInputInteropStream extends Input
 {
-    private var inputStream: InputStream;
-    private var workingData: Data;
+    private var inputStream : InputStream;
     public function new(newInputStream : InputStream)
     {
-        #if debug
-        if (newInputStream.isAsync())
-        {
-            throw "HaxeInputInteropStream only works with sync streams";
-        }
-        #end
-
-        workingData = new Data(8);
         inputStream = newInputStream;
         bigEndian = false;
     }
 
     override function readByte() : Int
     {
-        workingData.offsetLength = 1;
-        inputStream.readIntoData(workingData);
-        return workingData.readInt(DataTypeUInt8);
+        return inputStream.readInt(DataTypeUInt8);
     }
 
-    override function readBytes( s : Bytes, pos : Int, len : Int ) : Int 
-    {
-        workingData.offsetLength = 1;
+    override function readBytes( s : Bytes, pos : Int, len : Int ) : Int {
         for(i in 0...len)
         {
-            inputStream.readIntoData(workingData);
-            s.set(pos + i, workingData.readInt(DataTypeUInt8));
+            s.set(pos + i, inputStream.readInt(DataTypeUInt8));
         }
         return len;
     }
 
-    override function readInt16() 
-    {
-        workingData.offsetLength = 2;
-        inputStream.readIntoData(workingData);
-        return workingData.readInt(DataTypeInt16);
+    override function readInt16() {
+
+        return inputStream.readInt(DataTypeInt16);
     }
 
     override function readFloat() : Float {
-        workingData.offsetLength = 4;
-        inputStream.readIntoData(workingData);
-        return workingData.readFloat(DataTypeFloat32);
+        return inputStream.readFloat(DataTypeFloat32);
     }
 
     override function readDouble() : Float {
-        workingData.offsetLength = 8;
-        inputStream.readIntoData(workingData);
-        return workingData.readFloat(DataTypeFloat64);
+        return inputStream.readFloat(DataTypeFloat64);
     }
 }
