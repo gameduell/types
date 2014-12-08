@@ -7,7 +7,7 @@ rm -rf Export
 
 
 expect -c "
-spawn haxelib run duell build ios -test -verbose -overridebranch master -D jenkins
+spawn haxelib run duell build ios -test -verbose -D jenkins
 
 set timeout -1
 
@@ -34,7 +34,7 @@ expect {
 "
 
 expect -c "
-spawn haxelib run duell build android -test -verbose -overridebranch master -D jenkins
+spawn haxelib run duell build android -test -verbose -D jenkins
 
 set timeout -1
 
@@ -63,7 +63,7 @@ expect {
 
 
 expect -c "
-spawn haxelib run duell build html5 -test -verbose -overridebranch master -D jenkins
+spawn haxelib run duell build html5 -test -verbose -D jenkins
 
 set timeout -1
 
@@ -91,7 +91,7 @@ expect {
 
 
 expect -c "
-spawn haxelib run duell build flash -test -verbose -overridebranch master -D jenkins
+spawn haxelib run duell build flash -test -verbose -D jenkins
 
 set timeout -1
 
