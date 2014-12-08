@@ -135,67 +135,111 @@ class HaxeInteropTest extends unittest.TestCase
 
         var dataInput = new DataInputStream(data);
 
-        assertEquals(1, dataInput.readInt(DataTypeUInt8));
-        assertEquals(2, dataInput.readInt(DataTypeUInt8));
-        assertEquals(3, dataInput.readInt(DataTypeUInt8));
-        assertEquals(-4, dataInput.readInt(DataTypeInt16));
-        assertEquals(5, dataInput.readInt(DataTypeInt16));
+        var dataFromInput = new Data(dataInput.bytesAvailable);
+        dataInput.readIntoData(dataFromInput);
 
-        var b0 = dataInput.readInt(DataTypeUInt8);
-        var b1 = dataInput.readInt(DataTypeUInt8);
-        var b2 = dataInput.readInt(DataTypeUInt8);
+        assertEquals(1, dataFromInput.readInt(DataTypeUInt8));
+        dataFromInput.offset += 1;
+
+        assertEquals(2, dataFromInput.readInt(DataTypeUInt8));
+        dataFromInput.offset += 1;
+
+        assertEquals(3, dataFromInput.readInt(DataTypeUInt8));
+        dataFromInput.offset += 1;
+
+        assertEquals(-4, dataFromInput.readInt(DataTypeInt16));
+        dataFromInput.offset += 2;
+
+        assertEquals(5, dataFromInput.readInt(DataTypeInt16));
+        dataFromInput.offset += 2;
+
+        var b0 = dataFromInput.readInt(DataTypeUInt8);
+        dataFromInput.offset += 1;
+        var b1 = dataFromInput.readInt(DataTypeUInt8);
+        dataFromInput.offset += 1;
+        var b2 = dataFromInput.readInt(DataTypeUInt8);
+        dataFromInput.offset += 1;
+
         var int24Value = b0 | (b1 << 8) | (b2 << 16);
         if(int24Value & 0x800000 != 0)
             int24Value -= 0x1000000;
         assertEquals(-6, int24Value);
 
-        b0 = dataInput.readInt(DataTypeUInt8);
-        b1 = dataInput.readInt(DataTypeUInt8);
-        b2 = dataInput.readInt(DataTypeUInt8);
+        b0 = dataFromInput.readInt(DataTypeUInt8);
+        dataFromInput.offset += 1;
+
+        b1 = dataFromInput.readInt(DataTypeUInt8);
+        dataFromInput.offset += 1;
+
+        b2 = dataFromInput.readInt(DataTypeUInt8);
+        dataFromInput.offset += 1;
 
         int24Value = b0 | (b1 << 8) | (b2 << 16);
         assertEquals(7, int24Value);
 
-        assertEquals(8, dataInput.readInt(DataTypeInt32));
-        assertTrue(TestHelper.nearlyEqual(9.123, dataInput.readFloat(DataTypeFloat32)));
+        assertEquals(8, dataFromInput.readInt(DataTypeInt32));
+        dataFromInput.offset += 4;
+
+        assertTrue(TestHelper.nearlyEqual(9.123, dataFromInput.readFloat(DataTypeFloat32)));
+        dataFromInput.offset += 4;
 
         /// wrong in flash
         #if (!flash)
-        assertTrue(TestHelper.nearlyEqual(10.123, dataInput.readFloat(DataTypeFloat64)));
+        assertTrue(TestHelper.nearlyEqual(10.123, dataFromInput.readFloat(DataTypeFloat64)));
+        dataFromInput.offset += 8;
         #end
 
-        assertEquals("a", dataInput.readString(1));
-        assertEquals(11, dataInput.readInt(DataTypeUInt8));
+        dataFromInput.offsetLength = 1;
+        assertEquals("a", dataFromInput.readString());
+        dataFromInput.offset += 1;
+
+        assertEquals(11, dataFromInput.readInt(DataTypeUInt8));
     }
 
     public function testInputStream() /// readLine, readUntil, readAll, readFullBytes still untested..
     {
         var data = new Data(32);
-        var dataOutput = new DataOutputStream(data);
-        dataOutput.writeInt(1, DataTypeUInt8);
-        dataOutput.writeInt(2, DataTypeUInt8);
-        dataOutput.writeInt(3, DataTypeUInt8);
-        dataOutput.writeInt(-4, DataTypeInt16);
-        dataOutput.writeInt(5, DataTypeInt16);
+        data.writeInt(1, DataTypeUInt8);
+        data.offset += 1;
+        data.writeInt(2, DataTypeUInt8);
+        data.offset += 1;
+        data.writeInt(3, DataTypeUInt8);
+        data.offset += 1;
+        data.writeInt(-4, DataTypeInt16);
+        data.offset += 2;
+        data.writeInt(5, DataTypeInt16);
+        data.offset += 2;
 
-        dataOutput.writeInt(-6, DataTypeUInt8);
-        dataOutput.writeInt(255, DataTypeUInt8);
-        dataOutput.writeInt(255, DataTypeUInt8);
+        data.writeInt(-6, DataTypeUInt8);
+        data.offset += 1;
+        data.writeInt(255, DataTypeUInt8);
+        data.offset += 1;
+        data.writeInt(255, DataTypeUInt8);
+        data.offset += 1;
 
         /// 7 0 0 = 7
-        dataOutput.writeInt(7, DataTypeUInt8);
-        dataOutput.writeInt(0, DataTypeUInt8);
-        dataOutput.writeInt(0, DataTypeUInt8);
+        data.writeInt(7, DataTypeUInt8);
+        data.offset += 1;
+        data.writeInt(0, DataTypeUInt8);
+        data.offset += 1;
+        data.writeInt(0, DataTypeUInt8);
+        data.offset += 1;
 
-        dataOutput.writeInt(8, DataTypeInt32);
+        data.writeInt(8, DataTypeInt32);
+        data.offset += 4;
 
-        dataOutput.writeFloat(9.123, DataTypeFloat32);
+        data.writeFloat(9.123, DataTypeFloat32);
+        data.offset += 4;
 
-        dataOutput.writeFloat(10.123, DataTypeFloat64);
+        data.writeFloat(10.123, DataTypeFloat64);
+        data.offset += 8;
 
-        dataOutput.writeString("a");
+        data.writeString("a");
+        data.offset += 1;
 
-        dataOutput.writeInt(11, DataTypeUInt8);
+        data.writeInt(11, DataTypeUInt8);
+
+        data.offset = 0;
 
         var dataInput = new DataInputStream(data);
         var haxeInput = new HaxeInputInteropStream(dataInput);

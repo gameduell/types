@@ -6,21 +6,25 @@
  */
 package types;
 
+import msignal.Signal;
+
 interface OutputStream
 {
-    public function available() : Bool;
+    public var onError(default, null): Signal1<OutputStream>;
+    public var onOpen(default, null): Signal1<OutputStream>;
+    public var onClose(default, null): Signal1<OutputStream>;
 
+    public var errorCode(default, null): Null<Int>;
+    public var errorMessage(default, null): String;
+
+    /// CONTROL METHODS
+    public function open(): Void;
+    public function close(): Void;
+    public function isOpen(): Bool;
+
+    /// WRITING METHODS
+    public var onDataWriteFinished(default, null): Signal2<InputStream, Data>;
     public function writeData(data : Data) : Void;
 
-    public function writeInt(value : Int, targetDataType : DataType) : Void;
-
-    public function writeFloat(value : Float, targetDataType : DataType) : Void;
-
-    public function writeIntArray(array : Array<Int>, dataType : DataType) : Void;
-
-    public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void;
-
-    public function writeString(string : String) : Void;
-
-    public function close() : Void;
+    public function isAsync(): Bool;
 }

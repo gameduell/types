@@ -11,16 +11,63 @@ import types.OutputStream;
 
 using types.DataStringTools;
 
+import msignal.Signal;
+
 class DataOutputStream implements OutputStream
 {
+    public var onError(default, null): Signal1<OutputStream>;
+    public var onOpen(default, null): Signal1<OutputStream>;
+    public var onClose(default, null): Signal1<OutputStream>;
+
+    public var errorCode(default, null): Null<Int>;
+    public var errorMessage(default, null): String;
+
+    private var openned: Bool;
     private var data : Data;
     private var currentOffset : Int;
     public function new(newData : Data) : Void
     {
+        onDataWriteFinished = new Signal2();
+        onError = new Signal1();
+        onOpen = new Signal1();
+        onClose = new Signal1();
+
+        reset(newData);
+    }
+
+    public function reset(newData : Data): Void
+    {
+        if (isOpen())
+        {
+            close();
+        }
+
+        openned = false;
         data = newData;
         currentOffset = data.offset;
     }
 
+    /// CONTROL METHODS
+    public function open(): Void
+    {
+        openned = true;
+        onOpen.dispatch(this);
+    }
+    
+    public function close(): Void
+    {
+        openned = false;
+        data = null;
+        onClose.dispatch(this);
+    }
+
+    public function isOpen(): Bool
+    {
+        return openned;
+    }
+
+    /// WRITING METHODS
+    public var onDataWriteFinished(default, null): Signal2<InputStream, Data>;
     public function writeData(sourceData : Data) : Void
     {
         var prevOffset = data.offset;
@@ -30,56 +77,9 @@ class DataOutputStream implements OutputStream
         data.offset = prevOffset;
     }
 
-    public function writeInt(value : Int, targetDataType : DataType) : Void
+    public function isAsync(): Bool
     {
-        var prevOffset = data.offset;
-        data.offset = currentOffset;
-        data.writeInt(value, targetDataType);
-        currentOffset += DataTypeUtils.dataTypeByteSize(targetDataType);
-        data.offset = prevOffset;
+        return false;
     }
 
-    public function writeFloat(value : Float, targetDataType : DataType) : Void
-    {
-        var prevOffset = data.offset;
-        data.offset = currentOffset;
-        data.writeFloat(value, targetDataType);
-        currentOffset += DataTypeUtils.dataTypeByteSize(targetDataType);
-        data.offset = prevOffset;
-    }
-
-    public function writeIntArray(array : Array<Int>, dataType : DataType) : Void
-    {
-        for(i in 0...array.length)
-        {
-            writeInt(array[i], dataType);
-        }
-    }
-
-    public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void
-    {
-        for(i in 0...array.length)
-        {
-            writeFloat(array[i], dataType);
-        }
-    }
-
-    public function writeString(string : String) : Void
-    {
-        var prevOffset = data.offset;
-        data.offset = currentOffset;
-        data.writeString(string);
-        data.offset = prevOffset;
-        currentOffset += string.sizeInBytes();
-    }
-
-    public function available() : Bool
-    {
-        return currentOffset < data.offset + data.offsetLength;
-    }
-
-    public function close() : Void
-    {
-        data = null;
-    }
 }
