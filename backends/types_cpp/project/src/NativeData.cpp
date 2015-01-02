@@ -3,7 +3,6 @@
 
 #include <hx/CFFI.h>
 
-
 class NativeData_Impl : public NativeData
 {
 	public:

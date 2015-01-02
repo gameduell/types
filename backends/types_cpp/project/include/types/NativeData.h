@@ -27,6 +27,8 @@
 
 			static void* createHaxePointer();
 
+			virtual ~NativeData() {};
+
 		protected: 
 			NativeData() {} // use types_cpp_createNativeData method
     		NativeData(const NativeData&); // use setup methods instead
