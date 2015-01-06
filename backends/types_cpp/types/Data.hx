@@ -500,8 +500,9 @@ class Data
 	public function readFloat(targetDataType : DataType) : Float { return 0; }
 
 	@:functionCode('
-		if(dataType == 0)
+		if (((dataType == null())))
 			dataType = ::types::DataType_obj::DataTypeInt32;
+
 		int dataSize = ::types::DataTypeUtils_obj::dataTypeByteSize(dataType);
 
 		std::wostringstream oss;
