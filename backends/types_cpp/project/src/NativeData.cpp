@@ -15,6 +15,7 @@ class NativeData_Impl : public NativeData
 		void writePointer(const void* pointer, int lengthInBytes);
 
 		void resize(int newSize);
+		void trim();
 
 		~NativeData_Impl();
 		NativeData_Impl();
@@ -91,6 +92,25 @@ void NativeData_Impl::resize(int newSize)
 	}
 
 	allocedLength = newSize;
+}
+
+void NativeData_Impl::trim()
+{
+	uint8_t* prevPtr = ptr;
+	ptr = (uint8_t*)calloc(offsetLength, 1);
+	memcpy(ptr, prevPtr + offset, offsetLength);
+
+	if (externalPtr)
+	{
+		externalPtr = false;
+	}
+	else
+	{
+		free(prevPtr);
+	}
+
+	allocedLength = offsetLength;
+	offset = 0;
 }
 
 NativeData_Impl::~NativeData_Impl()

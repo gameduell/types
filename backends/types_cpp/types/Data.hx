@@ -527,11 +527,14 @@ class Data
 	') 
 	public function toString(?dataType : DataType) : String { return "";}
 
-
-
 	@:functionCode('
 		_nativeData->resize(newSize);
 	') 
 	public function resize(newSize : Int) : Void {}
+
+	@:functionCode('
+		_nativeData->trim();
+	')
+	public function trim() : Void {}
 
 }

@@ -199,5 +199,34 @@ class DataTest extends unittest.TestCase
 
     }
 
+    public function testResizeFrom0()
+    {
+        var array = [1, 2, 3, 4, 5];
+        var data = new Data(0);
+        data.resize((array.length) * 4);
+        data.writeIntArray(array, DataTypeInt32);
+
+        assertIntArray([1, 2, 3, 4, 5], data, DataTypeInt32);
+    }
+
+    public function testTrimming()
+    {
+        var array = [1, 2, 3, 4, 5];
+        var data = new Data(array.length * DataTypeUtils.dataTypeByteSize(DataTypeInt32));
+        data.writeIntArray(array, DataTypeInt32);
+    
+        /// should start at 3
+        data.offset = 2 * DataTypeUtils.dataTypeByteSize(DataTypeInt32);
+        /// should have 2 elements
+        data.offsetLength = 2 * DataTypeUtils.dataTypeByteSize(DataTypeInt32);
+
+        data.trim();
+
+        assertEquals(data.offsetLength, data.allocedLength);
+        assertEquals(data.offset, 0);
+        assertIntArray([3, 4], data, DataTypeInt32);
+    }
+
+
     ///missing testing offset with smaller types than int/float, and future big types like double
 }

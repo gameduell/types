@@ -36,4 +36,8 @@ extern class Data
 
 	/// if underlying pointer is set externally a new pointer will be created with a copy of that external pointer's memory.
 	public function resize(newSize : Int) : Void;
+
+	/// makes the part pointed by offset and offset length become the full length of the data
+	/// by resizing the data fit exactly that.
+	public function trim():Void;
 }

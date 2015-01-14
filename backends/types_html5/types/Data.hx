@@ -436,6 +436,8 @@ class Data
     	var newBuffer = new ArrayBuffer(newSize);
     	var prevBuffer = arrayBuffer;
     	var prevBufferView = uint8Array;
+    	var prevOffset = _offset;
+    	var prevOffsetLength = _offsetLength;
 
     	set_arrayBuffer(newBuffer);
 
@@ -453,7 +455,25 @@ class Data
 
     	}
     	_allocedLength = newSize;
+    	_offsetLength = prevOffsetLength;
+    	_offset = prevOffset;
 	}
 
+    public function trim() : Void
+    {
+    	if(arrayBuffer == null)
+    	{
+    		return;
+    	}
 
+    	var newBuffer = new ArrayBuffer(offsetLength);
+    	var prevBuffer = arrayBuffer;
+    	var prevBufferView = uint8Array;
+    	var prevOffset = offset;
+    	var prevOffsetLength = offsetLength;
+
+    	set_arrayBuffer(newBuffer);
+
+    	uint8Array.set(prevBufferView.subarray(prevOffset, prevOffset + prevOffsetLength));
+    }
 }

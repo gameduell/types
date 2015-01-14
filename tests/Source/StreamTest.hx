@@ -97,7 +97,38 @@ class StreamTest extends unittest.TestCase
         assertTrue(outputStream.isOpen());
         assertTrue(inputStream.isOpen());
 
-        assertEquals(4, inputStream.bytesAvailable);
+        ///no data was written, so it should be 0
+        assertEquals(0, inputStream.bytesAvailable);
+
+        var dataToWrite = new Data(2);
+        dataToWrite.writeInt(1, DataTypeInt16);
+        outputStream.writeData(dataToWrite);
+        assertEquals(2, inputStream.bytesAvailable);
+    }
+
+    public function testAppending()
+    {
+        var array = [1, 2, 3, 4, 5];
+        var dataToWrite = new Data(array.length * 4);
+        dataToWrite.writeIntArray(array, DataTypeInt32);
+
+        var data = new Data(array.length * 4);
+        var inputStream = new DataInputStream(data);
+        var outputStream = new DataOutputStream(data, true);
+
+        assertEquals(0, inputStream.bytesAvailable);
+
+        outputStream.writeData(dataToWrite);
+
+        assertEquals(array.length * 4, inputStream.bytesAvailable);
+
+        data.offset = array.length * 4;
+        outputStream.writeData(dataToWrite);
+
+        assertEquals(array.length * 4 * 2, inputStream.bytesAvailable);
+
+        data.offset = 0;
+        assertEqualIntArray([1, 2, 3, 4, 5, 1, 2, 3, 4, 5], data.readIntArray(array.length * 2, DataTypeInt32));
     }
 
     public function testWritingAndReadingData()

@@ -22,8 +22,9 @@
 			virtual void writeData(const NativeData *d) = 0;
 			virtual void writePointer(const void* pointer, int lengthInBytes) = 0;
 
-			/// does not work if setup was done with existing pointer
 			virtual void resize(int newSize) = 0;
+
+			virtual void trim() = 0;
 
 			static void* createHaxePointer();
 

@@ -25,17 +25,20 @@ class DataOutputStream implements OutputStream
     private var openned: Bool;
     private var data : Data;
     private var currentOffset : Int;
-    public function new(newData : Data) : Void
+    private var currentOffsetLength : Int;
+    private var resize : Bool;
+
+    public function new(newData : Data, resize : Bool = false) : Void
     {
         onDataWriteFinished = new Signal2();
         onError = new Signal1();
         onOpen = new Signal1();
         onClose = new Signal1();
 
-        reset(newData);
+        reset(newData, resize);
     }
 
-    public function reset(newData : Data): Void
+    public function reset(newData : Data, resize : Bool = false): Void
     {
         if (isOpen())
         {
@@ -43,8 +46,10 @@ class DataOutputStream implements OutputStream
         }
 
         openned = false;
+        this.resize = resize;
         data = newData;
         currentOffset = data.offset;
+        currentOffsetLength = 0;
     }
 
     /// CONTROL METHODS
@@ -70,11 +75,33 @@ class DataOutputStream implements OutputStream
     public var onDataWriteFinished(default, null): Signal2<InputStream, Data>;
     public function writeData(sourceData : Data) : Void
     {
+        if (resize)
+        {
+            var size: Int = (currentOffset + sourceData.offsetLength) - data.allocedLength;
+            if (size > 0)
+            {
+                grow(data.allocedLength + size);
+            }
+        }
+
         var prevOffset = data.offset;
         data.offset = currentOffset;
         data.writeData(sourceData);
         currentOffset += sourceData.offsetLength;
         data.offset = prevOffset;
+        data.offsetLength += sourceData.offsetLength;
+    }
+
+    /// always grows by 1.5
+    private function grow(minCapacity: Int)
+    {
+        var oldCapacity = data.allocedLength;
+        var newCapacity = oldCapacity + (oldCapacity >> 1);
+        if (newCapacity - minCapacity < 0)
+            newCapacity = minCapacity;
+
+        // minCapacity is usually close to size, so this is a win:
+        data.resize(minCapacity);
     }
 
     public function isAsync(): Bool
