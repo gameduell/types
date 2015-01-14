@@ -50,6 +50,7 @@ class DataOutputStream implements OutputStream
         data = newData;
         currentOffset = data.offset;
         currentOffsetLength = 0;
+        data.offsetLength = currentOffsetLength;
     }
 
     /// CONTROL METHODS
