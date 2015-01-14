@@ -11,99 +11,116 @@ import types.InputStream;
 
 using types.DataStringTools;
 
+import msignal.Signal;
+
 class DataInputStream implements InputStream
 {
+    public var onDataAvailable(default, null): Signal1<InputStream>;
+
+    /// not necessarily the full extent of the stream
+    public var bytesAvailable(get, null): Int;
+
+    /// STATE
+    public var onEndOfStream(default, null): Signal1<InputStream>;
+    public var onOpen(default, null): Signal1<InputStream>;
+    public var onClose(default, null): Signal1<InputStream>;
+
+    /// ERROR
+    public var errorCode(default, null): Null<Int>;
+    public var errorMessage(default, null): String;
+    public var onError(default, null): Signal1<InputStream>;
+
+    private var openned: Bool;
     private var data : Data;
     private var currentOffset : Int;
 
+    /// CONTROL METHODS
+    public function open(): Void
+    {
+        openned = true;
+        onOpen.dispatch(this);
+    }
+
+    public function close(): Void
+    {
+        openned = false;
+        data = null;
+        onClose.dispatch(this);
+    }
+
+    public function isOpen(): Bool
+    {
+        return openned;
+    }
+
+    public function skip(byteCount: Int): Void
+    {
+        currentOffset += byteCount;
+    }
+
     public function new(newData : Data) : Void
     {
+        onDataAvailable = new Signal1();
+        onEndOfStream = new Signal1();
+        onError = new Signal1();
+        onOpen = new Signal1();
+        onClose = new Signal1();
+        onReadData = new Signal2();
+
+        reset(newData);
+    }
+
+    public function reset(newData : Data): Void
+    {
+        if (isOpen())
+        {
+            close();
+        }
+
+        openned = false;
         data = newData;
         currentOffset = data.offset;
     }
 
-    public function readInt(targetDataType : DataType) : Int
+    /// READING METHOD
+    /// if async, it will reply on "onReadData"
+    public var onReadData(default, null): Signal2<InputStream, Data>;
+    public function readIntoData(receivingData: Data): Void
     {
         var prevOffset = data.offset;
+        var prevLength = data.offsetLength;
         data.offset = currentOffset;
-        var v = data.readInt(targetDataType);
-        currentOffset += DataTypeUtils.dataTypeByteSize(targetDataType);
-        data.offset = prevOffset;
-        return v;
-    }
-
-    public function readFloat(targetDataType : DataType) : Float
-    {
-        var prevOffset = data.offset;
-        data.offset = currentOffset;
-        var v = data.readFloat(targetDataType);
-        currentOffset += DataTypeUtils.dataTypeByteSize(targetDataType);
-        data.offset = prevOffset;
-        return v;
-    }
-
-
-    public function readIntArray(count : Int, targetDataType) : Array<Int>
-    {
-        var array = new Array<Int>();
-        for(i in 0...count)
-        {
-            array.push(readInt(targetDataType));
-        }
-        return array;
-    }
-
-    public function readFloatArray(count : Int, targetDataType) : Array<Float>
-    {
-        var array = new Array<Float>();
-        for(i in 0...count)
-        {
-            array.push(readFloat(targetDataType));
-        }
-        return array;
-    }
-
-    public function readAll() : Data
-    {
-        var returningData = new Data(data.offset + data.offsetLength - currentOffset);
-        readIntoData(returningData);
-        return returningData;
-    }
-
-    public function readString(byteCount : Int) : String
-    {
-        var prevOffset = data.offset;
-        var prevOffsetLength = data.offsetLength;
-        data.offset = currentOffset;
-        data.offsetLength = byteCount;
-        var v = data.readString();
-        currentOffset += byteCount;
-        data.offset = prevOffset;
-        data.offsetLength = prevOffsetLength;
-        return v;
-    }
-
-    public function readIntoData(receivingData : Data) : Void
-    {
-        var prevOffset = data.offset;
-        data.offset = currentOffset;
+        data.offsetLength = receivingData.offsetLength;
         receivingData.writeData(data);
         currentOffset += receivingData.offsetLength;
         data.offset = prevOffset;
+        data.offsetLength = prevLength;
+
+        checkEndOfStream();
     }
 
-    public function available() : Bool
+    public function isOnEndOfStream(): Bool
     {
-        return currentOffset < data.offset + data.offsetLength;
+        return true; /// we always have the full extent of the readable data
     }
 
-    public function skip(count : Int) : Void
+    private function checkEndOfStream(): Void
     {
-        currentOffset += count;
+        if (get_bytesAvailable() > 0)
+            return;
+
+        onEndOfStream.dispatch(this);
     }
 
-    public function close() : Void
+    private function get_bytesAvailable(): Int
     {
-        data = null;
+        return data.offsetLength - currentOffset;
+    }
+
+    /// if async, all read operations will return immediately
+    /// can be different per stream subclass, and even within platforms on the same stream class
+    public function isAsync(): Bool
+    {
+        return false;
     }
 }
