@@ -18,4 +18,13 @@ class DataBytesTools
         data.setByteArrayPositionLazily();
         return new Bytes(data.offsetLength, data.byteArray);
     }
+
+    public static function getTypesData(bytes : Bytes) : Data
+    {
+    	var d = new Data(0);
+
+    	d.byteArray = bytes.getData();
+
+    	return d;
+    }
 }

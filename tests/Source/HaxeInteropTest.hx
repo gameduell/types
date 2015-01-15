@@ -91,6 +91,20 @@ class HaxeInteropTest extends unittest.TestCase
         assertEquals(3, bytes.get(8));
         assertEquals(4, bytes.get(12));
         assertEquals(5, bytes.get(16));
+
+        var data2: Data = bytes.getTypesData();
+        assertEquals(1, data2.readInt(DataTypeInt32));
+        data2.offset += 4;
+        assertEquals(2, data2.readInt(DataTypeInt32));
+        data2.offset += 4;
+        assertEquals(3, data2.readInt(DataTypeInt32));
+        data2.offset += 4;
+        assertEquals(4, data2.readInt(DataTypeInt32));
+        data2.offset += 4;
+        assertEquals(5, data2.readInt(DataTypeInt32));
+
+
+
     }
 
     public function testOutputStream()

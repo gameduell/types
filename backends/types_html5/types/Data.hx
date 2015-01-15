@@ -22,14 +22,14 @@ class Data
 	private var _allocedLength : Int;
 
 	public var allocedLength(get, never) : Int;
-	public function get_allocedLength() : Int
+	private function get_allocedLength() : Int
 	{
 		return _allocedLength;
 	}
 
 	public var offset(get, set) : Int;
 
-	public function set_offset(value : Int) : Int
+	private function set_offset(value : Int) : Int
 	{
         if(value == null)
             _offset = 0;
@@ -39,21 +39,21 @@ class Data
 		return _offset;
 	}
 
-	public function get_offset() : Int
+	private function get_offset() : Int
 	{
 		return _offset;
 	}
 
 	public var offsetLength(get, set) : Int;
 
-	public function set_offsetLength(value : Int) : Int
+	private function set_offsetLength(value : Int) : Int
 	{
 		_offsetLength = value;
 
 		return _offsetLength;
 	}
 
-	public function get_offsetLength() : Int
+	private function get_offsetLength() : Int
 	{
 		return _offsetLength;
 	}

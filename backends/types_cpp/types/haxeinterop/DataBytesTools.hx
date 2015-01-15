@@ -23,4 +23,13 @@ class DataBytesTools
         return ::haxe::io::Bytes_obj::__new(data->get_offsetLength(), array);
 	')
     public static function getBytes(data : Data) : Bytes { return null; }
+
+    public static function getTypesData(bytes : Bytes) : Data
+    {
+        var d = new Data(bytes.length);
+        var stream = new HaxeOutputInteropStream(new DataOutputStream(d));
+        stream.writeBytes(bytes, 0, bytes.length);
+
+        return d;
+    }
 }

@@ -198,4 +198,13 @@ class DataBytesTools {
         var slicedBuffer = existingBuffer.slice(data.offset, data.offset + data.offsetLength);
         return cast new ArrayBufferBytes(data.offsetLength, new Uint8Array(slicedBuffer));
     }
+
+    public static function getTypesData(bytes : Bytes) : Data {
+
+        var d = new Data(bytes.length);
+        var stream = new HaxeOutputInteropStream(new DataOutputStream(d));
+        stream.writeBytes(bytes, 0, bytes.length);
+
+        return d;
+    }
 }

@@ -12,4 +12,8 @@ extern class DataBytesTools
 {
     ///creates a copy, use with care for performance
     public static function getBytes(data : Data) : Bytes;
+
+    ///also creates a copy in some platforms
+    ///called like this because bytes already has a getData...
+    public static function getTypesData(bytes : Bytes) : Data;
 }
