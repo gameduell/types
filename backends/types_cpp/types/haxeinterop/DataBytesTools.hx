@@ -29,6 +29,7 @@ class DataBytesTools
         var d = new Data(bytes.length);
         var stream = new HaxeOutputInteropStream(new DataOutputStream(d));
         stream.writeBytes(bytes, 0, bytes.length);
+        d.resetOffset();
 
         return d;
     }
