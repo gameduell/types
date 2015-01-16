@@ -6,15 +6,15 @@ import types.DataType;
 
 class Matrix4
 {
-	public var data(default, null) : Data;
+	public var data(default, null): Data;
 
-	private static var identity : Data;
+	private static var identity: Data;
 
-	public function new() : Void{
+	public function new(): Void{
 		data = new Data(4*4*4);
 	}
 
-	public function setIdentity() : Void 
+	public function setIdentity(): Void
 	{
 		if(identity == null)
 		{

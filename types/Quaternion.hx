@@ -5,9 +5,20 @@ class Quaternion
     public var x: Float = 0.0;
     public var y: Float = 0.0;
     public var z: Float = 0.0;
-    public var w: Float = 1.0;
+    public var w: Float = 0.0;
 
-    public function new() {}
+    public function new(x: Float = 0.0, y: Float = 0.0, z: Float = 0.0, w: Float = 1.0)
+    {
+        setXYZW(x,y,z,w);
+    }
+
+    public function setIdentity(): Void
+    {
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+        w = 1.0;
+    }
 
     public function setXYZW(x: Float, y: Float, z: Float, w: Float): Void
     {
@@ -19,10 +30,10 @@ class Quaternion
 
     public function setOther(quaternion: Quaternion): Void
     {
-        this.x = quaternion.x;
-        this.y = quaternion.y;
-        this.z = quaternion.z;
-        this.w = quaternion.w;
+        x = quaternion.x;
+        y = quaternion.y;
+        z = quaternion.z;
+        w = quaternion.w;
     }
 
     // Order is XYZ
@@ -35,10 +46,10 @@ class Quaternion
         var s2 = Math.sin(euler.y / 2.0);
         var s3 = Math.sin(euler.z / 2.0);
 
-        this.x = s1 * c2 * c3 + c1 * s2 * s3;
-        this.y = c1 * s2 * c3 - s1 * c2 * s3;
-        this.z = c1 * c2 * s3 + s1 * s2 * c3;
-        this.w = c1 * c2 * c3 - s1 * s2 * s3;
+        x = s1 * c2 * c3 + c1 * s2 * s3;
+        y = c1 * s2 * c3 - s1 * c2 * s3;
+        z = c1 * c2 * s3 + s1 * s2 * c3;
+        w = c1 * c2 * c3 - s1 * s2 * s3;
     }
 
     // Assumes axis is normalized
@@ -47,10 +58,10 @@ class Quaternion
         var halfAngle: Float = angle * 0.5;
         var s: Float = Math.sin(halfAngle);
 
-        this.x = axis.x * s;
-        this.y = axis.y * s;
-        this.z = axis.z * s;
-        this.w = Math.cos(halfAngle);
+        x = axis.x * s;
+        y = axis.y * s;
+        z = axis.z * s;
+        w = Math.cos(halfAngle);
     }
 
     // TODO implement in QuaternionMatrix3Tools
@@ -134,19 +145,21 @@ class Quaternion
 
     public function normalize(): Void
     {
-        var length: Float= Quaternion.length(this);
+        var length: Float = Quaternion.length(this);
 
         if (length == 0.0)
         {
-            x = 0.0;
-            y = 0.0;
-            z = 0.0;
-            w = 1.0;
+            setIdentity();
         }
         else
         {
             multiplyScalar(1.0 / length);
         }
+    }
+
+    static public function dotProduct(left: Quaternion, right: Quaternion): Float
+    {
+        return left.x * right.x + left.y * right.y + left.z * right.z + left.w * right.w;
     }
 
     static public function length(quaternion: Quaternion) : Float
@@ -180,10 +193,10 @@ class Quaternion
 
     public function add(quaternion: Quaternion): Void
     {
-        x = x + quaternion.x;
-        y = y + quaternion.y;
-        z = z + quaternion.z;
-        w = w + quaternion.w;
+        x += quaternion.x;
+        y += quaternion.y;
+        z += quaternion.z;
+        w += quaternion.w;
     }
 
     public function multiplyScalar(scalar: Float): Void

@@ -9,16 +9,19 @@ package types;
 
 class AffineTransform
 {
-    public var a:Float = 0.0;
-    public var b:Float = 0.0;
-    public var c:Float = 0.0;
-    public var d:Float = 0.0;
-    public var tx:Float = 0.0;
-    public var ty:Float = 0.0;
+    public var a: Float = 0.0;
+    public var b: Float = 0.0;
+    public var c: Float = 0.0;
+    public var d: Float = 0.0;
+    public var tx: Float = 0.0;
+    public var ty: Float = 0.0;
 
-    public function new() : Void {}
+    public function new(): Void
+    {
+        setIdentity();
+    }
 
-    public function setIdentity() : Void
+    public function setIdentity(): Void
     {
         a = 1.0;
         b = 0.0;
@@ -28,7 +31,7 @@ class AffineTransform
         ty = 0.0;
     }
 
-    public function set(other : AffineTransform) : Void
+    public function set(other: AffineTransform): Void
     {
         a = other.a;
         b = other.b;
@@ -38,7 +41,7 @@ class AffineTransform
         ty = other.ty;
     }
 
-    public function get(index : Int) : Float
+    public function get(index: Int): Float
     {
         switch (index)
         {
@@ -53,13 +56,13 @@ class AffineTransform
         }
     }
 
-    public function translate(_tx:Float, _ty:Float) : Void
+    public function translate(_tx: Float, _ty: Float): Void
     {
         tx += a * _tx + c * _ty;
         ty += b * _tx + d * _ty;
     }
 
-    public function scale(sx:Float, sy:Float) : Void
+    public function scale(sx: Float, sy: Float): Void
     {
         a *= sx;
         b *= sx;
@@ -67,15 +70,15 @@ class AffineTransform
         d *= sy;
     }
 
-    public function rotate(angle:Float) : Void
+    public function rotate(angle: Float): Void
     {
-        var sine:Float = Math.sin(angle);
-        var cosine:Float = Math.cos(angle);
+        var sine: Float = Math.sin(angle);
+        var cosine: Float = Math.cos(angle);
 
-        var ta:Float = a;
-        var tb:Float = b;
-        var tc:Float = c;
-        var td:Float = d;
+        var ta: Float = a;
+        var tb: Float = b;
+        var tc: Float = c;
+        var td: Float = d;
 
         a = ta * cosine + tc * sine;
         b = tb * cosine + td * sine;
@@ -83,14 +86,14 @@ class AffineTransform
         d = td * cosine - tb * sine;
     }
 
-    public function concat(right : AffineTransform) : Void
+    public function concat(right: AffineTransform): Void
     {
-        var leftA:Float = a;
-        var leftB:Float = b;
-        var leftC:Float = c;
-        var leftD:Float = d;
-        var leftTx:Float = tx;
-        var leftTy:Float = ty;
+        var leftA: Float = a;
+        var leftB: Float = b;
+        var leftC: Float = c;
+        var leftD: Float = d;
+        var leftTx: Float = tx;
+        var leftTy: Float = ty;
 
         a = leftA * right.a + leftB * right.c;
         b = leftA * right.b + leftB * right.d;
@@ -100,16 +103,16 @@ class AffineTransform
         ty = leftTx * right.b + leftTy * right.d + right.ty;
     }
 
-    public function invert() : Void
+    public function invert(): Void
     {
-        var ta:Float = a;
-        var tb:Float = b;
-        var tc:Float = c;
-        var td:Float = d;
-        var ttx:Float = tx;
-        var tty:Float = ty;
+        var ta: Float = a;
+        var tb: Float = b;
+        var tc: Float = c;
+        var td: Float = d;
+        var ttx: Float = tx;
+        var tty: Float = ty;
 
-        var determinant:Float = 1.0 / (ta * td - tb * tc);
+        var determinant: Float = 1.0 / (ta * td - tb * tc);
 
         a =  determinant * td;
         b = -determinant * tb;
@@ -119,7 +122,7 @@ class AffineTransform
         ty = determinant * (tb * ttx - ta * tty);
     }
 
-    public function toString() : String
+    public function toString(): String
     {
         return "[" + a + ", " + b + ", " + c + ", " + d + ", " + tx + ", " + ty + "]";
     }

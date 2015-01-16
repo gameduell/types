@@ -3,16 +3,16 @@ import types.Data;
 
 class Matrix4
 {
-    public var data(default, null) : Data;
+    public var data(default, null): Data;
 
-    static private var identity : Data;
-    static private var dataSize:Int = 4;
+    static private var identity: Data;
+    static private var dataSize: Int = 4;
 
     public function new() : Void{
         data = new Data(4*4*4);
     }
 
-    public function setIdentity() : Void
+    public function setIdentity(): Void
     {
         if(identity == null)
         {

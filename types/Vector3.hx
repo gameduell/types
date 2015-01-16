@@ -220,25 +220,32 @@ class Vector3
         z = start.z + ((end.z - start.z) * t);
     }
 
-    public static function length(vector: Vector3): Float
+    static public function length(vector: Vector3): Float
     {
         return Math.sqrt(Vector3.lengthSquared(vector));
     }
 
-    public static function lengthSquared(vector: Vector3): Float
+    static public function lengthSquared(vector: Vector3): Float
     {
         return vector.x * vector.x + vector.y * vector.y + vector.z * vector.z;
     }
 
-    private static var distanceVector3: Vector3 = new Vector3();
+    static public function dotProduct(vectorLeft: Vector3, vectorRight: Vector3): Float
+    {
+        return vectorLeft.x * vectorRight.x + vectorLeft.y * vectorRight.y + vectorLeft.z * vectorRight.z;
+    }
 
-    public static function distance(start: Vector3, end: Vector3): Float
+    static private var distanceVector3: Vector3 = new Vector3();
+
+    static public function distance(start: Vector3, end: Vector3): Float
     {
         distanceVector3.set(end);
         distanceVector3.subtract(start);
 
         return Vector3.length(distanceVector3);
     }
+
+
 
     public function toString() : String
     {

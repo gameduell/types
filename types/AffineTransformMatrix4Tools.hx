@@ -5,7 +5,7 @@ import types.DataType;
 
 class AffineTransformMatrix4Tools
 {
-    static public function setFromMatrix4(affineT : AffineTransform, matrix4 : Matrix4) : Void
+    static public function setFromMatrix4(affineT: AffineTransform, matrix4: Matrix4): Void
     {
         matrix4.data.offset = 0 * 4;
         affineT.a = matrix4.data.readFloat(DataTypeFloat32);
@@ -26,7 +26,7 @@ class AffineTransformMatrix4Tools
         affineT.ty = matrix4.data.readFloat(DataTypeFloat32);
     }
 
-    static public function setFromAffineTransform( matrix4 : Matrix4, affineT : AffineTransform) : Void
+    static public function setFromAffineTransform(matrix4: Matrix4, affineT: AffineTransform): Void
     {
         matrix4.setIdentity();
 
