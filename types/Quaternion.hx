@@ -28,12 +28,12 @@ class Quaternion
         this.w = w;
     }
 
-    public function setOther(quaternion: Quaternion): Void
+    public function set(other: Quaternion): Void
     {
-        x = quaternion.x;
-        y = quaternion.y;
-        z = quaternion.z;
-        w = quaternion.w;
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        w = other.w;
     }
 
     // Order is XYZ
@@ -52,9 +52,9 @@ class Quaternion
         w = c1 * c2 * c3 - s1 * s2 * s3;
     }
 
-    // Assumes axis is normalized
     public function setFromAxisAngle(axis: Vector3, angle: Float): Void
     {
+        axis.normalize();
         var halfAngle: Float = angle * 0.5;
         var s: Float = Math.sin(halfAngle);
 
@@ -63,72 +63,6 @@ class Quaternion
         z = axis.z * s;
         w = Math.cos(halfAngle);
     }
-
-    // TODO implement in QuaternionMatrix3Tools
-    /*
-
-    public function setFromRotationMatrix(matrix: Matrix3): Void
-
-    setFromRotationMatrix: function ( m ) {
-
-		// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
-
-		// assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
-
-		var te = m.elements,
-
-			m11 = te[ 0 ], m12 = te[ 4 ], m13 = te[ 8 ],
-			m21 = te[ 1 ], m22 = te[ 5 ], m23 = te[ 9 ],
-			m31 = te[ 2 ], m32 = te[ 6 ], m33 = te[ 10 ],
-
-			trace = m11 + m22 + m33,
-			s;
-
-		if ( trace > 0 ) {
-
-			s = 0.5 / Math.sqrt( trace + 1.0 );
-
-			this._w = 0.25 / s;
-			this._x = ( m32 - m23 ) * s;
-			this._y = ( m13 - m31 ) * s;
-			this._z = ( m21 - m12 ) * s;
-
-		} else if ( m11 > m22 && m11 > m33 ) {
-
-			s = 2.0 * Math.sqrt( 1.0 + m11 - m22 - m33 );
-
-			this._w = ( m32 - m23 ) / s;
-			this._x = 0.25 * s;
-			this._y = ( m12 + m21 ) / s;
-			this._z = ( m13 + m31 ) / s;
-
-		} else if ( m22 > m33 ) {
-
-			s = 2.0 * Math.sqrt( 1.0 + m22 - m11 - m33 );
-
-			this._w = ( m13 - m31 ) / s;
-			this._x = ( m12 + m21 ) / s;
-			this._y = 0.25 * s;
-			this._z = ( m23 + m32 ) / s;
-
-		} else {
-
-			s = 2.0 * Math.sqrt( 1.0 + m33 - m11 - m22 );
-
-			this._w = ( m21 - m12 ) / s;
-			this._x = ( m13 + m31 ) / s;
-			this._y = ( m23 + m32 ) / s;
-			this._z = 0.25 * s;
-
-		}
-
-		this.onChangeCallback();
-
-		return this;
-
-	},
-
-     */
 
     public function inverse(): Void
     {
@@ -178,10 +112,9 @@ class Quaternion
     }
 
     // Multiplies two quaternions and stores the result in this
+    // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
     public function multiplyQuaternions(left: Quaternion, right: Quaternion): Void
     {
-        // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
-
         var qax = left.x, qay = left.y, qaz = left.z, qaw = left.w;
         var qbx = right.x, qby = right.y, qbz = right.z, qbw = right.w;
 
@@ -214,7 +147,7 @@ class Quaternion
 
     static public function slerp(qa: Quaternion, qb: Quaternion, qout: Quaternion, t: Float): Void
     {
-        qout.setOther(qa);
+        qout.set(qa);
 
         if (t == 0.0)
         {
@@ -222,7 +155,7 @@ class Quaternion
         }
         if (t == 1.0)
         {
-            qout.setOther(qb);
+            qout.set(qb);
             return;
         }
 
@@ -241,7 +174,7 @@ class Quaternion
         }
         else
         {
-            qout.setOther(qb);
+            qout.set(qb);
         }
 
         if (cosHalfTheta >= 1.0)

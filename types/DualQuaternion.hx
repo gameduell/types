@@ -22,16 +22,18 @@ class DualQuaternion
         dual = new Quaternion(0.0, 0.0, 0.0, 0.0);
     }
 
-    public function setOther(other: DualQuaternion): Void
+    public function set(other: DualQuaternion): Void
     {
-        real.setOther(other.real.normalize());
-        dual.setOther(other.dual);
+        other.real.normalize();
+        real.set(other.real);
+        dual.set(other.dual);
     }
 
     public function setFromQuaternions(real: Quaternion, dual: Quaternion): Void
     {
-        real.setOther(real.normalize());
-        dual.setOther(dual);
+        real.normalize();
+        this.real.set(real);
+        this.dual.set(dual);
     }
 
     public function setIdentity(): Void
@@ -42,7 +44,8 @@ class DualQuaternion
 
     public function setPositionAndRotation(position: Vector3, quaternion: Quaternion): Void
     {
-        real.setOther(quaternion.normalize());
+        quaternion.normalize();
+        real.set(quaternion);
 
         dual.setXYZW(position.x, position.y, position.z, 0.0);
         dual.multiply(real);
@@ -60,23 +63,30 @@ class DualQuaternion
 
     public function setRotation(quaternion: Quaternion): Void
     {
-        real.setOther(quaternion.normalize());
+        quaternion.normalize();
+        real.set(quaternion);
         dual.setXYZW(0.0, 0.0, 0.0, 0.0);
     }
 
     public function setRotationX(angle: Float): Void
     {
-        setRotation(workingQuaternionA.setFromAxisAngle(workingVectorA.setXYZ(1.0, 0.0, 0.0), angle));
+        workingVectorA.setXYZ(1.0, 0.0, 0.0);
+        workingQuaternionA.setFromAxisAngle(workingVectorA, angle);
+        setRotation(workingQuaternionA);
     }
 
     public function setRotationY(angle: Float): Void
     {
-        setRotation(workingQuaternionA.setFromAxisAngle(workingVectorA.setXYZ(0.0, 1.0, 0.0), angle));
+        workingVectorA.setXYZ(0.0, 1.0, 0.0);
+        workingQuaternionA.setFromAxisAngle(workingVectorA, angle);
+        setRotation(workingQuaternionA);
     }
 
     public function setRotationZ(angle: Float): Void
     {
-        setRotation(workingQuaternionA.setFromAxisAngle(workingVectorA.setXYZ(0.0, 0.0, 1.0), angle));
+        workingVectorA.setXYZ(0.0, 0.0, 1.0);
+        workingQuaternionA.setFromAxisAngle(workingVectorA, angle);
+        setRotation(workingQuaternionA);
     }
 
     public function getRotation(): Quaternion
@@ -128,9 +138,11 @@ class DualQuaternion
 
     public function getTranslation(out: Vector3): Void
     {
-        workingQuaternionB.setOther(dual);
-        workingQuaternionC.setOther(real);
-        workingQuaternionA.multiplyQuaternions(workingQuaternionB.multiplyScalar(2.0), workingQuaternionC.conjugate());
+        workingQuaternionB.set(dual);
+        workingQuaternionC.set(real);
+        workingQuaternionC.conjugate();
+        workingQuaternionB.multiplyScalar(2.0);
+        workingQuaternionA.multiplyQuaternions(workingQuaternionB, workingQuaternionC);
         out.x = workingQuaternionA.x;
         out.y = workingQuaternionA.y;
         out.z = workingQuaternionA.z;
@@ -138,7 +150,8 @@ class DualQuaternion
 
     public function setTranslation(translation: Vector3): Void
     {
-        dual.multiplyQuaternions(workingQuaternionA.setXYZW(translation.x, translation.y, translation.z, 0.0), real);
+        workingQuaternionA.setXYZW(translation.x, translation.y, translation.z, 0.0);
+        dual.multiplyQuaternions(workingQuaternionA, real);
         dual.multiplyScalar(0.5);
     }
 
@@ -157,8 +170,8 @@ class DualQuaternion
     // Multiplies two dual quaternions and stores the result in this
     public function multiplyDualQuaternions(q1: DualQuaternion, q2: DualQuaternion): Void
     {
-        workingDualQuaternionA.setOther(q1);
-        workingDualQuaternionB.setOther(q2);
+        workingDualQuaternionA.set(q1);
+        workingDualQuaternionB.set(q2);
 
         workingDualQuaternionA.normalize();
         workingDualQuaternionB.normalize();
@@ -167,7 +180,8 @@ class DualQuaternion
         real.normalize();
 
         dual.multiplyQuaternions(workingDualQuaternionA.real, workingDualQuaternionB.dual);
-        dual.add(workingQuaternionA.multiplyQuaternions(workingDualQuaternionA.dual, workingDualQuaternionB.real));
+        workingQuaternionA.multiplyQuaternions(workingDualQuaternionA.dual, workingDualQuaternionB.real);
+        dual.add(workingQuaternionA);
     }
 
     public function setFromAxisAngleAndTranslation(axis: Vector3, angle: Float, translation: Vector3): Void
@@ -203,7 +217,7 @@ class DualQuaternion
         dual.conjugate();
     }
 
-    static public function dotProduct(left: DualQuaternion, right: DualQuaternion): Void
+    static public function dotProduct(left: DualQuaternion, right: DualQuaternion): Float
     {
         return Quaternion.dotProduct(left.real, right.real);
     }
@@ -212,12 +226,13 @@ class DualQuaternion
     {
         var dot: Float = DualQuaternion.dotProduct(qa, qb);
 
-        workingDualQuaternionA.setOther(qa);
+        workingDualQuaternionA.set(qa);
         workingDualQuaternionA.conjugate();
+
+        workingDualQuaternionB.set(qb);
 
         if (dot < 0.0)
         {
-            workingDualQuaternionB.setOther(qb);
             workingDualQuaternionB.multiplyScalar(-1.0);
         }
 

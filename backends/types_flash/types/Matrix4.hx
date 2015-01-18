@@ -48,14 +48,17 @@ class Matrix4
         var m01:Float = 0.0;
         var m02:Float = 0.0;
         var m03:Float = 0.0;
+
         var m04:Float = 0.0;
         var m05:Float = 2.0 / tsb;
         var m06:Float = 0.0;
         var m07:Float = 0.0;
+
         var m08:Float = 0.0;
         var m09:Float = 0.0;
         var m10:Float = 1.0 / nsf;
         var m11:Float = 0.0;
+
         var m12:Float = -ral / rsl;     // Offset x
         var m13:Float = -tab / tsb;     // Offset y
         var m14:Float = zNear / nsf;
@@ -101,7 +104,72 @@ class Matrix4
         data.offset = oldOffset;
     }
 
-    public function set2D( posX : Float, posY : Float, scale : Float,rotation : Float) : Void
+    public function setPerspectiveFov(fovy: Float, aspect: Float, zNear: Float, zFar: Float): Void
+    {
+        var yScale: Float = 1.0 / Math.tan(fovy / 2.0);
+        var xScale: Float = yScale / aspect;
+
+        var oldOffset = data.offset;
+
+        var m00: Float = xScale;
+        var m01: Float = 0.0;
+        var m02: Float = 0.0;
+        var m03: Float = 0.0;
+
+        var m04: Float = 0.0;
+        var m05: Float = yScale;
+        var m06: Float = 0.0;
+        var m07: Float = 0.0;
+
+        var m08: Float = 0.0;
+        var m09: Float = 0.0;
+        var m10: Float = zFar/(zNear-zFar);
+        var m11: Float = (zFar*zNear)/(zNear-zFar);
+
+        var m12: Float = 0.0;
+        var m13: Float = 0.0;
+        var m14: Float = -1.0;
+        var m15: Float = 0.0;
+
+        var counter:Int = 0;
+
+        data.offset = counter;
+        data.writeFloat(m00,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m01,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m02,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m03,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m04,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m05,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m06,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m07,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m08,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m09,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m10,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m11,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m12,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m13,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m14,        DataTypeFloat32);
+        data.offset = dataSize * ++counter;
+        data.writeFloat(m15,        DataTypeFloat32);
+
+        data.offset = oldOffset;
+    }
+
+    public function set2D(posX: Float, posY: Float, scale: Float, rotation: Float): Void
     {
         var oldOffset = data.offset;
 
@@ -113,14 +181,17 @@ class Matrix4
         var m01:Float = -s * scale;
         var m02:Float = 0.0;
         var m03:Float = 0.0;
+
         var m04:Float = s * scale;
         var m05:Float = c * scale;
         var m06:Float = 0.0;
         var m07:Float = 0.0;
+
         var m08:Float = 0.0;
         var m09:Float = 0.0;
         var m10:Float = 1.0;
         var m11:Float = 0.0;
+
         var m12:Float = posX;
         var m13:Float = posY;
         var m14:Float = 0.0;

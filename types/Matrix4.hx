@@ -15,6 +15,11 @@ extern class Matrix4
 						    zNear: Float,
 							 zFar: Float): Void;
 
+	public function setPerspectiveFov(fovy: Float,
+									aspect: Float,
+									 zNear: Float,
+									  zFar: Float): Void;
+
 	public function set2D(posX: Float,
 						  posY: Float,
 						  scale: Float,

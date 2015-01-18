@@ -30,32 +30,35 @@ class Matrix4
 	}
 
     /// http://msdn.microsoft.com/de-de/library/windows/desktop/bb205349(v=vs.85).aspx
-    public function setOrtho(left : Float, right : Float, bottom : Float, top : Float, zNear : Float, zFar : Float) : Void
+    public function setOrtho(left: Float, right: Float, bottom: Float, top: Float, zNear: Float, zFar: Float): Void
     {
         var floatView = data.float32Array;
 
-        var ral:Float = right + left;
-        var rsl:Float = right - left;
-        var tab:Float = top + bottom;
-        var tsb:Float = top - bottom;
-        var nsf:Float = zNear - zFar;
+        var ral: Float = right + left;
+        var rsl: Float = right - left;
+        var tab: Float = top + bottom;
+        var tsb: Float = top - bottom;
+        var nsf: Float = zNear - zFar;
 
-        var m00:Float = 2.0 / rsl;
-        var m01:Float = 0.0;
-        var m02:Float = 0.0;
-        var m03:Float = 0.0;
-        var m04:Float = 0.0;
-        var m05:Float = 2.0 / tsb;
-        var m06:Float = 0.0;
-        var m07:Float = 0.0;
-        var m08:Float = 0.0;
-        var m09:Float = 0.0;
-        var m10:Float = 1.0 / nsf;
-        var m11:Float = 0.0;
-        var m12:Float = -ral / rsl;     // Offset x
-        var m13:Float = -tab / tsb;     // Offset y
-        var m14:Float = zNear / nsf;
-        var m15:Float = 1.0;
+        var m00: Float = 2.0 / rsl;
+        var m01: Float = 0.0;
+        var m02: Float = 0.0;
+        var m03: Float = 0.0;
+
+        var m04: Float = 0.0;
+        var m05: Float = 2.0 / tsb;
+        var m06: Float = 0.0;
+        var m07: Float = 0.0;
+
+        var m08: Float = 0.0;
+        var m09: Float = 0.0;
+        var m10: Float = 1.0 / nsf;
+        var m11: Float = 0.0;
+
+        var m12: Float = -ral / rsl;     // Offset x
+        var m13: Float = -tab / tsb;     // Offset y
+        var m14: Float = zNear / nsf;
+        var m15: Float = 1.0;
 
         // Write Right Handed / Transposed
 
@@ -80,10 +83,35 @@ class Matrix4
         floatView[15] = m15;
     }
 
-	public function set2D(	posX : Float, 
-							posY : Float, 
-							scale : Float, 
-							rotation : Float) : Void 
+	public function setPerspectiveFov(fovy: Float, aspect: Float, zNear: Float, zFar: Float): Void
+	{
+		var floatView = data.float32Array;
+
+		var yScale: Float = 1.0 / Math.tan(fovy / 2.0);
+		var xScale: Float = yScale / aspect;
+
+		floatView[0] = xScale;
+		floatView[1] = 0.0;
+		floatView[2] = 0.0;
+		floatView[3] = 0.0;
+
+		floatView[4] = 0.0;
+		floatView[5] = yScale;
+		floatView[6] = 0.0;
+		floatView[7] = 0.0;
+
+		floatView[8] = 0.0;
+		floatView[9] = 0.0;
+		floatView[10] = zFar/(zNear-zFar);
+		floatView[11] = (zFar*zNear)/(zNear-zFar);
+
+		floatView[12] = 0.0;
+		floatView[13] = 0.0;
+		floatView[14] = -1.0;
+		floatView[15] = 0.0;
+	}
+
+	public function set2D(posX: Float, posY: Float, scale: Float, rotation: Float): Void
 	{ 
 		var floatView = data.float32Array;
 

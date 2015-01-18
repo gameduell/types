@@ -50,6 +50,18 @@ inline UTKMatrix4 UTKMatrix4MakeOrtho(	float left, float right,
     return m;
 }
 
+inline UTKMatrix4 UTKMatrix4MakePerspectiveFov(float fovy, float aspect, float zNear, float zFar)
+{
+	float yScale = 1.0f / ::Math_obj::tan(fovy / 2.0f);
+	float xScale = yScale / aspect;
+
+    UTKMatrix4 m = { xScale    , 0.0f      , 0.0f       , 0.0f,
+                     0.0f      , yScale    , 0.0f       , 0.0f,
+                     0.0f      , 0.0f      , zFar/(zNear-zFar) , (zFar*zNear)/(zNear-zFar),
+                     0.0f      , 0.0f      ,  -1.0f      , 0.0f };
+    return m;
+}
+
 inline UTKMatrix4 UTKMatrix4Make2D(	float translateX, float translateY,
         		                    float scale, float rotation)
 {	
@@ -300,7 +312,15 @@ class Matrix4
 								y0 : Float, 
 								y1 : Float, 
 								zNear : Float, 
-								zFar : Float) : Void { }
+								zFar : Float): Void { }
+
+	@:functionCode('
+		_matrixData = UTKMatrix4MakePerspectiveFov(fovy, aspect, zNear, zFar);
+	')
+	public function setPerspectiveFov(fovy: Float,
+									  aspect: Float,
+									  zNear: Float,
+									  zFar: Float): Void { }
 
 	@:functionCode('
 		_matrixData = UTKMatrix4Make2D(posX, posY, scale, rotation);
