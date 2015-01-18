@@ -18,7 +18,6 @@ class AffineTransform
 
     public function new(): Void
     {
-        setIdentity();
     }
 
     public function setIdentity(): Void

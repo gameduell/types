@@ -7,9 +7,8 @@ class Quaternion
     public var z: Float = 0.0;
     public var w: Float = 0.0;
 
-    public function new(x: Float = 0.0, y: Float = 0.0, z: Float = 0.0, w: Float = 1.0)
+    public function new()
     {
-        setXYZW(x,y,z,w);
     }
 
     public function setIdentity(): Void

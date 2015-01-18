@@ -18,8 +18,9 @@ class DualQuaternion
 
     public function new()
     {
-        real = new Quaternion(0.0, 0.0, 0.0, 1.0);
-        dual = new Quaternion(0.0, 0.0, 0.0, 0.0);
+        real = new Quaternion();
+        real.setIdentity();
+        dual = new Quaternion();
     }
 
     public function set(other: DualQuaternion): Void
