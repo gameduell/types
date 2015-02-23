@@ -24,13 +24,13 @@ class DataBytesTools
 	')
     public static function getBytes(data : Data) : Bytes { return null; }
 
-    public static function getTypesData(bytes : Bytes) : Data
-    {
-        var d = new Data(bytes.length);
-        var stream = new HaxeOutputInteropStream(new DataOutputStream(d));
-        stream.writeBytes(bytes, 0, bytes.length);
-        d.resetOffset();
+    @:functionCode('
+        ::types::Data d = ::types::Data_obj::__new((int)0);
+
+        d->_nativeData->setupWithExistingPointer((uint8_t *)bytes->b->GetBase(), bytes->length);
 
         return d;
-    }
+    ')
+    public static function getTypesData(bytes : Bytes) : Data{ return null; }
+
 }

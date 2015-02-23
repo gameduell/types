@@ -201,11 +201,10 @@ class DataBytesTools {
 
     public static function getTypesData(bytes : Bytes) : Data {
 
-        var d = new Data(bytes.length);
-        var stream = new HaxeOutputInteropStream(new DataOutputStream(d));
-        stream.writeBytes(bytes, 0, bytes.length);
-        d.resetOffset();
+        var data = new Data(0);
+        var uint8array = new js.html.Uint8Array(bytes.getData());
+        data.arrayBuffer = uint8array.buffer;
 
-        return d;
+        return data;
     }
 }
