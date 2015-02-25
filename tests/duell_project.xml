@@ -7,8 +7,8 @@
 
 	<source path="Source" />
 
-	<duelllib name="duellkit" version="1.*.*" />
-	<duelllib name="unittest" version="2.*.*" />
+	<duelllib name="duellkit" version="1.0.0+" />
+	<duelllib name="unittest" version="2.0.0+" />
 	<duelllib name="types" version="master" />
 
 </project>
