@@ -344,15 +344,26 @@ class Data
 	/// CONSTRUCTOR
 	public function new(sizeInBytes : Int) : Void
 	{
+        lazyLoadNativeData();
+
 		setupHaxeNativeData();
-		if(sizeInBytes != 0)
+
+		if (sizeInBytes != 0)
 		{
 			setup(sizeInBytes);
 		}
 	}
 
 	public var nativeData : Dynamic;
-	public static var nativedata_createNativeData = Lib.load ("nativedata", "nativedata_createNativeData", 0);
+    private static var nativedata_createNativeData = null;
+
+    private function lazyLoadNativeData(): Void
+    {
+        if (nativedata_createNativeData == null)
+        {
+            nativedata_createNativeData = Lib.load("nativedata", "nativedata_createNativeData", 0);
+        }
+    }
 
 	@:functionCode("
 		nativeData = nativedata_createNativeData();
