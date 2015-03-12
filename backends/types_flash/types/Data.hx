@@ -5,6 +5,8 @@ import types.DataType;
 
 class Data
 {
+    public var internalOffset(get, null) : Int;
+    private function get_internalOffset():Int{return 0;}
 
     public var offset(default, default) : Int;
 
