@@ -4,7 +4,7 @@
 	<platform-config>
 
 		<html5>
-			<js-source path="dependencies/StringView/stringview.js" />
+			<js-source path="dependencies/StringView/stringview.js"/>
 		</html5>
 
 	</platform-config>

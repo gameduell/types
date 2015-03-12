@@ -24,6 +24,8 @@ class AffineTransformMatrix4Tools
 
         matrix4.data.offset = 7 * 4;
         affineT.ty = matrix4.data.readFloat(DataTypeFloat32);
+        
+        matrix4.data.offset = 0;
     }
 
     static public function setFromAffineTransform(matrix4: Matrix4, affineT: AffineTransform): Void
@@ -47,5 +49,7 @@ class AffineTransformMatrix4Tools
 
         matrix4.data.offset = 7 * 4;
         matrix4.data.writeFloat(affineT.ty, DataTypeFloat32);
+
+        matrix4.data.offset = 0;
     }
 }

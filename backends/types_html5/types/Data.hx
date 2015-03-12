@@ -17,9 +17,9 @@ import js.html.StringView;
 
 class Data
 {
-	private var _offset : Int;
-	private var _offsetLength : Int;
-	private var _allocedLength : Int;
+	private var _offset : Int = 0;
+	private var _offsetLength : Int = 0;
+	private var _allocedLength : Int = 0;
 
 	public var allocedLength(get, never) : Int;
 	private function get_allocedLength() : Int
