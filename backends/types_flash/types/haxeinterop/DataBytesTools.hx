@@ -6,6 +6,7 @@
  */
 package types.haxeinterop;
 
+import flash.utils.ByteArray;
 import haxe.io.Bytes;
 
 @:access(types.Data)
@@ -15,16 +16,13 @@ class DataBytesTools
     ///creates a copy, use with care for performance
     public static function getBytes(data : Data) : Bytes
     {
-        data.setByteArrayPositionLazily();
-        return new Bytes(data.offsetLength, data.byteArray);
+        return data.getBytes();
     }
 
     public static function getTypesData(bytes : Bytes) : Data
     {
     	var d = new Data(0);
-
     	d.byteArray = bytes.getData();
-
     	return d;
     }
 }

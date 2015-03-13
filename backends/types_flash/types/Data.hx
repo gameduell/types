@@ -1,20 +1,18 @@
 package types;
+import haxe.io.Bytes;
 import flash.utils.Endian;
 import flash.utils.ByteArray;
 import types.DataType;
 
 class Data
 {
+    public var offsetLength(default, default) : Int;
+    public var allocedLength(default, null) : Int;
+    @:isVar public var byteArray(get, set) : ByteArray;
+    @:isVar public var offset(get, set) : Int;
     public var internalOffset(get, null) : Int;
     private function get_internalOffset():Int{return 0;}
 
-    public var offset(default, default) : Int;
-
-    public var offsetLength(default, default) : Int;
-
-    public var allocedLength(default, null) : Int;
-
-    public var byteArray(default, set) : ByteArray;
     private var _internalByteArrayOffset : Int = 0;
 
     public function resetOffset() : Void
@@ -31,9 +29,13 @@ class Data
             newByteArray.endian = Endian.LITTLE_ENDIAN;
             newByteArray.length = sizeInBytes;
             newByteArray.position = 0;
-
             set_byteArray(newByteArray);
         }
+    }
+
+    private function get_byteArray() : ByteArray
+    {
+        return byteArray;
     }
 
     private function set_byteArray(value : ByteArray) : ByteArray
@@ -378,5 +380,21 @@ class Data
         newBuffer.position = 0;
 
         set_byteArray(newBuffer);
+    }
+
+    private function set_offset(value:Int):Int
+    {
+       offset = value;
+       return offset;
+    }
+
+    private function get_offset():Int
+    {
+        return offset;
+    }
+
+    public function getBytes():Bytes
+    {
+        return Bytes.ofData(byteArray);
     }
 }
