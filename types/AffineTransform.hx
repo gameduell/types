@@ -9,6 +9,11 @@ package types;
 
 class AffineTransform
 {
+    /*
+    [ a c 0]
+    [ b d 0]
+    [ x y 1]
+    */
     public var a: Float = 0.0;
     public var b: Float = 0.0;
     public var c: Float = 0.0;
@@ -57,15 +62,15 @@ class AffineTransform
 
     public function translate(_tx: Float, _ty: Float): Void
     {
-        tx += a * _tx + c * _ty;
-        ty += b * _tx + d * _ty;
+        tx += a * _tx + b * _ty;
+        ty += c * _tx + d * _ty;
     }
 
     public function scale(sx: Float, sy: Float): Void
     {
         a *= sx;
-        b *= sx;
-        c *= sy;
+        b *= sy;
+        c *= sx;
         d *= sy;
     }
 
@@ -79,10 +84,10 @@ class AffineTransform
         var tc: Float = c;
         var td: Float = d;
 
-        a = ta * cosine + tc * sine;
-        b = tb * cosine + td * sine;
-        c = tc * cosine - ta * sine;
-        d = td * cosine - tb * sine;
+        a = ta * cosine + tb * sine;
+        b = ta * (-sine) + tb * cosine;
+        c = tc * cosine + td * sine;
+        d = tc * (-sine) + td * cosine;
     }
 
     public function concat(right: AffineTransform): Void
