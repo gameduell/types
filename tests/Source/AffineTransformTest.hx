@@ -34,14 +34,14 @@ class AffineTransformTest extends unittest.TestCase
     public function testCreation()
     {
         var aTransform = new AffineTransform();
-        assertAffineTransform([0, 0, 0, 0, 0, 0], aTransform);
+        assertAffineTransform([1, 0, 0, 0, 1, 0], aTransform);
     }
 
     public function testIdentity()
     {
         var aTransform = new AffineTransform();
         aTransform.setIdentity();
-        assertAffineTransform([1, 0, 0, 1, 0, 0], aTransform);
+        assertAffineTransform([1, 0, 0, 0, 1, 0], aTransform);
     }
 
     public function testSet()
@@ -55,12 +55,12 @@ class AffineTransformTest extends unittest.TestCase
         aTransform.tx = 42.0;
         aTransform.ty = 24.0;
 
-        assertAffineTransform([0, 0, 0, 0, 42, 24], aTransform);
+        assertAffineTransform([0, 0, 42, 0, 0, 24], aTransform);
 
         var bTransform = new AffineTransform();
 
         bTransform.set(aTransform);
-        assertAffineTransform([0, 0, 0, 0, 42, 24], bTransform);
+        assertAffineTransform([0, 0, 42, 0, 0, 24], bTransform);
     }
 
     public function testSetFromMatrix4()
@@ -71,7 +71,7 @@ class AffineTransformTest extends unittest.TestCase
         var aTransform = new AffineTransform();
         aTransform.setFromMatrix4(aMatrix);
 
-        assertAffineTransform([1, 0, 0, 1, 42, 24], aTransform);
+        assertAffineTransform([1, 0, 42, 0, 1, 24], aTransform);
     }
 
     public function testTranslate()
@@ -80,7 +80,7 @@ class AffineTransformTest extends unittest.TestCase
         aTransform.setIdentity();
 
         aTransform.translate(42, 24);
-        assertAffineTransform([1, 0, 0, 1, 42, 24], aTransform);
+        assertAffineTransform([1, 0, 42, 0, 1, 24], aTransform);
     }
 
     public function testScale()
@@ -89,7 +89,7 @@ class AffineTransformTest extends unittest.TestCase
         aTransform.setIdentity();
 
         aTransform.scale(2,2);
-        assertAffineTransform([2, 0, 0, 2, 0, 0], aTransform);
+        assertAffineTransform([2, 0, 0, 0, 2, 0], aTransform);
     }
 
     public function testRotation()
@@ -97,14 +97,14 @@ class AffineTransformTest extends unittest.TestCase
         var aTransform = new AffineTransform();
         aTransform.setIdentity();
 
-        aTransform.rotate(Math.PI);
-        assertAffineTransform([-1, 0, 0, -1, 0, 0], aTransform);
+        aTransform.rotate(-Math.PI);
+        assertAffineTransform([-1, 0, 0, 0, -1, 0], aTransform);
 
-        aTransform.rotate(Math.PI/2);
-        assertAffineTransform([0, -1, 1, 0, 0, 0], aTransform);
+        aTransform.rotate(-Math.PI/2);
+        assertAffineTransform([0, -1, 0, 1, 0, 0], aTransform);
 
-        aTransform.rotate(Math.PI/2);
-        assertAffineTransform([1, 0, 0, 1, 0, 0], aTransform);
+        aTransform.rotate(-Math.PI/2);
+        assertAffineTransform([1, 0, 0, 0, 1, 0], aTransform);
     }
 
     public function testConcat()
@@ -117,8 +117,8 @@ class AffineTransformTest extends unittest.TestCase
         bTransform.setIdentity();
         bTransform.scale(2,2);
 
-        bTransform.concat(aTransform);
-        assertAffineTransform([2, 0, 0, 2, 42, 24], bTransform);
+        bTransform.preMultiply(aTransform);
+        assertAffineTransform([2, 0, 42, 0, 2, 24], bTransform);
     }
 
     public function testInvert()
@@ -129,7 +129,6 @@ class AffineTransformTest extends unittest.TestCase
 
         aTransform.invert();
 
-        assertAffineTransform([1, 0, 0, 1, -42, -24], aTransform);
+        assertAffineTransform([1, 0, -42, 0, 1, -24], aTransform);
     }
-
 }
