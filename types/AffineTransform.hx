@@ -26,13 +26,13 @@ class AffineTransform
 
     @:deprecated
     public var b(get, set): Float;
-    inline private function set_b(value: Float): Float {m01 = value; return m01;}
-    inline private function get_b(): Float {return m01;}
+    inline private function set_b(value: Float): Float {m10 = value; return m10;}
+    inline private function get_b(): Float {return m10;}
 
     @:deprecated
     public var c(get, set): Float;
-    inline private function set_c(value: Float): Float {m10 = value; return m10;}
-    inline private function get_c(): Float {return m10;}
+    inline private function set_c(value: Float): Float {m01 = value; return m01;}
+    inline private function get_c(): Float {return m01;}
 
     @:deprecated
     public var d(get, set): Float;
@@ -48,6 +48,12 @@ class AffineTransform
     public var ty(get, set): Float;
     inline private function set_ty(value: Float): Float {m12 = value; return m12;}
     inline private function get_ty(): Float {return m12;}
+
+    @:deprecated
+    public function concat(right: AffineTransform): Void
+    {
+        preMultiply(right);
+    }
 
     /** Constructs an identity matrix. */
     public function new(): Void
@@ -351,12 +357,6 @@ class AffineTransform
         m10 = tmp10;
         m11 = tmp11;
         m12 = tmp12;
-    }
-
-    @:deprecated
-    public function concat(right: AffineTransform): Void
-    {
-        multiply(right);
     }
 
     public function toString(): String
