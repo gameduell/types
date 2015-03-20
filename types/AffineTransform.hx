@@ -19,7 +19,25 @@ class AffineTransform
     public var m11: Float = 1.0; // d
     public var m12: Float = 0.0; // y
 
+    @:deprecated
+    public var a(get, set): Float;
+    inline private function set_a(value: Float): Float {m00 = value; return m00;}
+    inline private function get_a(): Float {return m00;}
 
+    @:deprecated
+    public var b(get, set): Float;
+    inline private function set_b(value: Float): Float {m01 = value; return m01;}
+    inline private function get_b(): Float {return m01;}
+
+    @:deprecated
+    public var c(get, set): Float;
+    inline private function set_c(value: Float): Float {m10 = value; return m10;}
+    inline private function get_c(): Float {return m10;}
+
+    @:deprecated
+    public var d(get, set): Float;
+    inline private function set_d(value: Float): Float {m11 = value; return m11;}
+    inline private function get_d(): Float {return m11;}
 
     @:deprecated
     public var tx(get, set): Float;
