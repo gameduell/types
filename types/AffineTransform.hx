@@ -133,6 +133,48 @@ class AffineTransform
         }
     }
 
+    /** Same as above, but allows to flip */
+    public function setTranslationRotationScaleFlip(x: Float, y: Float, radians: Float, scaleX: Float, scaleY: Float, flipX: Bool, flipY: Bool): Void
+    {
+        m02 = x;
+        m12 = y;
+
+        if (radians == 0.0)
+        {
+            m00 = flipX ? -scaleX : scaleX;
+            m01 = 0.0;
+            m10 = 0.0;
+            m11 = flipY ? -scaleY : scaleY;
+        }
+        else
+        {
+            var sin = Math.sin(radians);
+            var cos = Math.cos(radians);
+
+            if (flipX)
+            {
+                m00 = -cos * scaleX;
+                m01 = sin * scaleY;
+            }
+            else
+            {
+                m00 = cos * scaleX;
+                m01 = -sin * scaleY;
+            }
+
+            if (flipY)
+            {
+                m10 = -sin * scaleX;
+                m11 = -cos * scaleY;
+            }
+            else
+            {
+                m10 = sin * scaleX;
+                m11 = cos * scaleY;
+            }
+        }
+    }
+
 
     public function get(index: Int): Float
     {
