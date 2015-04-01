@@ -387,7 +387,12 @@ class Data
 	}
 
 	public function toString(?dataType : DataType) : String
-	{ 
+	{
+		if(dataType == null)
+		{
+			dataType = DataTypeInt32;
+		}
+
 		var output = "";
 		output += "[";
 
