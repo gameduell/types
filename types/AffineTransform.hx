@@ -8,10 +8,10 @@ package types;
 class AffineTransform
 {
     /* Column major
-    [ m00 m10  0] x
-    [ m01 m11  0] y
+    [ m00 m10  0]
+    [ m01 m11  0]
     [ m02 m12  1]
-    */
+    * x   y      */
     public var m00: Float = 1.0; // a
     public var m01: Float = 0.0; // b
     public var m02: Float = 0.0; // x

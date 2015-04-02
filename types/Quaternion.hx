@@ -51,10 +51,97 @@ class Quaternion
         w = c1 * c2 * c3 - s1 * s2 * s3;
     }
 
-    public function setFromAxisAngle(axis: Vector3, angle: Float): Void
+    public function getEulerRotation(out: Vector3): Void
+    {
+        var ex: Float;
+        var ey: Float;
+        var ez: Float;
+
+        var sqw = w * w;
+        var sqx = x * x;
+        var sqy = y * y;
+        var sqz = z * z;
+        var unit = sqx + sqy + sqz + sqw; // if normalized is one, otherwise is correction factor
+
+        var test = x * y + z * w;
+
+        if (test > 0.499 * unit) // singularity at north pole
+        {
+            ey = 2 * Math.atan2( x, w );
+            ez = Math.PI * 0.5;
+            ex = 0;
+        }
+        else if (test < - 0.499 * unit) // singularity at south pole
+        {
+            ey = -2 * Math.atan2( x, w );
+            ez = -Math.PI * 0.5;
+            ex = 0;
+        }
+        else
+        {
+            ey = Math.atan2( 2 * y * w - 2 * x * z, sqx - sqy - sqz + sqw );
+            ez = Math.asin( 2 * test / unit );
+            ex = Math.atan2( 2 * x * w - 2 * y * z, -sqx + sqy - sqz + sqw );
+        }
+
+        out.setXYZ(ex, ey, ez);
+    }
+
+    public function setRotationX(radians: Float): Void
+    {
+        var halfAngle = radians * 0.5;
+        x = Math.sin(halfAngle);
+        y = 0.0;
+        z = 0.0;
+        w = Math.cos(halfAngle);
+    }
+
+    public function setRotationY(radians: Float): Void
+    {
+        var halfAngle = radians * 0.5;
+        x = 0.0;
+        y = Math.sin(halfAngle);
+        z = 0.0;
+        w = Math.cos(halfAngle);
+    }
+
+    public function setRotationZ(radians: Float): Void
+    {
+        var halfAngle = radians * 0.5;
+        x = 0.0;
+        y = 0.0;
+        z = Math.sin(halfAngle);
+        w = Math.cos(halfAngle);
+    }
+
+    public function getRotationZ(): Float
+    {
+        var sqw = w * w;
+        var sqx = x * x;
+        var sqy = y * y;
+        var sqz = z * z;
+        var unit = sqx + sqy + sqz + sqw; // if normalized is one, otherwise is correction factor
+
+        var test = x * y + z * w;
+
+        if (test > 0.499 * unit) // singularity at north pole
+        {
+            return Math.PI * 0.5;
+        }
+        else if (test < - 0.499 * unit) // singularity at south pole
+        {
+            return -Math.PI * 0.5;
+        }
+        else
+        {
+            return Math.asin(2.0 * test / unit);
+        }
+    }
+
+    public function setFromAxisAngle(axis: Vector3, radians: Float): Void
     {
         axis.normalize();
-        var halfAngle: Float = angle * 0.5;
+        var halfAngle: Float = radians * 0.5;
         var s: Float = Math.sin(halfAngle);
 
         x = axis.x * s;

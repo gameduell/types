@@ -1,5 +1,6 @@
 package types;
 
+import types.Matrix3;
 import types.Data;
 import types.DataType;
 
@@ -185,5 +186,126 @@ class DualQuaternionMatrix4Tools
 
         matrix4.data.offset = 15 * 4;
         matrix4.data.writeFloat(m44, DataTypeFloat32);
+    }
+
+    static public function setFromDualQuaternionWithScaleMatrix(matrix4: Matrix4, dualQuaternion: DualQuaternion, scale: Matrix3): Void
+    {
+        dualQuaternion.normalize();
+        dualQuaternion.getTranslation(translation);
+
+        var x: Float = dualQuaternion.real.x;
+        var y: Float = dualQuaternion.real.y;
+        var z: Float = dualQuaternion.real.z;
+        var w: Float = dualQuaternion.real.w;
+
+        var _2x: Float = x + x;
+        var _2y: Float = y + y;
+        var _2z: Float = z + z;
+        var _2w: Float = w + w;
+
+        var m00: Float = (1.0 - _2y * y - _2z * z);
+        var m01: Float = (_2x * y + _2w * z);
+        var m02: Float = (_2x * z - _2w * y);
+        var m03: Float = 0.0;
+
+        var m10: Float = (_2x * y - _2w * z);
+        var m11: Float = (1.0 - _2x * x - _2z * z);
+        var m12: Float = (_2y * z + _2w * x);
+        var m13: Float = 0.0;
+
+        var m20: Float = (_2x * z + _2w * y);
+        var m21: Float = (_2y * z - _2w * x);
+        var m22: Float = (1.0 - _2x * x - _2y * y);
+        var m23: Float = 0.0;
+
+        var m30: Float = translation.x;
+        var m31: Float = translation.y;
+        var m32: Float = translation.z;
+        var m33: Float = 1.0;
+
+        // Multiply scale
+
+        var tmp00 = m00 * scale.m00 + m01 * scale.m10 + m02 * scale.m20;
+        var tmp01 = m00 * scale.m01 + m01 * scale.m11 + m02 * scale.m21;
+        var tmp02 = m00 * scale.m02 + m01 * scale.m12 + m02 * scale.m22;
+
+        var tmp10 = m10 * scale.m00 + m11 * scale.m10 + m12 * scale.m20;
+        var tmp11 = m10 * scale.m01 + m11 * scale.m11 + m12 * scale.m21;
+        var tmp12 = m10 * scale.m02 + m11 * scale.m12 + m12 * scale.m22;
+
+        var tmp20 = m20 * scale.m00 + m21 * scale.m10 + m22 * scale.m20;
+        var tmp21 = m20 * scale.m01 + m21 * scale.m11 + m22 * scale.m21;
+        var tmp22 = m20 * scale.m02 + m21 * scale.m12 + m22 * scale.m22;
+
+        var tmp30 = m30 * scale.m00 + m31 * scale.m10 + m32 * scale.m20;
+        var tmp31 = m30 * scale.m01 + m31 * scale.m11 + m32 * scale.m21;
+        var tmp32 = m30 * scale.m02 + m31 * scale.m12 + m32 * scale.m22;
+
+        m00 = tmp00;
+        m01 = tmp01;
+        m02 = tmp02;
+
+        m10 = tmp10;
+        m11 = tmp11;
+        m12 = tmp12;
+
+        m20 = tmp20;
+        m21 = tmp21;
+        m22 = tmp22;
+
+        m30 = tmp30;
+        m31 = tmp31;
+        m32 = tmp32;
+
+        matrix4.data.offset = 0 * 4;
+        matrix4.data.writeFloat(m00, DataTypeFloat32);
+
+        matrix4.data.offset = 1 * 4;
+        matrix4.data.writeFloat(m10, DataTypeFloat32);
+
+        matrix4.data.offset = 2 * 4;
+        matrix4.data.writeFloat(m20, DataTypeFloat32);
+
+        matrix4.data.offset = 3 * 4;
+        matrix4.data.writeFloat(m30, DataTypeFloat32);
+
+
+        matrix4.data.offset = 4 * 4;
+        matrix4.data.writeFloat(m01, DataTypeFloat32);
+
+        matrix4.data.offset = 5 * 4;
+        matrix4.data.writeFloat(m11, DataTypeFloat32);
+
+        matrix4.data.offset = 6 * 4;
+        matrix4.data.writeFloat(m21, DataTypeFloat32);
+
+        matrix4.data.offset = 7 * 4;
+        matrix4.data.writeFloat(m31, DataTypeFloat32);
+
+
+        matrix4.data.offset = 8 * 4;
+        matrix4.data.writeFloat(m02, DataTypeFloat32);
+
+        matrix4.data.offset = 9 * 4;
+        matrix4.data.writeFloat(m12, DataTypeFloat32);
+
+        matrix4.data.offset = 10 * 4;
+        matrix4.data.writeFloat(m22, DataTypeFloat32);
+
+        matrix4.data.offset = 11 * 4;
+        matrix4.data.writeFloat(m32, DataTypeFloat32);
+
+
+        matrix4.data.offset = 12 * 4;
+        matrix4.data.writeFloat(m03, DataTypeFloat32);
+
+        matrix4.data.offset = 13 * 4;
+        matrix4.data.writeFloat(m13, DataTypeFloat32);
+
+        matrix4.data.offset = 14 * 4;
+        matrix4.data.writeFloat(m23, DataTypeFloat32);
+
+        matrix4.data.offset = 15 * 4;
+        matrix4.data.writeFloat(m33, DataTypeFloat32);
     }
 }

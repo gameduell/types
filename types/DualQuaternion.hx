@@ -3,8 +3,8 @@ package types;
 import types.DualQuaternion;
 class DualQuaternion
 {
-    public var real(default, null): Quaternion = null;
-    public var dual(default, null): Quaternion = null;
+    public var real(default, null): Quaternion = null; // Rotation    (x, y, z, w)
+    public var dual(default, null): Quaternion = null; // Translation (x, y, z, 0)
 
     static private var workingVectorA: Vector3 = new Vector3();
     static private var workingVectorB: Vector3 = new Vector3();
@@ -69,24 +69,21 @@ class DualQuaternion
         dual.setXYZW(0.0, 0.0, 0.0, 0.0);
     }
 
-    public function setRotationX(angle: Float): Void
+    public function setRotationX(radians: Float): Void
     {
-        workingVectorA.setXYZ(1.0, 0.0, 0.0);
-        workingQuaternionA.setFromAxisAngle(workingVectorA, angle);
+        workingQuaternionA.setRotationX(radians);
         setRotation(workingQuaternionA);
     }
 
-    public function setRotationY(angle: Float): Void
+    public function setRotationY(radians: Float): Void
     {
-        workingVectorA.setXYZ(0.0, 1.0, 0.0);
-        workingQuaternionA.setFromAxisAngle(workingVectorA, angle);
+        workingQuaternionA.setRotationY(radians);
         setRotation(workingQuaternionA);
     }
 
-    public function setRotationZ(angle: Float): Void
+    public function setRotationZ(radians: Float): Void
     {
-        workingVectorA.setXYZ(0.0, 0.0, 1.0);
-        workingQuaternionA.setFromAxisAngle(workingVectorA, angle);
+        workingQuaternionA.setRotationZ(radians);
         setRotation(workingQuaternionA);
     }
 
@@ -97,44 +94,7 @@ class DualQuaternion
 
     public function getEulerRotation(out: Vector3): Void
     {
-        var ex: Float;
-        var ey: Float;
-        var ez: Float;
-
-        var r: Quaternion = real;
-        var x: Float = r.x;
-        var y: Float = r.y;
-        var z: Float = r.z;
-        var w: Float = r.w;
-
-        var sqw = w * w;
-        var sqx = x * x;
-        var sqy = y * y;
-        var sqz = z * z;
-        var unit = sqx + sqy + sqz + sqw; // if normalized is one, otherwise is correction factor
-
-        var test = x * y + z * w;
-
-        if (test > 0.499 * unit) // singularity at north pole
-        {
-            ey = 2 * Math.atan2( x, w );
-            ez = Math.PI * 0.5;
-            ex = 0;
-        }
-        else if (test < - 0.499 * unit) // singularity at south pole
-        {
-            ey = -2 * Math.atan2( x, w );
-            ez = -Math.PI * 0.5;
-            ex = 0;
-        }
-        else
-        {
-            ey = Math.atan2( 2 * y * w - 2 * x * z, sqx - sqy - sqz + sqw );
-            ez = Math.asin( 2 * test / unit );
-            ex = Math.atan2( 2 * x * w - 2 * y * z, -sqx + sqy - sqz + sqw );
-        }
-
-        out.setXYZ(ex, ey, ez);
+        real.getEulerRotation(out);
     }
 
     public function getTranslation(out: Vector3): Void
@@ -183,6 +143,22 @@ class DualQuaternion
         dual.multiplyQuaternions(workingDualQuaternionA.real, workingDualQuaternionB.dual);
         workingQuaternionA.multiplyQuaternions(workingDualQuaternionA.dual, workingDualQuaternionB.real);
         dual.add(workingQuaternionA);
+    }
+
+    public function add(q: DualQuaternion): Void
+    {
+        addDualQuaternion(this, q);
+    }
+
+    public function addDualQuaternion(q1: DualQuaternion, q2: DualQuaternion): Void
+    {
+        workingQuaternionA.set(q1.real);
+        workingQuaternionA.add(q2.real);
+
+        workingQuaternionB.set(q1.dual);
+        workingQuaternionB.add(q2.dual);
+
+        setFromQuaternions(workingQuaternionA, workingQuaternionB);
     }
 
     public function setFromAxisAngleAndTranslation(axis: Vector3, angle: Float, translation: Vector3): Void
