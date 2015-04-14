@@ -7,7 +7,7 @@
 
 	<source path="Source" />
 
-	<duelllib name="duellkit" version="2.0.0+" />
+	<duelllib name="duellkit" version="3.0.0+" />
 	<duelllib name="unittest" version="3.0.0+" />
 	<duelllib name="types" version="master" />
 
