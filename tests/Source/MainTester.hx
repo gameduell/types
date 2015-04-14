@@ -2,8 +2,8 @@ import types.haxeinterop.HaxeInputInteropStream;
 
 import unittest.TestRunner;
 import unittest.implementations.TestHTTPLogger;
-import unittest.implementations.TestJUnitLogger;  
-import unittest.implementations.TestSimpleLogger;   
+import unittest.implementations.TestJUnitLogger;
+import unittest.implementations.TestSimpleLogger;
 
 import DataTest;
 import Matrix4Test;
@@ -20,14 +20,14 @@ import duell.DuellKit;
 class MainTester
 {
     static var r : TestRunner;
-	static function main() : Void 
+	static function main() : Void
 	{
 		DuellKit.initialize(start);
 	}
 
 	static function start()
 	{
-		r = new TestRunner(testComplete);
+		r = new TestRunner(testComplete, DuellKit.instance().onError);
 		r.add(new DataTest());
 		r.add(new Matrix4Test());
         r.add(new Vector2Test());
