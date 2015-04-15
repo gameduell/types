@@ -6,12 +6,12 @@ import types.DataType;
 
 class Data
 {
-    public var offsetLength(default, default) : Int;
-    public var allocedLength(default, null) : Int;
-    @:isVar public var byteArray(get, set) : ByteArray;
-    @:isVar public var offset(get, set) : Int;
-    public var internalOffset(get, null) : Int;
-    private function get_internalOffset():Int{return 0;}
+    public var offsetLength: Int;
+    public var allocedLength(default, null): Int;
+    @:isVar public var byteArray(get, set): ByteArray;
+    public var offset: Int;
+    public var internalOffset(get, null): Int;
+    inline private function get_internalOffset(): Int{return 0;}
 
     private var _internalByteArrayOffset : Int = 0;
 
@@ -380,17 +380,6 @@ class Data
         newBuffer.position = 0;
 
         set_byteArray(newBuffer);
-    }
-
-    private function set_offset(value:Int):Int
-    {
-       offset = value;
-       return offset;
-    }
-
-    private function get_offset():Int
-    {
-        return offset;
     }
 
     public function getBytes():Bytes
