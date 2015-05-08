@@ -1,4 +1,4 @@
 <xml>
-		<compilerflag value="-I${haxelib:types}/backends/types_cpp/project/include" />
+		<compilerflag value="-I${haxelib:duell_types}/backends/types_cpp/project/include" />
 </xml>
 

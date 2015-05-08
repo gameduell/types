@@ -8,7 +8,7 @@ import cpp.Lib;
 
 	<files id="haxe">
 
-		<include name="${haxelib:types}/backends/types_cpp/native.xml" />
+		<include name="${haxelib:duell_types}/backends/types_cpp/native.xml" />
 
 	</files>
 
