@@ -219,8 +219,8 @@ class Data
 	}
 
 
-	public function writeIntArray(array : Array<Int>, dataType : DataType) : Void 
-	{ 
+	public function writeIntArray(array : Array<Int>, dataType : DataType) : Void
+	{
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
 		var prevOffset = _offset;
@@ -233,8 +233,8 @@ class Data
 		_offset = prevOffset;
 	}
 
-	public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void 
-	{ 
+	public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void
+	{
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
 		var prevOffset = _offset;
@@ -286,13 +286,13 @@ class Data
     }
 
 
-	public function writeInt(value : Int, targetDataType : DataType) : Void 
+	public function writeInt(value : Int, targetDataType : DataType) : Void
 	{
 		switch(targetDataType)
 		{
 			case DataTypeInt8:
 				int8Array[_offset] = value;
-				return; 
+				return;
 			case DataTypeUInt8:
                 uint8Array[_offset] = value;
 				return;
@@ -336,7 +336,7 @@ class Data
 		return;
 	}
 
-	public function writeFloat(value : Float, targetDataType : DataType) : Void 
+	public function writeFloat(value : Float, targetDataType : DataType) : Void
 	{
         switch(targetDataType)
         {
@@ -396,7 +396,7 @@ class Data
 		var output = "";
 		output += "[";
 
-		var view : Dynamic;
+		var view : Dynamic = null;
 		switch(dataType)
 		{
 			case DataTypeInt8:
@@ -415,6 +415,8 @@ class Data
 				view = float32Array;
             case DataTypeFloat64:
                 view = float64Array;
+			default:
+				view = int8Array;
 		}
 
 		var dataSize = DataTypeUtils.dataTypeByteSize(dataType);
@@ -436,7 +438,7 @@ class Data
 		return output;
 	}
 
-	public function resize(newSize : Int) : Void 
+	public function resize(newSize : Int) : Void
 	{
     	var newBuffer = new ArrayBuffer(newSize);
     	var prevBuffer = arrayBuffer;

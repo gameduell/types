@@ -37,7 +37,7 @@ class HaxeInputInteropStream extends Input
         return workingData.readInt(DataTypeUInt8);
     }
 
-    override function readBytes( s : Bytes, pos : Int, len : Int ) : Int 
+    override function readBytes( s : Bytes, pos : Int, len : Int ) : Int
     {
         workingData.offsetLength = 1;
         for(i in 0...len)
@@ -48,17 +48,11 @@ class HaxeInputInteropStream extends Input
         return len;
     }
 
-    override function readInt16() 
+    override function readInt16()
     {
         workingData.offsetLength = 2;
         inputStream.readIntoData(workingData);
         return workingData.readInt(DataTypeInt16);
-    }
-
-    override function readFloat() : Float {
-        workingData.offsetLength = 4;
-        inputStream.readIntoData(workingData);
-        return workingData.readFloat(DataTypeFloat32);
     }
 
     override function readDouble() : Float {
