@@ -1,17 +1,43 @@
+/*
+ * Copyright (c) 2003-2015, GameDuell GmbH
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package types;
 
 import types.Data;
 
 
-@:headerCode('	
-#include <hxMath.h>	
+@:headerCode('
+#include <hxMath.h>
 
 #include <types/NativeData.h>
 
 
 #ifdef __cplusplus
 extern "C" {
-#endif			
+#endif
 
 
 union _UTKMatrix4
@@ -36,7 +62,7 @@ static UTKMatrix4 identityMatrix = {1, 0, 0, 0,
 inline UTKMatrix4 UTKMatrix4MakeOrtho(	float left, float right,
         		                       	float bottom, float top,
           			                    float nearZ, float farZ)
-{	
+{
     float ral = right + left;
     float rsl = right - left;
     float tab = top + bottom;
@@ -64,16 +90,16 @@ inline UTKMatrix4 UTKMatrix4MakePerspectiveFov(float fovy, float aspect, float z
 
 inline UTKMatrix4 UTKMatrix4Make2D(	float translateX, float translateY,
         		                    float scale, float rotation)
-{	
+{
     float theta = rotation * ::Math_obj::PI / 180.0;
     float c = ::Math_obj::cos(theta);
     float s = ::Math_obj::sin(theta);
-    
+
     UTKMatrix4 m = { c * scale,	s * scale, 0.0f, translateX,
                     -s * scale,	c * scale, 0.0f, translateY,
                      0.0f     ,	0.0f     , 1.0f, 0.0f,
                      0.0f     , 0.0f     , 0.0f, 1.0f };
-                     
+
     return m;
 }
 
@@ -96,7 +122,7 @@ inline UTKMatrix4 UTKMatrix4Make2D(	float translateX, float translateY,
 	#include <arm_neon.h>
 #endif
 
-#endif	
+#endif
 
 #if __ANDROID__
 
@@ -147,7 +173,7 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 	const __m128 r1 = _mm_load_ps(&matrixRight.m[4]);
 	const __m128 r2 = _mm_load_ps(&matrixRight.m[8]);
 	const __m128 r3 = _mm_load_ps(&matrixRight.m[12]);
-	
+
 	const __m128 m0 = l0 * _mm_shuffle_ps(r0, r0, _MM_SHUFFLE(0, 0, 0, 0))
 					+ l1 * _mm_shuffle_ps(r0, r0, _MM_SHUFFLE(1, 1, 1, 1))
 					+ l2 * _mm_shuffle_ps(r0, r0, _MM_SHUFFLE(2, 2, 2, 2))
@@ -167,7 +193,7 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 					+ l1 * _mm_shuffle_ps(r3, r3, _MM_SHUFFLE(1, 1, 1, 1))
 					+ l2 * _mm_shuffle_ps(r3, r3, _MM_SHUFFLE(2, 2, 2, 2))
 					+ l3 * _mm_shuffle_ps(r3, r3, _MM_SHUFFLE(3, 3, 3, 3));
-				
+
 	_mm_store_ps(&matrixLeft.m[0], m0);
 	_mm_store_ps(&matrixLeft.m[4], m1);
 	_mm_store_ps(&matrixLeft.m[8], m2);
@@ -176,27 +202,27 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 */
 #else
    UTKMatrix4 m;
-    
+
     m.m[0]  = matrixLeft.m[0] * matrixRight.m[0]  + matrixLeft.m[4] * matrixRight.m[1]  + matrixLeft.m[8] * matrixRight.m[2]   + matrixLeft.m[12] * matrixRight.m[3];
 	m.m[4]  = matrixLeft.m[0] * matrixRight.m[4]  + matrixLeft.m[4] * matrixRight.m[5]  + matrixLeft.m[8] * matrixRight.m[6]   + matrixLeft.m[12] * matrixRight.m[7];
 	m.m[8]  = matrixLeft.m[0] * matrixRight.m[8]  + matrixLeft.m[4] * matrixRight.m[9]  + matrixLeft.m[8] * matrixRight.m[10]  + matrixLeft.m[12] * matrixRight.m[11];
 	m.m[12] = matrixLeft.m[0] * matrixRight.m[12] + matrixLeft.m[4] * matrixRight.m[13] + matrixLeft.m[8] * matrixRight.m[14]  + matrixLeft.m[12] * matrixRight.m[15];
-    
+
 	m.m[1]  = matrixLeft.m[1] * matrixRight.m[0]  + matrixLeft.m[5] * matrixRight.m[1]  + matrixLeft.m[9] * matrixRight.m[2]   + matrixLeft.m[13] * matrixRight.m[3];
 	m.m[5]  = matrixLeft.m[1] * matrixRight.m[4]  + matrixLeft.m[5] * matrixRight.m[5]  + matrixLeft.m[9] * matrixRight.m[6]   + matrixLeft.m[13] * matrixRight.m[7];
 	m.m[9]  = matrixLeft.m[1] * matrixRight.m[8]  + matrixLeft.m[5] * matrixRight.m[9]  + matrixLeft.m[9] * matrixRight.m[10]  + matrixLeft.m[13] * matrixRight.m[11];
 	m.m[13] = matrixLeft.m[1] * matrixRight.m[12] + matrixLeft.m[5] * matrixRight.m[13] + matrixLeft.m[9] * matrixRight.m[14]  + matrixLeft.m[13] * matrixRight.m[15];
-    
+
 	m.m[2]  = matrixLeft.m[2] * matrixRight.m[0]  + matrixLeft.m[6] * matrixRight.m[1]  + matrixLeft.m[10] * matrixRight.m[2]  + matrixLeft.m[14] * matrixRight.m[3];
 	m.m[6]  = matrixLeft.m[2] * matrixRight.m[4]  + matrixLeft.m[6] * matrixRight.m[5]  + matrixLeft.m[10] * matrixRight.m[6]  + matrixLeft.m[14] * matrixRight.m[7];
 	m.m[10] = matrixLeft.m[2] * matrixRight.m[8]  + matrixLeft.m[6] * matrixRight.m[9]  + matrixLeft.m[10] * matrixRight.m[10] + matrixLeft.m[14] * matrixRight.m[11];
 	m.m[14] = matrixLeft.m[2] * matrixRight.m[12] + matrixLeft.m[6] * matrixRight.m[13] + matrixLeft.m[10] * matrixRight.m[14] + matrixLeft.m[14] * matrixRight.m[15];
-    
+
 	m.m[3]  = matrixLeft.m[3] * matrixRight.m[0]  + matrixLeft.m[7] * matrixRight.m[1]  + matrixLeft.m[11] * matrixRight.m[2]  + matrixLeft.m[15] * matrixRight.m[3];
 	m.m[7]  = matrixLeft.m[3] * matrixRight.m[4]  + matrixLeft.m[7] * matrixRight.m[5]  + matrixLeft.m[11] * matrixRight.m[6]  + matrixLeft.m[15] * matrixRight.m[7];
 	m.m[11] = matrixLeft.m[3] * matrixRight.m[8]  + matrixLeft.m[7] * matrixRight.m[9]  + matrixLeft.m[11] * matrixRight.m[10] + matrixLeft.m[15] * matrixRight.m[11];
 	m.m[15] = matrixLeft.m[3] * matrixRight.m[12] + matrixLeft.m[7] * matrixRight.m[13] + matrixLeft.m[11] * matrixRight.m[14] + matrixLeft.m[15] * matrixRight.m[15];
-    
+
     return m;
 
 #endif
@@ -239,39 +265,39 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
     //}
     //else
     //{
-    	
+
 	    UTKMatrix4 m;
-	    
+
 	    m.m[0]  = matrixLeft.m[0] * matrixRight.m[0]  + matrixLeft.m[4] * matrixRight.m[1]  + matrixLeft.m[8] * matrixRight.m[2]   + matrixLeft.m[12] * matrixRight.m[3];
 		m.m[4]  = matrixLeft.m[0] * matrixRight.m[4]  + matrixLeft.m[4] * matrixRight.m[5]  + matrixLeft.m[8] * matrixRight.m[6]   + matrixLeft.m[12] * matrixRight.m[7];
 		m.m[8]  = matrixLeft.m[0] * matrixRight.m[8]  + matrixLeft.m[4] * matrixRight.m[9]  + matrixLeft.m[8] * matrixRight.m[10]  + matrixLeft.m[12] * matrixRight.m[11];
 		m.m[12] = matrixLeft.m[0] * matrixRight.m[12] + matrixLeft.m[4] * matrixRight.m[13] + matrixLeft.m[8] * matrixRight.m[14]  + matrixLeft.m[12] * matrixRight.m[15];
-	    
+
 		m.m[1]  = matrixLeft.m[1] * matrixRight.m[0]  + matrixLeft.m[5] * matrixRight.m[1]  + matrixLeft.m[9] * matrixRight.m[2]   + matrixLeft.m[13] * matrixRight.m[3];
 		m.m[5]  = matrixLeft.m[1] * matrixRight.m[4]  + matrixLeft.m[5] * matrixRight.m[5]  + matrixLeft.m[9] * matrixRight.m[6]   + matrixLeft.m[13] * matrixRight.m[7];
 		m.m[9]  = matrixLeft.m[1] * matrixRight.m[8]  + matrixLeft.m[5] * matrixRight.m[9]  + matrixLeft.m[9] * matrixRight.m[10]  + matrixLeft.m[13] * matrixRight.m[11];
 		m.m[13] = matrixLeft.m[1] * matrixRight.m[12] + matrixLeft.m[5] * matrixRight.m[13] + matrixLeft.m[9] * matrixRight.m[14]  + matrixLeft.m[13] * matrixRight.m[15];
-	    
+
 		m.m[2]  = matrixLeft.m[2] * matrixRight.m[0]  + matrixLeft.m[6] * matrixRight.m[1]  + matrixLeft.m[10] * matrixRight.m[2]  + matrixLeft.m[14] * matrixRight.m[3];
 		m.m[6]  = matrixLeft.m[2] * matrixRight.m[4]  + matrixLeft.m[6] * matrixRight.m[5]  + matrixLeft.m[10] * matrixRight.m[6]  + matrixLeft.m[14] * matrixRight.m[7];
 		m.m[10] = matrixLeft.m[2] * matrixRight.m[8]  + matrixLeft.m[6] * matrixRight.m[9]  + matrixLeft.m[10] * matrixRight.m[10] + matrixLeft.m[14] * matrixRight.m[11];
 		m.m[14] = matrixLeft.m[2] * matrixRight.m[12] + matrixLeft.m[6] * matrixRight.m[13] + matrixLeft.m[10] * matrixRight.m[14] + matrixLeft.m[14] * matrixRight.m[15];
-	    
+
 		m.m[3]  = matrixLeft.m[3] * matrixRight.m[0]  + matrixLeft.m[7] * matrixRight.m[1]  + matrixLeft.m[11] * matrixRight.m[2]  + matrixLeft.m[15] * matrixRight.m[3];
 		m.m[7]  = matrixLeft.m[3] * matrixRight.m[4]  + matrixLeft.m[7] * matrixRight.m[5]  + matrixLeft.m[11] * matrixRight.m[6]  + matrixLeft.m[15] * matrixRight.m[7];
 		m.m[11] = matrixLeft.m[3] * matrixRight.m[8]  + matrixLeft.m[7] * matrixRight.m[9]  + matrixLeft.m[11] * matrixRight.m[10] + matrixLeft.m[15] * matrixRight.m[11];
 		m.m[15] = matrixLeft.m[3] * matrixRight.m[12] + matrixLeft.m[7] * matrixRight.m[13] + matrixLeft.m[11] * matrixRight.m[14] + matrixLeft.m[15] * matrixRight.m[15];
-	    
+
 	    return m;
 	//}
-#endif	
+#endif
 }
 
 #ifdef __cplusplus
 }
 #endif
 
-') 
+')
 
 @:cppFileCode('
 
@@ -280,10 +306,10 @@ inline UTKMatrix4 UTKMatrix4Multiply(UTKMatrix4 matrixLeft, UTKMatrix4 matrixRig
 #include <stdio.h>
 ')
 
-@:headerClassCode('					
-public:								
-	UTKMatrix4 _matrixData;			
-') 
+@:headerClassCode('
+public:
+	UTKMatrix4 _matrixData;
+')
 class Matrix4
 {
 	public var data(default, null) : Data;
@@ -296,22 +322,22 @@ class Matrix4
 
 	@:functionCode('
 		data->_nativeData->setupWithExistingPointer((uint8_t*)&_matrixData, sizeof(_matrixData));
-	') 
+	')
 	public function initDataWithMatrixPointer() : Void {}
 
 	@:functionCode('
 		_matrixData = identityMatrix;
-	') 
+	')
 	public function setIdentity() : Void {}
 
 	@:functionCode('
 		_matrixData = UTKMatrix4MakeOrtho(x0, x1, y0, y1, zNear, zFar);
-	') 
-	public function setOrtho(	x0 : Float, 
-								x1 : Float, 
-								y0 : Float, 
-								y1 : Float, 
-								zNear : Float, 
+	')
+	public function setOrtho(	x0 : Float,
+								x1 : Float,
+								y0 : Float,
+								y1 : Float,
+								zNear : Float,
 								zFar : Float): Void { }
 
 	@:functionCode('
@@ -324,25 +350,25 @@ class Matrix4
 
 	@:functionCode('
 		_matrixData = UTKMatrix4Make2D(posX, posY, scale, rotation);
-	') 
-	public function set2D(	posX : Float, 
-							posY : Float, 
-							scale : Float, 
+	')
+	public function set2D(	posX : Float,
+							posY : Float,
+							scale : Float,
 							rotation : Float) : Void { }
 
 	@:functionCode('
 		_matrixData = matrix->_matrixData;
-	') 
+	')
 	public function set(matrix : Matrix4) : Void { }
 
 	@:functionCode('
 		return _matrixData.m[row * 4 + col];
-	') 
+	')
 	public function get(row : Int, col : Int) : Float { return 0; }
 
 	@:functionCode('
 		_matrixData = UTKMatrix4Multiply(_matrixData, right->_matrixData);
-	') 
+	')
 	public function multiply(right : Matrix4) : Void { }
 
 	@:functionCode('
@@ -366,9 +392,9 @@ class Matrix4
 		oss << "]";
 
 		std::wstring str = oss.str();
-		
+
 		return ::String(str.c_str(), str.size() + 1);
-	') 
+	')
 	public function toString() : String { return ""; }
 
 

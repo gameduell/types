@@ -1,3 +1,29 @@
+/*
+ * Copyright (c) 2003-2015, GameDuell GmbH
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package types;
 
 import types.DataType;
@@ -54,7 +80,7 @@ static inline std::wstring staticReadValueIntoString(void *pointer, types::DataT
 		;break;
 		case (int)6: {
 			#ifdef __arm__ /// ARM DOESNT LIKE UNLIGNED
-			if ((((intptr_t)pointer) & 0x3) == 0) 
+			if ((((intptr_t)pointer) & 0x3) == 0)
 			{
 			#endif
 				oss << ((float*)pointer)[0];
@@ -72,7 +98,7 @@ static inline std::wstring staticReadValueIntoString(void *pointer, types::DataT
 		;break;
 		case (int)7: {
 			#ifdef __arm__
-			if ((((intptr_t)pointer) & 0x7) == 0) 
+			if ((((intptr_t)pointer) & 0x7) == 0)
 			{
 			#endif
 				oss << ((double*)pointer)[0];
@@ -121,7 +147,7 @@ static inline void staticWriteFloatIntoPointer(void *pointer, double value, type
 		;break;
 		case (int)6: {
 			#ifdef __arm__
-			if ((((intptr_t)pointer) & 0x3) == 0) 
+			if ((((intptr_t)pointer) & 0x3) == 0)
 			{
 			#endif
 				((float *)pointer)[0] = (float)value;
@@ -137,7 +163,7 @@ static inline void staticWriteFloatIntoPointer(void *pointer, double value, type
 		;break;
 		case (int)7: {
 			#ifdef __arm__
-			if ((((intptr_t)pointer) & 0x7) == 0) 
+			if ((((intptr_t)pointer) & 0x7) == 0)
 			{
 			#endif
 				((double *)pointer)[0] = (double)value;
@@ -176,7 +202,7 @@ static inline float staticReadFloatFromPointer(void *pointer, types::DataType &d
 		}
 		case (int)6: {
 			#ifdef __arm__
-			if ((((intptr_t)pointer) & 0x3) == 0) 
+			if ((((intptr_t)pointer) & 0x3) == 0)
 			{
 			#endif
 				return ((float*)pointer)[0];
@@ -192,7 +218,7 @@ static inline float staticReadFloatFromPointer(void *pointer, types::DataType &d
 		}
 		case (int)7: {
 			#ifdef __arm__
-			if ((((intptr_t)pointer) & 0x7) == 0) 
+			if ((((intptr_t)pointer) & 0x7) == 0)
 			{
 			#endif
 				return ((double*)pointer)[0];
@@ -239,7 +265,7 @@ static inline void staticWriteIntIntoPointer(void *pointer, int &value, types::D
 		;break;
 		case (int)6: {
 			#ifdef __arm__
-			if ((((intptr_t)pointer) & 0x3) == 0) 
+			if ((((intptr_t)pointer) & 0x3) == 0)
 			{
 			#endif
 				((float *)pointer)[0] = (float)value;
@@ -255,7 +281,7 @@ static inline void staticWriteIntIntoPointer(void *pointer, int &value, types::D
 		;break;
 		case (int)7: {
 			#ifdef __arm__
-			if ((((intptr_t)pointer) & 0x7) == 0) 
+			if ((((intptr_t)pointer) & 0x7) == 0)
 			{
 			#endif
 				((double *)pointer)[0] = (double)value;
@@ -295,7 +321,7 @@ static inline int staticReadIntFromPointer(void *pointer, types::DataType &dataT
 		}
 		case (int)6: {
 			#ifdef __arm__
-			if ((((intptr_t)pointer) & 0x3) == 0) 
+			if ((((intptr_t)pointer) & 0x3) == 0)
 			{
 			#endif
 				return ((float*)pointer)[0];
@@ -312,7 +338,7 @@ static inline int staticReadIntFromPointer(void *pointer, types::DataType &dataT
 		}
 		case (int)7: {
 			#ifdef __arm__
-			if ((((intptr_t)pointer) & 0x7) == 0) 
+			if ((((intptr_t)pointer) & 0x7) == 0)
 			{
 			#endif
 				return ((double*)pointer)[0];
@@ -332,12 +358,12 @@ static inline int staticReadIntFromPointer(void *pointer, types::DataType &dataT
 }
 
 
-') 
+')
 
-@:headerClassCode('					
-public:								
+@:headerClassCode('
+public:
 	NativeData *_nativeData; ///this gets dealloced by the GC since it is tied to "nativeData" with alloc_abstract
-') 
+')
 class Data
 {
 
@@ -368,60 +394,60 @@ class Data
 	@:functionCode("
 		nativeData = nativedata_createNativeData();
 		_nativeData = (NativeData*)nativeData->__GetHandle();
-	") 
+	")
 	private function setupHaxeNativeData() : Void {}
 
 	@:functionCode("
 		_nativeData->setup(length);
-	") 
+	")
 	private function setup(length : Int) : Void {}
 
 	/// PROPERTIES
 	public var allocedLength(get, never) : Int;
 	@:functionCode("
 		return _nativeData->allocedLength;
-	") 
+	")
 	private function get_allocedLength() : Int { return 0; }
 
 	public var offset(get, set) : Int;
 	@:functionCode("
 		return _nativeData->offset;
-	") 
+	")
 	private function get_offset() : Int { return 0; }
 
 	@:functionCode("
 		_nativeData->offset = offset;
 		return _nativeData->offset;
-	") 
+	")
 	private function set_offset(offset : Int) : Int { return 0; }
 
 	public var offsetLength(get, set) : Int;
 
 	@:functionCode("
 		return _nativeData->offsetLength;
-	") 
+	")
 	private function get_offsetLength() : Int { return 0; }
 
 	@:functionCode("
 		_nativeData->offsetLength = offsetLength;
 		return _nativeData->offsetLength;
-	") 
+	")
 	private function set_offsetLength(offsetLength : Int) : Int { return 0; }
 
 	@:functionCode("
 		_nativeData->offsetLength = _nativeData->allocedLength;
 		_nativeData->offset = 0;
-	") 
+	")
 	public function resetOffset() : Void {} ///makes offset 0 and offsetLength be length
 
 	/// METHODS
 	@:functionCode("
 		_nativeData->writeData(data->_nativeData);
-	") 
+	")
 	public function writeData(data : Data) : Void {}
 
 	public function writeIntArray(array : Array<Int>, dataType : DataType) : Void
-	{ 
+	{
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
 		var prevOffset = get_offset();
@@ -437,7 +463,7 @@ class Data
 	}
 
 	public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void
-	{ 
+	{
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
 
 		var prevOffset = get_offset();
@@ -492,22 +518,22 @@ class Data
 
 	@:functionCode('
 		staticWriteIntIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
-	') 
+	')
 	public function writeInt(value : Int, targetDataType : DataType) : Void {}
 
 	@:functionCode('
 		staticWriteFloatIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
-	') 
+	')
 	public function writeFloat(value : Float, targetDataType : DataType) : Void {}
 
 	@:functionCode('
 		return staticReadIntFromPointer(_nativeData->ptr + _nativeData->offset, targetDataType);
-	') 
+	')
 	public function readInt(targetDataType : DataType) : Int { return 0; }
 
 	@:functionCode('
 		return staticReadFloatFromPointer(_nativeData->ptr + _nativeData->offset, targetDataType);
-	') 
+	')
 	public function readFloat(targetDataType : DataType) : Float { return 0; }
 
 	@:functionCode('
@@ -533,14 +559,14 @@ class Data
 		oss << "]";
 
 		std::wstring str = oss.str();
-		
+
 		return ::String(str.c_str(), str.size() + 1);
-	') 
+	')
 	public function toString(?dataType : DataType) : String { return "";}
 
 	@:functionCode('
 		_nativeData->resize(newSize);
-	') 
+	')
 	public function resize(newSize : Int) : Void {}
 
 	@:functionCode('
