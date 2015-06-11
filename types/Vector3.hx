@@ -246,6 +246,17 @@ class Vector3
         z = start.z + ((end.z - start.z) * t);
     }
 
+    public function cross(right: Vector3): Void
+    {
+        var newX: Float = y * right.z - z * right.y;
+        var newY: Float = z * right.x - x * right.z;
+        var newZ: Float = x * right.y - y * right.x;
+
+        x = newX;
+        y = newY;
+        z = newZ;
+    }
+
     static public function length(vector: Vector3): Float
     {
         return Math.sqrt(Vector3.lengthSquared(vector));
