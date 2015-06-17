@@ -382,6 +382,198 @@ class Matrix4Tools
         matrix.data.offset = oldOffset;
     }
 
+    static public function interpolate(matrix: Matrix4, start: Matrix4, end: Matrix4, v: Float): Void
+    {
+        var oldOffset: Int = matrix.data.offset;
+        var oldOffsetStart: Int = start.data.offset;
+        var oldOffsetEnd: Int = end.data.offset;
+
+        start.data.offset = 0 * floatSize;
+        var a11: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 1 * floatSize;
+        var a12: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 2 * floatSize;
+        var a13: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 3 * floatSize;
+        var a14: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 4 * floatSize;
+        var a21: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 5 * floatSize;
+        var a22: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 6 * floatSize;
+        var a23: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 7 * floatSize;
+        var a24: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 8 * floatSize;
+        var a31: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 9 * floatSize;
+        var a32: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 10 * floatSize;
+        var a33: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 11 * floatSize;
+        var a34: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 12 * floatSize;
+        var a41: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 13 * floatSize;
+        var a42: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 14 * floatSize;
+        var a43: Float = start.data.readFloat(DataType.DataTypeFloat32);
+        start.data.offset = 15 * floatSize;
+        var a44: Float = start.data.readFloat(DataType.DataTypeFloat32);
+
+        end.data.offset = 0 * floatSize;
+        var b11: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 1 * floatSize;
+        var b12: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 2 * floatSize;
+        var b13: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 3 * floatSize;
+        var b14: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 4 * floatSize;
+        var b21: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 5 * floatSize;
+        var b22: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 6 * floatSize;
+        var b23: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 7 * floatSize;
+        var b24: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 8 * floatSize;
+        var b31: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 9 * floatSize;
+        var b32: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 10 * floatSize;
+        var b33: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 11 * floatSize;
+        var b34: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 12 * floatSize;
+        var b41: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 13 * floatSize;
+        var b42: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 14 * floatSize;
+        var b43: Float = end.data.readFloat(DataType.DataTypeFloat32);
+        end.data.offset = 15 * floatSize;
+        var b44: Float = end.data.readFloat(DataType.DataTypeFloat32);
+
+        var c11: Float = a11 + (b11 - a11) * v;
+        var c12: Float = a12 + (b12 - a12) * v;
+        var c13: Float = a13 + (b13 - a13) * v;
+        var c14: Float = a14 + (b14 - a14) * v;
+        var c21: Float = a21 + (b21 - a21) * v;
+        var c22: Float = a22 + (b22 - a22) * v;
+        var c23: Float = a23 + (b23 - a23) * v;
+        var c24: Float = a24 + (b24 - a24) * v;
+        var c31: Float = a31 + (b31 - a31) * v;
+        var c32: Float = a32 + (b32 - a32) * v;
+        var c33: Float = a33 + (b33 - a33) * v;
+        var c34: Float = a34 + (b34 - a34) * v;
+        var c41: Float = a41 + (b41 - a41) * v;
+        var c42: Float = a42 + (b42 - a42) * v;
+        var c43: Float = a43 + (b43 - a43) * v;
+        var c44: Float = a44 + (b44 - a44) * v;
+
+        matrix.data.offset = 0 * floatSize;
+        matrix.data.writeFloat(c11, DataType.DataTypeFloat32);
+        matrix.data.offset = 1 * floatSize;
+        matrix.data.writeFloat(c12, DataType.DataTypeFloat32);
+        matrix.data.offset = 2 * floatSize;
+        matrix.data.writeFloat(c13, DataType.DataTypeFloat32);
+        matrix.data.offset = 3 * floatSize;
+        matrix.data.writeFloat(c14, DataType.DataTypeFloat32);
+        matrix.data.offset = 4 * floatSize;
+        matrix.data.writeFloat(c21, DataType.DataTypeFloat32);
+        matrix.data.offset = 5 * floatSize;
+        matrix.data.writeFloat(c22, DataType.DataTypeFloat32);
+        matrix.data.offset = 6 * floatSize;
+        matrix.data.writeFloat(c23, DataType.DataTypeFloat32);
+        matrix.data.offset = 7 * floatSize;
+        matrix.data.writeFloat(c24, DataType.DataTypeFloat32);
+        matrix.data.offset = 8 * floatSize;
+        matrix.data.writeFloat(c31, DataType.DataTypeFloat32);
+        matrix.data.offset = 9 * floatSize;
+        matrix.data.writeFloat(c32, DataType.DataTypeFloat32);
+        matrix.data.offset = 10 * floatSize;
+        matrix.data.writeFloat(c33, DataType.DataTypeFloat32);
+        matrix.data.offset = 11 * floatSize;
+        matrix.data.writeFloat(c34, DataType.DataTypeFloat32);
+        matrix.data.offset = 12 * floatSize;
+        matrix.data.writeFloat(c41, DataType.DataTypeFloat32);
+        matrix.data.offset = 13 * floatSize;
+        matrix.data.writeFloat(c42, DataType.DataTypeFloat32);
+        matrix.data.offset = 14 * floatSize;
+        matrix.data.writeFloat(c43, DataType.DataTypeFloat32);
+        matrix.data.offset = 15 * floatSize;
+        matrix.data.writeFloat(c44, DataType.DataTypeFloat32);
+
+        matrix.data.offset = oldOffset;
+        start.data.offset = oldOffsetStart;
+        end.data.offset = oldOffsetEnd;
+    }
+
+    static public function transpose(matrix: Matrix4): Void
+    {
+        var oldOffset: Int = matrix.data.offset;
+
+        matrix.data.offset = 0 * floatSize;
+        var a11: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 1 * floatSize;
+        var a12: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 2 * floatSize;
+        var a13: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 3 * floatSize;
+        var a14: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 4 * floatSize;
+        var a21: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 5 * floatSize;
+        var a22: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 6 * floatSize;
+        var a23: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 7 * floatSize;
+        var a24: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 8 * floatSize;
+        var a31: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 9 * floatSize;
+        var a32: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 10 * floatSize;
+        var a33: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 11 * floatSize;
+        var a34: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 12 * floatSize;
+        var a41: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 13 * floatSize;
+        var a42: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 14 * floatSize;
+        var a43: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+        matrix.data.offset = 15 * floatSize;
+        var a44: Float = matrix.data.readFloat(DataType.DataTypeFloat32);
+
+        matrix.data.offset = 1 * floatSize;
+        matrix.data.writeFloat(a21, DataType.DataTypeFloat32);
+        matrix.data.offset = 2 * floatSize;
+        matrix.data.writeFloat(a31, DataType.DataTypeFloat32);
+        matrix.data.offset = 3 * floatSize;
+        matrix.data.writeFloat(a41, DataType.DataTypeFloat32);
+        matrix.data.offset = 4 * floatSize;
+        matrix.data.writeFloat(a12, DataType.DataTypeFloat32);
+        matrix.data.offset = 6 * floatSize;
+        matrix.data.writeFloat(a32, DataType.DataTypeFloat32);
+        matrix.data.offset = 7 * floatSize;
+        matrix.data.writeFloat(a42, DataType.DataTypeFloat32);
+        matrix.data.offset = 8 * floatSize;
+        matrix.data.writeFloat(a13, DataType.DataTypeFloat32);
+        matrix.data.offset = 9 * floatSize;
+        matrix.data.writeFloat(a23, DataType.DataTypeFloat32);
+        matrix.data.offset = 11 * floatSize;
+        matrix.data.writeFloat(a43, DataType.DataTypeFloat32);
+        matrix.data.offset = 12 * floatSize;
+        matrix.data.writeFloat(a14, DataType.DataTypeFloat32);
+        matrix.data.offset = 13 * floatSize;
+        matrix.data.writeFloat(a24, DataType.DataTypeFloat32);
+        matrix.data.offset = 14 * floatSize;
+        matrix.data.writeFloat(a34, DataType.DataTypeFloat32);
+
+        matrix.data.offset = oldOffset;
+    }
+
     static public function inverse(matrix: Matrix4): Void
     {
         var determiant = getDeterminant(matrix);
