@@ -53,13 +53,13 @@ class Color4B
     public function get_r() : Int
     {
         data.offset = dataOffset + 0;
-        return data.readInt(DataTypeUInt8);
+        return data.readUInt8();
     }
 
     public function set_r(r : Int) : Int
     {
         data.offset = dataOffset + 0;
-        data.writeInt(r, DataTypeUInt8);
+        data.writeUInt8(r);
         return r;
     }
 
@@ -68,13 +68,13 @@ class Color4B
     public function get_g() : Int
     {
         data.offset = dataOffset + 1;
-        return data.readInt(DataTypeUInt8);
+        return data.readUInt8();
     }
 
     public function set_g(g : Int) : Int
     {
         data.offset = dataOffset + 1;
-        data.writeInt(g, DataTypeUInt8);
+        data.writeUInt8(g);
         return g;
     }
 
@@ -83,13 +83,13 @@ class Color4B
     public function get_b() : Int
     {
         data.offset = dataOffset + 2;
-        return data.readInt(DataTypeUInt8);
+        return data.readUInt8();
     }
 
     public function set_b(b : Int) : Int
     {
         data.offset = dataOffset + 2;
-        data.writeInt(b, DataTypeUInt8);
+        data.writeUInt8(b);
         return b;
     }
 
@@ -98,13 +98,13 @@ class Color4B
     public function get_a() : Int
     {
         data.offset = dataOffset + 3;
-        return data.readInt(DataTypeUInt8);
+        return data.readUInt8();
     }
 
     public function set_a(a : Int) : Int
     {
         data.offset = dataOffset + 3;
-        data.writeInt(a, DataTypeUInt8);
+        data.writeUInt8(a);
         return a;
     }
 
@@ -123,18 +123,16 @@ class Color4B
         output += "[";
 
         data.offset = dataOffset;
-        output += data.readInt(DataTypeUInt8);
+        output += data.readUInt8();
 
         for(i in 1...4)
         {
             output += ", ";
             data.offset += 1;
-            output += data.readInt(DataTypeUInt8);
+            output += data.readUInt8();
         }
 
         output += "]";
         return output;
     }
-
-
 }

@@ -38,18 +38,18 @@ import types.Data;
 using types.DataStringTools;
 
 @:access(haxe.io.Bytes)
-class DataBytesTools {
-    public static function getBytes(data:Data):Bytes {
+class DataBytesTools
+{
+    public static function getBytes(data : Data) : Bytes
+    {
         var bytes = new Bytes(data.arrayBuffer);
         return bytes;
     }
 
-    public static function getTypesData(bytes : Bytes) : Data {
-
+    public static function getTypesData(bytes : Bytes) : Data
+    {
         var data = new Data(0);
-
         data.arrayBuffer = bytes.b.buffer;
-
         return data;
     }
 }

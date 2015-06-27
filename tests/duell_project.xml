@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 
+	<include path="../duell_library.xml"/>
+
 	<app title="Types Tests" package="com.gameduell.tests" version="0.0.1" company="GameDuell GmbH" />
 
 	<main name="MainTester" />
@@ -9,6 +11,5 @@
 
 	<duelllib name="duellkit" version="4.0.0+" />
 	<duelllib name="unittest" version="4.0.0+" />
-	<duelllib name="types" version="master" />
 
 </project>

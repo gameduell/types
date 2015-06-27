@@ -44,23 +44,14 @@ class DataTypeUtils
 	{
 		switch(dataType)
 		{
-			case DataTypeInt8:
-				return 1;
-			case DataTypeUInt8:
-				return 1;
-			case DataTypeInt16:
-				return 2;
-			case DataTypeUInt16:
-				return 2;
-			case DataTypeInt32:
-				return 4;
-			case DataTypeUInt32:
-				return 4;
-			case DataTypeFloat32:
-				return 4;
-            case DataTypeFloat64:
-                return 8;
+			case DataType.DataTypeFloat32: return 4;
+			case DataType.DataTypeUInt16: return 2;
+			case DataType.DataTypeUInt8: return 1;
+			case DataType.DataTypeInt8: return 1;
+			case DataType.DataTypeInt32: return 4;
+			case DataType.DataTypeInt16: return 2;
+			case DataType.DataTypeUInt32: return 4;
+            case DataType.DataTypeFloat64: return 8;
 		}
-		return 0;
 	}
 }

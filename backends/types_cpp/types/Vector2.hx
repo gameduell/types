@@ -490,6 +490,10 @@ class Vector2
     ')
     public static function lengthSquared(vector : Vector2) : Float { return 0; }
 
+    @:functionCode('
+        return UTKVector2DotProduct(*left->_vectorData, *right->_vectorData);
+    ')
+    public static function dotProduct(left: Vector2, right: Vector2) : Float { return 0; }
 
     @:functionCode('
         return UTKVector2Distance(*start->_vectorData, *end->_vectorData);

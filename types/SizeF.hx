@@ -31,29 +31,35 @@ class SizeF extends Vector2
     public var width(get, set): Float;
     public var height(get, set): Float;
 
-    private inline function set_width(width: Float): Float
+    inline private function set_width(width: Float): Float
     {
         x = width;
         return x;
     }
 
-    private inline function set_height(height: Float): Float
+    inline private function set_height(height: Float): Float
     {
         y = height;
         return y;
     }
 
-    private inline function get_width(): Float
+    inline private function get_width(): Float
     {
         return x;
     }
 
-    private inline function get_height(): Float
+    inline private function get_height(): Float
     {
         return y;
     }
 
-    public inline function flip(): Void
+    public function setSizeF(width: Float, height: Float): Void
+    {
+        x = width;
+        y = height;
+    }
+
+    inline public function flip(): Void
     {
         var temp = x;
         x = y;
@@ -64,6 +70,4 @@ class SizeF extends Vector2
     {
         return "Width: " + x + " Height: " + y;
     }
-
-
 }

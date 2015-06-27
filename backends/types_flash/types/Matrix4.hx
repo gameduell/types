@@ -33,17 +33,16 @@ class Matrix4
     public var data(default, null): Data;
 
     static private var identity: Data;
-    static private var dataSize: Int = 4;
 
     public function new() : Void{
-        data = new Data(4*4*4);
+        data = new Data(4 * 4 * Data.SIZE_OF_FLOAT32);
     }
 
     public function setIdentity(): Void
     {
         if(identity == null)
         {
-            identity = new Data(4*4*4);
+            identity = new Data(4 * 4 * Data.SIZE_OF_FLOAT32);
             identity.offset = 0;
             identity.writeFloatArray(
                 [
@@ -52,7 +51,7 @@ class Matrix4
                 0.0, 0.0, 1.0, 0.0,
                 0.0, 0.0, 0.0, 1.0
                 ]
-                , DataTypeFloat32);
+                , DataType.DataTypeFloat32);
         }
 
         data.offset = 0;
@@ -96,37 +95,37 @@ class Matrix4
         // Write Right Handed/Transposed
 
         data.offset = counter;
-        data.writeFloat(m00,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m04,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m08,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m12,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m01,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m05,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m09,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m13,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m02,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m06,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m10,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m14,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m03,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m07,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m11,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m15,        DataTypeFloat32);
+        data.writeFloat32(m00);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m04);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m08);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m12);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m01);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m05);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m09);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m13);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m02);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m06);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m10);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m14);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m03);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m07);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m11);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m15);
 
         data.offset = oldOffset;
     }
@@ -161,37 +160,37 @@ class Matrix4
         var counter:Int = 0;
 
         data.offset = counter;
-        data.writeFloat(m00,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m01,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m02,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m03,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m04,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m05,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m06,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m07,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m08,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m09,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m10,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m11,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m12,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m13,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m14,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m15,        DataTypeFloat32);
+        data.writeFloat32(m00);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m01);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m02);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m03);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m04);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m05);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m06);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m07);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m08);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m09);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m10);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m11);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m12);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m13);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m14);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m15);
 
         data.offset = oldOffset;
     }
@@ -229,37 +228,37 @@ class Matrix4
         // Write Right Handed/Transposed
 
         data.offset = counter;
-        data.writeFloat(m00,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m04,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m08,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m12,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m01,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m05,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m09,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m13,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m02,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m06,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m10,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m14,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m03,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m07,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m11,        DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(m15,        DataTypeFloat32);
+        data.writeFloat32(m00);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m04);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m08);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m12);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m01);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m05);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m09);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m13);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m02);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m06);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m10);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m14);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m03);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m07);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m11);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(m15);
 
         data.offset = oldOffset;
     }
@@ -274,8 +273,8 @@ class Matrix4
 
     public function get(row : Int, col : Int) : Float{
         var oldOffset =  data.offset;
-        data.offset = (row * 4 + col) * dataSize;
-        var returnValue = data.readFloat(DataTypeFloat32);
+        data.offset = (row * 4 + col) * Data.SIZE_OF_FLOAT32;
+        var returnValue = data.readFloat32();
         data.offset = oldOffset;
         return returnValue;
     }
@@ -289,40 +288,40 @@ class Matrix4
         // Read Right
 
         right.data.offset = counter;
-        var mR00:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR01:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR02:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR03:Float = right.data.readFloat(DataTypeFloat32);
+        var mR00:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR01:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR02:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR03:Float = right.data.readFloat32();
 
-        right.data.offset = dataSize * ++counter;
-        var mR04:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR05:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR06:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR07:Float = right.data.readFloat(DataTypeFloat32);
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR04:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR05:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR06:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR07:Float = right.data.readFloat32();
 
-        right.data.offset = dataSize * ++counter;
-        var mR08:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR09:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR10:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR11:Float = right.data.readFloat(DataTypeFloat32);
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR08:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR09:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR10:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR11:Float = right.data.readFloat32();
 
-        right.data.offset = dataSize * ++counter;
-        var mR12:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR13:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR14:Float = right.data.readFloat(DataTypeFloat32);
-        right.data.offset = dataSize * ++counter;
-        var mR15:Float = right.data.readFloat(DataTypeFloat32);
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR12:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR13:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR14:Float = right.data.readFloat32();
+        right.data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mR15:Float = right.data.readFloat32();
 
         right.data.offset = 0;
 
@@ -330,40 +329,40 @@ class Matrix4
         counter = 0;
 
         data.offset = counter;
-        var mL00:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL01:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL02:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL03:Float = data.readFloat(DataTypeFloat32);
+        var mL00:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL01:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL02:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL03:Float = data.readFloat32();
 
-        data.offset = dataSize * ++counter;
-        var mL04:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL05:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL06:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL07:Float = data.readFloat(DataTypeFloat32);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL04:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL05:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL06:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL07:Float = data.readFloat32();
 
-        data.offset = dataSize * ++counter;
-        var mL08:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL09:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL10:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL11:Float = data.readFloat(DataTypeFloat32);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL08:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL09:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL10:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL11:Float = data.readFloat32();
 
-        data.offset = dataSize * ++counter;
-        var mL12:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL13:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL14:Float = data.readFloat(DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        var mL15:Float = data.readFloat(DataTypeFloat32);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL12:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL13:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL14:Float = data.readFloat32();
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        var mL15:Float = data.readFloat32();
 
 
         // Calculate
@@ -393,40 +392,40 @@ class Matrix4
         counter = 0;
 
         data.offset = counter;
-        data.writeFloat(out00, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out01, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out02, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out03, DataTypeFloat32);
+        data.writeFloat32(out00);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out01);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out02);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out03);
 
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out04, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out05, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out06, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out07, DataTypeFloat32);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out04);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out05);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out06);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out07);
 
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out08, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out09, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out10, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out11, DataTypeFloat32);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out08);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out09);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out10);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out11);
 
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out12, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out13, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out14, DataTypeFloat32);
-        data.offset = dataSize * ++counter;
-        data.writeFloat(out15, DataTypeFloat32);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out12);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out13);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out14);
+        data.offset = Data.SIZE_OF_FLOAT32 * ++counter;
+        data.writeFloat32(out15);
 
         data.offset = oldOffset;
     }

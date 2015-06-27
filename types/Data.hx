@@ -30,25 +30,54 @@ import types.DataType;
 
 extern class Data
 {
+	inline static public var SIZE_OF_INT8: Int = 1;
+	inline static public var SIZE_OF_UINT8: Int = 1;
+	inline static public var SIZE_OF_INT16: Int = 2;
+	inline static public var SIZE_OF_UINT16: Int = 2;
+	inline static public var SIZE_OF_INT32: Int = 4;
+	inline static public var SIZE_OF_UINT32: Int = 4;
+	inline static public var SIZE_OF_FLOAT32: Int = 4;
+	inline static public var SIZE_OF_FLOAT64: Int = 8;
+
 	public function new(sizeInBytes : Int) : Void; /// if 0, empty data, does not create the underlying memory. Can be set externally.
 
 	public function writeData(data : Data) : Void;
 
+	// Int write and read functions
+
 	public function writeInt(value : Int, targetDataType : DataType) : Void;
-
-	public function writeFloat(value : Float, targetDataType : DataType) : Void;
-
 	public function writeIntArray(array : Array<Int>, dataType : DataType) : Void;
 
-	public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void;
+	public function writeInt8(value : Int) : Void;
+	public function writeUInt8(value : Int) : Void;
+	public function writeInt16(value : Int) : Void;
+	public function writeUInt16(value : Int) : Void;
+	public function writeInt32(value : Int) : Void;
+	public function writeUInt32(value : Int) : Void;
 
 	public function readInt(targetDataType : DataType) : Int;
+	public function readIntArray(count : Int, dataType : DataType) : Array<Int>;
+
+	public function readInt8() : Int;
+	public function readUInt8() : Int;
+	public function readInt16() : Int;
+	public function readUInt16() : Int;
+	public function readInt32() : Int;
+	public function readUInt32() : Int;
+
+	// Float write and read functions
+
+	public function writeFloat(value : Float, targetDataType : DataType) : Void;
+	public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void;
+
+	public function writeFloat32(value : Float) : Void;
+	public function writeFloat64(value : Float) : Void;
 
 	public function readFloat(targetDataType : DataType) : Float;
-
-    public function readIntArray(count : Int, dataType : DataType) : Array<Int>;
-
     public function readFloatArray(count : Int, dataType : DataType) : Array<Float>;
+
+	public function readFloat32() : Float;
+	public function readFloat64() : Float;
 
 	public function toString(?dataType : DataType) : String; /// defaults to DataType.Int
 

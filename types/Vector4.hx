@@ -75,6 +75,8 @@ extern class Vector4
     public static function lengthSquared(vector : Vector4) : Float;
     public static function distance(start : Vector4, end : Vector4) : Float;
 
+    public static function dotProduct(left: Vector4, right: Vector4) : Float;
+
     public function toString() : String;
 
     public var data(default, null) : Data;

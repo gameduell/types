@@ -37,14 +37,14 @@ class Matrix4
 	private static var identity: Data;
 
 	public function new(): Void{
-		data = new Data(4*4*4);
+		data = new Data(4 * 4 * Data.SIZE_OF_FLOAT32);
 	}
 
 	public function setIdentity(): Void
 	{
 		if(identity == null)
 		{
-			identity = new Data(4*4*4);
+			identity = new Data(4 * 4 * Data.SIZE_OF_FLOAT32);
 			identity.writeFloatArray([	1.0, 0.0, 0.0, 0.0,
 									    0.0, 1.0, 0.0, 0.0,
 								 		0.0, 0.0, 1.0, 0.0,

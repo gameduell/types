@@ -2,8 +2,6 @@ package types;
 
 class Matrix3DataTools
 {
-    inline static private var floatSize: Int = 4;
-
     /**
      * Writes the values from the Matrix3 into a given Data object. Size and offset of the Data will be uneffected
      * by this function and have to be set before.
@@ -12,23 +10,23 @@ class Matrix3DataTools
     {
         var oldOffset: Int = data.offset;
 
-        data.writeFloat(matrix.m00, DataType.DataTypeFloat32);
-        data.offset += floatSize;
-        data.writeFloat(matrix.m01, DataType.DataTypeFloat32);
-        data.offset += floatSize;
-        data.writeFloat(matrix.m02, DataType.DataTypeFloat32);
-        data.offset += floatSize;
-        data.writeFloat(matrix.m10, DataType.DataTypeFloat32);
-        data.offset += floatSize;
-        data.writeFloat(matrix.m11, DataType.DataTypeFloat32);
-        data.offset += floatSize;
-        data.writeFloat(matrix.m12, DataType.DataTypeFloat32);
-        data.offset += floatSize;
-        data.writeFloat(matrix.m20, DataType.DataTypeFloat32);
-        data.offset += floatSize;
-        data.writeFloat(matrix.m21, DataType.DataTypeFloat32);
-        data.offset += floatSize;
-        data.writeFloat(matrix.m22, DataType.DataTypeFloat32);
+        data.writeFloat32(matrix.m00);
+        data.offset += Data.SIZE_OF_FLOAT32;
+        data.writeFloat32(matrix.m01);
+        data.offset += Data.SIZE_OF_FLOAT32;
+        data.writeFloat32(matrix.m02);
+        data.offset += Data.SIZE_OF_FLOAT32;
+        data.writeFloat32(matrix.m10);
+        data.offset += Data.SIZE_OF_FLOAT32;
+        data.writeFloat32(matrix.m11);
+        data.offset += Data.SIZE_OF_FLOAT32;
+        data.writeFloat32(matrix.m12);
+        data.offset += Data.SIZE_OF_FLOAT32;
+        data.writeFloat32(matrix.m20);
+        data.offset += Data.SIZE_OF_FLOAT32;
+        data.writeFloat32(matrix.m21);
+        data.offset += Data.SIZE_OF_FLOAT32;
+        data.writeFloat32(matrix.m22);
 
         data.offset = oldOffset;
     }

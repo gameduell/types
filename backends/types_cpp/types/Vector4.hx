@@ -580,6 +580,11 @@ class Vector4
 
 
     @:functionCode('
+        return UTKVector4DotProduct(*left->_vectorData, *right->_vectorData);
+    ')
+    public static function dotProduct(left: Vector4, right: Vector4) : Float { return 0; }
+
+    @:functionCode('
         return UTKVector4Distance(*start->_vectorData, *end->_vectorData);
     ')
     public static function distance(start : Vector4, end : Vector4) : Float { return 0; }

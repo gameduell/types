@@ -33,6 +33,15 @@ import types.DataType;
 
 class Data
 {
+    inline static public var SIZE_OF_INT8: Int = 1;
+    inline static public var SIZE_OF_UINT8: Int = 1;
+    inline static public var SIZE_OF_INT16: Int = 2;
+    inline static public var SIZE_OF_UINT16: Int = 2;
+    inline static public var SIZE_OF_INT32: Int = 4;
+    inline static public var SIZE_OF_UINT32: Int = 4;
+    inline static public var SIZE_OF_FLOAT32: Int = 4;
+    inline static public var SIZE_OF_FLOAT64: Int = 8;
+
     public var offsetLength: Int;
     public var allocedLength(default, null): Int;
     @:isVar public var byteArray(get, set): ByteArray;
@@ -81,6 +90,94 @@ class Data
         _internalByteArrayOffset += data.offsetLength;
     }
 
+    // Int write and read functions
+
+    public function writeInt(value : Int, targetDataType : DataType) : Void
+    {
+        switch(targetDataType)
+        {
+            case DataType.DataTypeInt8: writeInt8(value);
+            case DataType.DataTypeUInt8: writeUInt8(value);
+            case DataType.DataTypeInt16: writeInt16(value);
+            case DataType.DataTypeUInt16: writeUInt16(value);
+            case DataType.DataTypeInt32: writeInt32(value);
+            case DataType.DataTypeUInt32: writeUInt32(value);
+            case DataType.DataTypeFloat32: writeFloat32(value);
+            case DataType.DataTypeFloat64: writeFloat64(value);
+        }
+    }
+
+    public function writeIntArray(array : Array<Int>, dataType : DataType) : Void
+    {
+        var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
+        var prevOffset = offset;
+
+        for(i in 0...array.length)
+        {
+            offset = prevOffset + (i * dataSize);
+            writeInt(array[i], dataType);
+        }
+
+        offset = prevOffset;
+    }
+
+    public function writeInt8(value : Int) : Void
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_INT8;
+        byteArray.writeByte(value);
+    }
+
+    public function writeUInt8(value : Int) : Void
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_UINT8;
+        byteArray.writeByte(value);
+    }
+
+    public function writeInt16(value : Int) : Void
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_INT16;
+        byteArray.writeShort(value);
+    }
+
+    public function writeUInt16(value : Int) : Void
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_UINT16;
+        byteArray.writeShort(value);
+    }
+
+    public function writeInt32(value : Int) : Void
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_INT32;
+        byteArray.writeInt(value);
+    }
+
+    public function writeUInt32(value : Int) : Void
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_UINT32;
+        byteArray.writeUnsignedInt(value);
+    }
+
+    public function readInt(targetDataType : DataType) : Int
+    {
+        switch(targetDataType)
+        {
+            case DataType.DataTypeInt8: return readInt8();
+            case DataType.DataTypeUInt8: return readUInt8();
+            case DataType.DataTypeInt16: return readInt16();
+            case DataType.DataTypeUInt16: return readUInt16();
+            case DataType.DataTypeInt32: return readInt32();
+            case DataType.DataTypeUInt32: return readUInt32();
+            case DataType.DataTypeFloat32: return Std.int(readFloat32());
+            case DataType.DataTypeFloat64: return Std.int(readFloat64());
+        }
+    }
+
     public function readIntArray(count : Int, targetDataType : DataType) : Array<Int>
     {
         var dataSize = types.DataTypeUtils.dataTypeByteSize(targetDataType);
@@ -98,21 +195,106 @@ class Data
         return returnArray;
     }
 
-    public function readUIntArray(count : Int, targetDataType : DataType) : Array<UInt>
+    public function readInt8() : Int
     {
-        var dataSize = types.DataTypeUtils.dataTypeByteSize(targetDataType);
-        var returnArray = new Array<UInt>();
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_INT8;
+        return byteArray.readByte();
+    }
+
+    public function readUInt8() : Int
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_UINT8;
+        return byteArray.readUnsignedByte();
+    }
+
+    public function readInt16() : Int
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_INT16;
+        return byteArray.readShort();
+    }
+
+    public function readUInt16() : Int
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_UINT16;
+        return byteArray.readUnsignedShort();
+    }
+
+    public function readInt32() : Int
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_INT32;
+        return byteArray.readInt();
+    }
+
+    public function readUInt32() : Int
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_UINT32;
+        return byteArray.readUnsignedInt();
+    }
+
+    // Float write and read functions
+
+    public function writeFloat(value : Float, targetDataType : DataType) : Void
+    {
+        switch(targetDataType)
+        {
+            case DataType.DataTypeInt8: writeInt8(Std.int(value));
+            case DataType.DataTypeUInt8: writeUInt8(Std.int(value));
+            case DataType.DataTypeInt16: writeInt16(Std.int(value));
+            case DataType.DataTypeUInt16: writeUInt16(Std.int(value));
+            case DataType.DataTypeInt32: writeInt32(Std.int(value));
+            case DataType.DataTypeUInt32: writeUInt32(Std.int(value));
+            case DataType.DataTypeFloat32: writeFloat32(value);
+            case DataType.DataTypeFloat64: writeFloat64(value);
+        }
+    }
+
+    public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void
+    {
+        var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
         var prevOffset = offset;
 
-        for(i in 0...count)
+        for(i in 0...array.length)
         {
             offset = prevOffset + (i * dataSize);
-            returnArray.push(readInt(targetDataType));
+            writeFloat(array[i], dataType);
         }
 
         offset = prevOffset;
+    }
 
-        return returnArray;
+    public function writeFloat32(value : Float) : Void
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_FLOAT32;
+        byteArray.writeFloat(value);
+    }
+
+    public function writeFloat64(value : Float) : Void
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_FLOAT64;
+        byteArray.writeDouble(value);
+    }
+
+    public function readFloat(targetDataType : DataType) : Float
+    {
+        switch(targetDataType)
+        {
+            case DataType.DataTypeInt8: return readInt8();
+            case DataType.DataTypeUInt8: return readUInt8();
+            case DataType.DataTypeInt16: return readInt16();
+            case DataType.DataTypeUInt16: return readUInt16();
+            case DataType.DataTypeInt32: return readInt32();
+            case DataType.DataTypeUInt32: return readUInt32();
+            case DataType.DataTypeFloat32: return readFloat32();
+            case DataType.DataTypeFloat64: return readFloat64();
+        }
     }
 
     public function readFloatArray(count : Int, targetDataType : DataType) : Array<Float>
@@ -132,6 +314,37 @@ class Data
         return returnArray;
     }
 
+    public function readFloat32() : Float
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_FLOAT32;
+        return byteArray.readFloat();
+    }
+
+    public function readFloat64() : Float
+    {
+        setByteArrayPositionLazily();
+        _internalByteArrayOffset += Data.SIZE_OF_FLOAT64;
+        return byteArray.readDouble();
+    }
+
+    /*public function readUIntArray(count : Int, targetDataType : DataType) : Array<UInt>
+    {
+        var dataSize = types.DataTypeUtils.dataTypeByteSize(targetDataType);
+        var returnArray = new Array<UInt>();
+        var prevOffset = offset;
+
+        for(i in 0...count)
+        {
+            offset = prevOffset + (i * dataSize);
+            returnArray.push(readInt(targetDataType));
+        }
+
+        offset = prevOffset;
+
+        return returnArray;
+    }
+*/
 
     private function setByteArrayPositionLazily() : Void
     {
@@ -145,180 +358,6 @@ class Data
     private function advanceInternalByteArrayOffset(targetDataType : DataType) : Void
     {
         _internalByteArrayOffset += DataTypeUtils.dataTypeByteSize(targetDataType);
-    }
-
-    public function readInt(targetDataType : DataType) : Int
-    {
-        var returnValue:Int;
-
-        setByteArrayPositionLazily();
-
-        switch(targetDataType)
-        {
-            case DataTypeInt8:
-                returnValue =  byteArray.readByte();
-
-            case DataTypeUInt8:
-                returnValue =  byteArray.readUnsignedByte();
-
-            case DataTypeInt16:
-                returnValue =  byteArray.readShort();
-
-            case DataTypeUInt16:
-                returnValue =  byteArray.readUnsignedShort();
-
-            case DataTypeInt32:
-                returnValue =  byteArray.readInt();
-
-            case DataTypeUInt32:
-                returnValue = byteArray.readUnsignedInt();
-
-            case DataTypeFloat32:
-                returnValue =  Std.int(byteArray.readFloat());
-
-            case DataTypeFloat64:
-                returnValue =  Std.int(byteArray.readDouble());
-        }
-
-        advanceInternalByteArrayOffset(targetDataType);
-
-        return returnValue;
-    }
-
-
-    public function readFloat(targetDataType : DataType) : Float
-    {
-        var returnValue:Float;
-
-        setByteArrayPositionLazily();
-
-        switch(targetDataType)
-        {
-            case DataTypeInt8:
-                returnValue =  byteArray.readByte();
-
-            case DataTypeUInt8:
-                returnValue =  cast byteArray.readUnsignedByte();
-
-            case DataTypeInt16:
-                returnValue =  byteArray.readShort();
-
-            case DataTypeUInt16:
-                returnValue =  cast byteArray.readUnsignedShort();
-
-            case DataTypeInt32:
-                returnValue =  byteArray.readInt();
-
-            case DataTypeUInt32:
-                returnValue =  cast byteArray.readUnsignedInt();
-
-            case DataTypeFloat32:
-                returnValue = byteArray.readFloat();
-
-            case DataTypeFloat64:
-                returnValue = byteArray.readDouble();
-        }
-
-        advanceInternalByteArrayOffset(targetDataType);
-
-        return returnValue;
-    }
-
-
-    public function writeIntArray(array : Array<Int>, dataType : DataType) : Void
-    {
-        var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
-        var prevOffset = offset;
-
-        for(i in 0...array.length)
-        {
-            offset = prevOffset + (i * dataSize);
-            writeInt(array[i], dataType);
-        }
-
-        offset = prevOffset;
-    }
-
-    public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void
-    {
-        var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
-        var prevOffset = offset;
-
-        for(i in 0...array.length)
-        {
-            offset = prevOffset + (i * dataSize);
-            writeFloat(array[i], dataType);
-        }
-
-        offset = prevOffset;
-    }
-
-    public function writeInt(value : Int, targetDataType : DataType) : Void
-    {
-        setByteArrayPositionLazily();
-
-        switch(targetDataType)
-        {
-            case DataTypeInt8:
-                byteArray.writeByte(value);
-
-            case DataTypeUInt8:
-                byteArray.writeByte(value);
-
-            case DataTypeInt16:
-                byteArray.writeShort(value);
-
-            case DataTypeUInt16:
-                byteArray.writeShort(value);
-
-            case DataTypeInt32:
-                byteArray.writeInt(value);
-
-            case DataTypeUInt32:
-                byteArray.writeUnsignedInt(value);
-
-            case DataTypeFloat32:
-                byteArray.writeFloat(value);
-
-            case DataTypeFloat64:
-                byteArray.writeDouble(value);
-        }
-
-        advanceInternalByteArrayOffset(targetDataType);
-    }
-
-    public function writeFloat(value : Float, targetDataType : DataType) : Void
-    {
-        setByteArrayPositionLazily();
-
-        switch(targetDataType)
-        {
-            case DataTypeInt8:
-                byteArray.writeByte(Std.int(value));
-
-            case DataTypeUInt8:
-                byteArray.writeByte(Std.int(value));
-
-            case DataTypeInt16:
-                byteArray.writeShort(Std.int(value));
-
-            case DataTypeUInt16:
-                byteArray.writeShort(Std.int(value));
-
-            case DataTypeInt32:
-                byteArray.writeInt(Std.int(value));
-
-            case DataTypeUInt32:
-                byteArray.writeUnsignedInt(Std.int(value));
-
-            case DataTypeFloat32:
-                byteArray.writeFloat(value);
-
-            case DataTypeFloat64:
-                byteArray.writeDouble(value);
-        }
-
-        advanceInternalByteArrayOffset(targetDataType);
     }
 
     public function toString(?dataType : DataType = null) : String
@@ -368,8 +407,8 @@ class Data
 
         if(allocedLength == 0 || byteArray == null)
         {
-                set_byteArray(newBuffer);
-                return;
+            set_byteArray(newBuffer);
+            return;
         }
 
         if (newSize > allocedLength)
@@ -409,7 +448,7 @@ class Data
         set_byteArray(newBuffer);
     }
 
-    public function getBytes():Bytes
+    public function getBytes() : Bytes
     {
         return Bytes.ofData(byteArray);
     }

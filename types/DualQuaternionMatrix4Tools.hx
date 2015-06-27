@@ -70,56 +70,56 @@ class DualQuaternionMatrix4Tools
         var m44: Float = 1.0;
 
 
-        matrix4.data.offset = 0 * 4;
-        matrix4.data.writeFloat(m11, DataTypeFloat32);
+        matrix4.data.offset = 0 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m11);
 
-        matrix4.data.offset = 1 * 4;
-        matrix4.data.writeFloat(m21, DataTypeFloat32);
+        matrix4.data.offset = 1 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m21);
 
-        matrix4.data.offset = 2 * 4;
-        matrix4.data.writeFloat(m31, DataTypeFloat32);
+        matrix4.data.offset = 2 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m31);
 
-        matrix4.data.offset = 3 * 4;
-        matrix4.data.writeFloat(m41, DataTypeFloat32);
-
-
-        matrix4.data.offset = 4 * 4;
-        matrix4.data.writeFloat(m12, DataTypeFloat32);
-
-        matrix4.data.offset = 5 * 4;
-        matrix4.data.writeFloat(m22, DataTypeFloat32);
-
-        matrix4.data.offset = 6 * 4;
-        matrix4.data.writeFloat(m32, DataTypeFloat32);
-
-        matrix4.data.offset = 7 * 4;
-        matrix4.data.writeFloat(m42, DataTypeFloat32);
+        matrix4.data.offset = 3 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m41);
 
 
-        matrix4.data.offset = 8 * 4;
-        matrix4.data.writeFloat(m13, DataTypeFloat32);
+        matrix4.data.offset = 4 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m12);
 
-        matrix4.data.offset = 9 * 4;
-        matrix4.data.writeFloat(m23, DataTypeFloat32);
+        matrix4.data.offset = 5 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m22);
 
-        matrix4.data.offset = 10 * 4;
-        matrix4.data.writeFloat(m33, DataTypeFloat32);
+        matrix4.data.offset = 6 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m32);
 
-        matrix4.data.offset = 11 * 4;
-        matrix4.data.writeFloat(m43, DataTypeFloat32);
+        matrix4.data.offset = 7 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m42);
 
 
-        matrix4.data.offset = 12 * 4;
-        matrix4.data.writeFloat(m14, DataTypeFloat32);
+        matrix4.data.offset = 8 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m13);
 
-        matrix4.data.offset = 13 * 4;
-        matrix4.data.writeFloat(m24, DataTypeFloat32);
+        matrix4.data.offset = 9 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m23);
 
-        matrix4.data.offset = 14 * 4;
-        matrix4.data.writeFloat(m34, DataTypeFloat32);
+        matrix4.data.offset = 10 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m33);
 
-        matrix4.data.offset = 15 * 4;
-        matrix4.data.writeFloat(m44, DataTypeFloat32);
+        matrix4.data.offset = 11 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m43);
+
+
+        matrix4.data.offset = 12 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m14);
+
+        matrix4.data.offset = 13 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m24);
+
+        matrix4.data.offset = 14 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m34);
+
+        matrix4.data.offset = 15 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m44);
     }
 
     static public function setFromDualQuaternionWithScale(matrix4: Matrix4, dualQuaternion: DualQuaternion, scale: Vector3): Void
@@ -162,56 +162,56 @@ class DualQuaternionMatrix4Tools
         var m44: Float = 1.0;
 
 
-        matrix4.data.offset = 0 * 4;
-        matrix4.data.writeFloat(m11, DataTypeFloat32);
+        matrix4.data.offset = 0 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m11);
 
-        matrix4.data.offset = 1 * 4;
-        matrix4.data.writeFloat(m21, DataTypeFloat32);
+        matrix4.data.offset = 1 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m21);
 
-        matrix4.data.offset = 2 * 4;
-        matrix4.data.writeFloat(m31, DataTypeFloat32);
+        matrix4.data.offset = 2 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m31);
 
-        matrix4.data.offset = 3 * 4;
-        matrix4.data.writeFloat(m41, DataTypeFloat32);
-
-
-        matrix4.data.offset = 4 * 4;
-        matrix4.data.writeFloat(m12, DataTypeFloat32);
-
-        matrix4.data.offset = 5 * 4;
-        matrix4.data.writeFloat(m22, DataTypeFloat32);
-
-        matrix4.data.offset = 6 * 4;
-        matrix4.data.writeFloat(m32, DataTypeFloat32);
-
-        matrix4.data.offset = 7 * 4;
-        matrix4.data.writeFloat(m42, DataTypeFloat32);
+        matrix4.data.offset = 3 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m41);
 
 
-        matrix4.data.offset = 8 * 4;
-        matrix4.data.writeFloat(m13, DataTypeFloat32);
+        matrix4.data.offset = 4 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m12);
 
-        matrix4.data.offset = 9 * 4;
-        matrix4.data.writeFloat(m23, DataTypeFloat32);
+        matrix4.data.offset = 5 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m22);
 
-        matrix4.data.offset = 10 * 4;
-        matrix4.data.writeFloat(m33, DataTypeFloat32);
+        matrix4.data.offset = 6 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m32);
 
-        matrix4.data.offset = 11 * 4;
-        matrix4.data.writeFloat(m43, DataTypeFloat32);
+        matrix4.data.offset = 7 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m42);
 
 
-        matrix4.data.offset = 12 * 4;
-        matrix4.data.writeFloat(m14, DataTypeFloat32);
+        matrix4.data.offset = 8 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m13);
 
-        matrix4.data.offset = 13 * 4;
-        matrix4.data.writeFloat(m24, DataTypeFloat32);
+        matrix4.data.offset = 9 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m23);
 
-        matrix4.data.offset = 14 * 4;
-        matrix4.data.writeFloat(m34, DataTypeFloat32);
+        matrix4.data.offset = 10 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m33);
 
-        matrix4.data.offset = 15 * 4;
-        matrix4.data.writeFloat(m44, DataTypeFloat32);
+        matrix4.data.offset = 11 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m43);
+
+
+        matrix4.data.offset = 12 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m14);
+
+        matrix4.data.offset = 13 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m24);
+
+        matrix4.data.offset = 14 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m34);
+
+        matrix4.data.offset = 15 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m44);
     }
 
     static public function setFromDualQuaternionWithScaleMatrix(matrix4: Matrix4, dualQuaternion: DualQuaternion, scale: Matrix3): Void
@@ -283,55 +283,55 @@ class DualQuaternionMatrix4Tools
         m31 = tmp31;
         m32 = tmp32;
 
-        matrix4.data.offset = 0 * 4;
-        matrix4.data.writeFloat(m00, DataTypeFloat32);
+        matrix4.data.offset = 0 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m00);
 
-        matrix4.data.offset = 1 * 4;
-        matrix4.data.writeFloat(m10, DataTypeFloat32);
+        matrix4.data.offset = 1 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m10);
 
-        matrix4.data.offset = 2 * 4;
-        matrix4.data.writeFloat(m20, DataTypeFloat32);
+        matrix4.data.offset = 2 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m20);
 
-        matrix4.data.offset = 3 * 4;
-        matrix4.data.writeFloat(m30, DataTypeFloat32);
-
-
-        matrix4.data.offset = 4 * 4;
-        matrix4.data.writeFloat(m01, DataTypeFloat32);
-
-        matrix4.data.offset = 5 * 4;
-        matrix4.data.writeFloat(m11, DataTypeFloat32);
-
-        matrix4.data.offset = 6 * 4;
-        matrix4.data.writeFloat(m21, DataTypeFloat32);
-
-        matrix4.data.offset = 7 * 4;
-        matrix4.data.writeFloat(m31, DataTypeFloat32);
+        matrix4.data.offset = 3 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m30);
 
 
-        matrix4.data.offset = 8 * 4;
-        matrix4.data.writeFloat(m02, DataTypeFloat32);
+        matrix4.data.offset = 4 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m01);
 
-        matrix4.data.offset = 9 * 4;
-        matrix4.data.writeFloat(m12, DataTypeFloat32);
+        matrix4.data.offset = 5 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m11);
 
-        matrix4.data.offset = 10 * 4;
-        matrix4.data.writeFloat(m22, DataTypeFloat32);
+        matrix4.data.offset = 6 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m21);
 
-        matrix4.data.offset = 11 * 4;
-        matrix4.data.writeFloat(m32, DataTypeFloat32);
+        matrix4.data.offset = 7 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m31);
 
 
-        matrix4.data.offset = 12 * 4;
-        matrix4.data.writeFloat(m03, DataTypeFloat32);
+        matrix4.data.offset = 8 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m02);
 
-        matrix4.data.offset = 13 * 4;
-        matrix4.data.writeFloat(m13, DataTypeFloat32);
+        matrix4.data.offset = 9 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m12);
 
-        matrix4.data.offset = 14 * 4;
-        matrix4.data.writeFloat(m23, DataTypeFloat32);
+        matrix4.data.offset = 10 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m22);
 
-        matrix4.data.offset = 15 * 4;
-        matrix4.data.writeFloat(m33, DataTypeFloat32);
+        matrix4.data.offset = 11 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m32);
+
+
+        matrix4.data.offset = 12 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m03);
+
+        matrix4.data.offset = 13 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m13);
+
+        matrix4.data.offset = 14 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m23);
+
+        matrix4.data.offset = 15 * Data.SIZE_OF_FLOAT32;
+        matrix4.data.writeFloat32(m33);
     }
 }

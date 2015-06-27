@@ -82,7 +82,7 @@ class AffineTransform
     }
 
     /** Sets this matrix to the identity matrix */
-    public function setIdentity(): Void
+    inline public function setIdentity(): Void
     {
         m00 = 1.0;
         m01 = 0.0;
@@ -95,7 +95,7 @@ class AffineTransform
     /** Copies the values from the provided affine matrix to this matrix.
 	 * @param other The affine matrix to copy.
 	 **/
-    public function set(other: AffineTransform): Void
+    inline public function set(other: AffineTransform): Void
     {
         m00 = other.m00;
         m01 = other.m01;
@@ -112,7 +112,7 @@ class AffineTransform
 	 * @param scaleX The scale in y.
 	 * @param scaleY The scale in x.
 	 **/
-    public function setTranslationScale(x: Float, y: Float, scaleX: Float, scaleY: Float): Void
+    inline public function setTranslationScale(x: Float, y: Float, scaleX: Float, scaleY: Float): Void
     {
         m00 = scaleX;
         m01 = 0.0;
@@ -130,32 +130,21 @@ class AffineTransform
 	 * @param scaleX The scale in y.
 	 * @param scaleY The scale in x.
 	 **/
-    public function setTranslationRotationScale(x: Float, y: Float, radians: Float, scaleX: Float, scaleY: Float): Void
+    inline public function setTranslationRotationScale(x: Float, y: Float, radians: Float, scaleX: Float, scaleY: Float): Void
     {
+        var sin = Math.sin(radians);
+        var cos = Math.cos(radians);
+
+        m00 = cos * scaleX;
+        m01 = -sin * scaleY;
         m02 = x;
+        m10 = sin * scaleX;
+        m11 = cos * scaleY;
         m12 = y;
-
-        if (radians == 0.0)
-        {
-            m00 = scaleX;
-            m01 = 0.0;
-            m10 = 0.0;
-            m11 = scaleY;
-        }
-        else
-        {
-            var sin = Math.sin(radians);
-            var cos = Math.cos(radians);
-
-            m00 = cos * scaleX;
-            m01 = -sin * scaleY;
-            m10 = sin * scaleX;
-            m11 = cos * scaleY;
-        }
     }
 
     /** Same as above, but allows to flip */
-    public function setTranslationRotationScaleFlip(x: Float, y: Float, radians: Float, scaleX: Float, scaleY: Float, flipX: Bool, flipY: Bool): Void
+    inline public function setTranslationRotationScaleFlip(x: Float, y: Float, radians: Float, scaleX: Float, scaleY: Float, flipX: Bool, flipY: Bool): Void
     {
         m02 = x;
         m12 = y;
@@ -196,8 +185,22 @@ class AffineTransform
         }
     }
 
+    inline public function setOrtho(left: Float, right: Float, bottom: Float, top: Float): Void
+    {
+        var ral: Float = right + left;
+        var rsl: Float = right - left;
+        var tab: Float = top + bottom;
+        var tsb: Float = top - bottom;
 
-    public function get(index: Int): Float
+        m00 = 2.0 / rsl;
+        m01 = 0.0;
+        m10 = 0.0;
+        m11 = 2.0 / tsb;
+        m02 = -ral / rsl;
+        m12 = -tab / tsb;
+    }
+
+    inline public function get(index: Int): Float
     {
         switch (index)
         {
@@ -216,7 +219,7 @@ class AffineTransform
 	 * @param x The x-component of the translation vector.
 	 * @param y The y-component of the translation vector.
 	 **/
-    public function translate(x: Float, y: Float): Void
+    inline public function translate(x: Float, y: Float): Void
     {
         m02 += m00 * x + m01 * y;
         m12 += m10 * x + m11 * y;
@@ -226,7 +229,7 @@ class AffineTransform
 	 * @param x The x-component of the translation vector.
 	 * @param y The y-component of the translation vector.
 	 **/
-    public function preTranslate(x: Float, y: Float): Void
+    inline public function preTranslate(x: Float, y: Float): Void
     {
         m02 += x;
         m12 += y;
@@ -236,7 +239,7 @@ class AffineTransform
 	 * @param scaleX The scale in the x-axis.
 	 * @param scaleY The scale in the y-axis.
 	 **/
-    public function scale(scaleX: Float, scaleY: Float): Void
+    inline public function scale(scaleX: Float, scaleY: Float): Void
     {
         m00 *= scaleX;
         m01 *= scaleY;
@@ -248,7 +251,7 @@ class AffineTransform
 	 * @param scaleX The scale in the x-axis.
 	 * @param scaleY The scale in the y-axis.
 	 **/
-    public function preScale(scaleX: Float, scaleY: Float): Void
+    inline public function preScale(scaleX: Float, scaleY: Float): Void
     {
         m00 *= scaleX;
         m01 *= scaleX;
@@ -261,7 +264,7 @@ class AffineTransform
     /** Postmultiplies this matrix with a (counter-clockwise) rotation matrix.
 	 * @param radians The angle in radians
 	 **/
-    public function rotate(radians: Float): Void
+    inline public function rotate(radians: Float): Void
     {
         if (radians == 0.0) return;
 
@@ -282,7 +285,7 @@ class AffineTransform
     /** Premultiplies this matrix with a (counter-clockwise) rotation matrix.
 	 * @param radians The angle in radians
 	 **/
-    public function preRotate(radians: Float): Void
+    inline public function preRotate(radians: Float): Void
     {
         if (radians == 0.0) return;
 
@@ -308,7 +311,7 @@ class AffineTransform
 	 * @param skewX The shear in x direction.
 	 * @param skewY The shear in y direction.
 	 **/
-    public function skew(skewX: Float, skewY: Float): Void
+    inline public function skew(skewX: Float, skewY: Float): Void
     {
         var tmp0 = m00 + skewY * m01;
         var tmp1 = m01 + skewX * m00;
@@ -326,7 +329,7 @@ class AffineTransform
 	 * @param skewX The shear in x direction.
 	 * @param skewY The shear in y direction.
 	 **/
-    public function preSkew(skewX: Float, skewY: Float): Void
+    inline public function preSkew(skewX: Float, skewY: Float): Void
     {
         var tmp00 = m00 + skewX * m10;
         var tmp01 = m01 + skewX * m11;
@@ -345,14 +348,14 @@ class AffineTransform
 
     /** Calculates the determinant of the matrix.
 	 * @return The determinant of this matrix. */
-    public function determinant(): Float
+    inline public function determinant(): Float
     {
         return m00 * m11 - m01 * m10;
     }
 
     /** Inverts this matrix given that the determinant is != 0.
 	 **/
-    public function invert(): Void
+    inline public function invert(): Void
     {
         var det = determinant();
         if (det == 0.0) return;
@@ -381,7 +384,7 @@ class AffineTransform
 	 * </pre>
 	 * @param other Matrix to multiply by.
 	 **/
-    public function multiply(other: AffineTransform): Void
+    inline public function multiply(other: AffineTransform): Void
     {
         var tmp00 = m00 * other.m00 + m01 * other.m10;
         var tmp01 = m00 * other.m01 + m01 * other.m11;
@@ -405,7 +408,7 @@ class AffineTransform
 	 * </pre>
 	 * @param other The other Matrix to multiply by
 	 **/
-    public function preMultiply(other: AffineTransform): Void
+    inline public function preMultiply(other: AffineTransform): Void
     {
         var tmp00 = other.m00 * m00 + other.m01 * m10;
         var tmp01 = other.m00 * m01 + other.m01 * m11;
@@ -422,7 +425,7 @@ class AffineTransform
         m12 = tmp12;
     }
 
-    public function toString(): String
+    inline public function toString(): String
     {
         return "[" + m00 + ", " + m01 + ", " + m02 + ", " + m10 + ", " + m11 + ", " + m12 + "]";
     }

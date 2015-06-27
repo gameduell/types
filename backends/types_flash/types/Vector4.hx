@@ -35,7 +35,7 @@ class Vector4
     {
         if(_data == null)
         {
-            data = new Data(4*4);
+            data = new Data(4 * Data.SIZE_OF_FLOAT32);
         }
         else
         {
@@ -55,52 +55,52 @@ class Vector4
     public function get_x() : Float
     {
         data.offset = dataOffset + 0;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_x(x : Float) : Float
     {
         data.offset = dataOffset + 0;
-        data.writeFloat(x, DataTypeFloat32);
+        data.writeFloat32(x);
         return x;
     }
 
     public function get_y() : Float
     {
         data.offset = dataOffset + 4;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_y(y : Float) : Float
     {
         data.offset = dataOffset + 4;
-        data.writeFloat(y, DataTypeFloat32);
+        data.writeFloat32(y);
         return y;
     }
 
     public function get_z() : Float
     {
         data.offset = dataOffset + 8;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_z(z : Float) : Float
     {
         data.offset = dataOffset + 8;
-        data.writeFloat(z, DataTypeFloat32);
+        data.writeFloat32(z);
         return z;
     }
 
     public function get_w() : Float
     {
         data.offset = dataOffset + 12;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_w(w : Float) : Float
     {
         data.offset = dataOffset + 12;
-        data.writeFloat(w, DataTypeFloat32);
+        data.writeFloat32(w);
         return w;
     }
 
@@ -114,52 +114,52 @@ class Vector4
     public function get_r() : Float
     {
         data.offset = dataOffset + 0;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_r(r : Float) : Float
     {
         data.offset = dataOffset + 0;
-        data.writeFloat(r, DataTypeFloat32);
+        data.writeFloat32(r);
         return r;
     }
 
     public function get_g() : Float
     {
         data.offset = dataOffset + 4;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_g(g : Float) : Float
     {
         data.offset = dataOffset + 4;
-        data.writeFloat(g, DataTypeFloat32);
+        data.writeFloat32(g);
         return g;
     }
 
     public function get_b() : Float
     {
         data.offset = dataOffset + 8;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_b(b : Float) : Float
     {
         data.offset = dataOffset + 8;
-        data.writeFloat(b, DataTypeFloat32);
+        data.writeFloat32(b);
         return b;
     }
 
     public function get_a() : Float
     {
         data.offset = dataOffset + 12;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_a(a : Float) : Float
     {
         data.offset = dataOffset + 12;
-        data.writeFloat(a, DataTypeFloat32);
+        data.writeFloat32(a);
         return a;
     }
 
@@ -185,14 +185,14 @@ class Vector4
     {
         data.offset = dataOffset;
         other.data.offset = other.dataOffset;
-        other.data.offsetLength = 4 * 4;
+        other.data.offsetLength = 4 * Data.SIZE_OF_FLOAT32;
         data.writeData(other.data);
     }
 
     public function get(index : Int) : Float
     {
-        data.offset = dataOffset + index * 4;
-        return data.readFloat(DataTypeFloat32);
+        data.offset = dataOffset + index * Data.SIZE_OF_FLOAT32;
+        return data.readFloat32();
     }
 
 /// Math
@@ -293,6 +293,11 @@ class Vector4
         return vector.x * vector.x + vector.y * vector.y + vector.z * vector.z + vector.w * vector.w;
     }
 
+    public static function dotProduct(left: Vector4, right: Vector4) : Float
+    {
+        return left.x * right.x + left.y * right.y + left.z * right.z + left.w * right.w;
+    }
+
     private static var distanceVector4:Vector4;
     public static function distance(start : Vector4, end : Vector4) : Float
     {
@@ -311,13 +316,13 @@ class Vector4
         output += "[";
 
         data.offset = dataOffset;
-        output += data.readFloat(DataTypeFloat32);
+        output += data.readFloat32();
 
         for(i in 1...4)
         {
             output += ", ";
             data.offset += 4;
-            output += data.readFloat(DataTypeFloat32);
+            output += data.readFloat32();
         }
 
         output += "]";

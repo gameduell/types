@@ -49,7 +49,7 @@ class Vector3
     {
         if(_data == null)
         {
-            data = new Data(3*4);
+            data = new Data(3 * Data.SIZE_OF_FLOAT32);
         }
         else
         {
@@ -62,39 +62,39 @@ class Vector3
     public function get_x(): Float
     {
         data.offset = dataOffset + 0;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_x(value: Float): Float
     {
         data.offset = dataOffset + 0;
-        data.writeFloat(value, DataTypeFloat32);
+        data.writeFloat32(value);
         return value;
     }
 
     public function get_y(): Float
     {
         data.offset = dataOffset + 4;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_y(value: Float): Float
     {
         data.offset = dataOffset + 4;
-        data.writeFloat(value, DataTypeFloat32);
+        data.writeFloat32(value);
         return value;
     }
 
     public function get_z(): Float
     {
         data.offset = dataOffset + 8;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_z(value: Float): Float
     {
         data.offset = dataOffset + 8;
-        data.writeFloat(value, DataTypeFloat32);
+        data.writeFloat32(value);
         return value;
     }
 
@@ -102,39 +102,39 @@ class Vector3
     public function get_r(): Float
     {
         data.offset = dataOffset + 0;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_r(value: Float): Float
     {
         data.offset = dataOffset + 0;
-        data.writeFloat(value, DataTypeFloat32);
+        data.writeFloat32(value);
         return value;
     }
 
     public function get_g(): Float
     {
         data.offset = dataOffset + 4;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_g(value: Float): Float
     {
         data.offset = dataOffset + 4;
-        data.writeFloat(value, DataTypeFloat32);
+        data.writeFloat32(value);
         return value;
     }
 
     public function get_b(): Float
     {
         data.offset = dataOffset + 8;
-        return data.readFloat(DataTypeFloat32);
+        return data.readFloat32();
     }
 
     public function set_b(value: Float): Float
     {
         data.offset = dataOffset + 8;
-        data.writeFloat(value, DataTypeFloat32);
+        data.writeFloat32(value);
         return value;
     }
 
@@ -158,14 +158,14 @@ class Vector3
     {
         data.offset = dataOffset;
         other.data.offset = other.dataOffset;
-        other.data.offsetLength = 3 * 4;
+        other.data.offsetLength = 3 * Data.SIZE_OF_FLOAT32;
         data.writeData(other.data);
     }
 
     public function get(index: Int): Float
     {
-        data.offset = dataOffset + index * 4;
-        return data.readFloat(DataTypeFloat32);
+        data.offset = dataOffset + index * Data.SIZE_OF_FLOAT32;
+        return data.readFloat32();
     }
 
 /// Math
@@ -290,13 +290,13 @@ class Vector3
         output += "[";
 
         data.offset = dataOffset;
-        output += data.readFloat(DataTypeFloat32);
+        output += data.readFloat32();
 
         for(i in 1...3)
         {
             output += ", ";
             data.offset += 4;
-            output += data.readFloat(DataTypeFloat32);
+            output += data.readFloat32();
         }
 
         output += "]";

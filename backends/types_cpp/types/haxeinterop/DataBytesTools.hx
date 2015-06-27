@@ -30,6 +30,7 @@ import haxe.io.BytesData;
 import haxe.io.Bytes;
 import types.Data;
 
+@:keep
 class DataWithHaxeBytes extends Data
 {
     private var bytesData : BytesData;

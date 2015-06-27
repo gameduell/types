@@ -364,8 +364,18 @@ static inline int staticReadIntFromPointer(void *pointer, types::DataType &dataT
 public:
 	NativeData *_nativeData; ///this gets dealloced by the GC since it is tied to "nativeData" with alloc_abstract
 ')
+
+@:keep
 class Data
 {
+	inline static public var SIZE_OF_INT8: Int = 1;
+	inline static public var SIZE_OF_UINT8: Int = 1;
+	inline static public var SIZE_OF_INT16: Int = 2;
+	inline static public var SIZE_OF_UINT16: Int = 2;
+	inline static public var SIZE_OF_INT32: Int = 4;
+	inline static public var SIZE_OF_UINT32: Int = 4;
+	inline static public var SIZE_OF_FLOAT32: Int = 4;
+	inline static public var SIZE_OF_FLOAT64: Int = 8;
 
 	/// CONSTRUCTOR
 	public function new(sizeInBytes : Int) : Void
@@ -446,6 +456,13 @@ class Data
 	")
 	public function writeData(data : Data) : Void {}
 
+	// Int write and read functions
+
+	@:functionCode('
+		staticWriteIntIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
+	')
+	public function writeInt(value : Int, targetDataType : DataType) : Void {}
+
 	public function writeIntArray(array : Array<Int>, dataType : DataType) : Void
 	{
 		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
@@ -461,6 +478,110 @@ class Data
 		}
 		set_offset(prevOffset);
 	}
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		((int8_t*)pointer)[0] = (int8_t)value;
+	')
+	public function writeInt8(value : Int) : Void {}
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		((uint8_t*)pointer)[0] = (uint8_t)value;
+	')
+	public function writeUInt8(value : Int) : Void {}
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		((int16_t *)pointer)[0] = (int16_t)value;
+	')
+	public function writeInt16(value : Int) : Void {}
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		((uint16_t *)pointer)[0] = (uint16_t)value;
+	')
+	public function writeUInt16(value : Int) : Void {}
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		((int32_t *)pointer)[0] = (int32_t)value;
+	')
+	public function writeInt32(value : Int) : Void {}
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		((uint32_t *)pointer)[0] = (uint32_t)value;
+	')
+	public function writeUInt32(value : Int) : Void {}
+
+
+	@:functionCode('
+		return staticReadIntFromPointer(_nativeData->ptr + _nativeData->offset, targetDataType);
+	')
+	public function readInt(targetDataType : DataType) : Int { return 0; }
+
+	public function readIntArray(count : Int, dataType : DataType) : Array<Int>
+	{
+		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
+
+		var prevOffset = get_offset();
+		var currentOffset = prevOffset;
+
+		var array = new Array<Int>();
+		for(i in 0...count)
+		{
+			set_offset(currentOffset);
+			array.push(readInt(dataType));
+
+			currentOffset += dataSize;
+		}
+		set_offset(prevOffset);
+		return array;
+	}
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		return (int)(((int8_t*)pointer)[0]);
+	')
+	public function readInt8() : Int { return 0; }
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		return (int)(((uint8_t*)pointer)[0]);
+	')
+	public function readUInt8() : Int { return 0; }
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		return (int)(((int16_t*)pointer)[0]);
+	')
+	public function readInt16() : Int { return 0; }
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		return (int)(((uint16_t*)pointer)[0]);
+	')
+	public function readUInt16() : Int { return 0; }
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		return (int)(((int32_t*)pointer)[0]);
+	')
+	public function readInt32() : Int { return 0; }
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+		return (int)(((uint32_t*)pointer)[0]);
+	')
+	public function readUInt32() : Int { return 0; }
+
+	// Float write and read functions
+
+	@:functionCode('
+		staticWriteFloatIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
+	')
+	public function writeFloat(value : Float, targetDataType : DataType) : Void {}
 
 	public function writeFloatArray(array : Array<Float>, dataType : DataType) : Void
 	{
@@ -478,63 +599,105 @@ class Data
 		set_offset(prevOffset);
 	}
 
-    public function readIntArray(count : Int, dataType : DataType) : Array<Int>
-    {
-        var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
-
-        var prevOffset = get_offset();
-        var currentOffset = prevOffset;
-
-        var array = new Array<Int>();
-        for(i in 0...count)
-        {
-            set_offset(currentOffset);
-            array.push(readInt(dataType));
-
-            currentOffset += dataSize;
-        }
-        set_offset(prevOffset);
-        return array;
-    }
-
-    public function readFloatArray(count : Int, dataType : DataType) : Array<Float>
-    {
-        var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
-
-        var prevOffset = get_offset();
-        var currentOffset = prevOffset;
-
-        var array = new Array<Float>();
-        for(i in 0...count)
-        {
-            set_offset(currentOffset);
-            array.push(readFloat(dataType));
-
-            currentOffset += dataSize;
-        }
-        set_offset(prevOffset);
-        return array;
-    }
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x3) == 0)
+			{
+			#endif
+				((float *)pointer)[0] = (float)value;
+			#ifdef __arm__
+			}
+			else
+			{
+				float floatValue = (float)value;
+				memcpy(pointer, &floatValue, sizeof(float));
+			}
+			#endif
+	')
+	public function writeFloat32(value : Float) : Void {}
 
 	@:functionCode('
-		staticWriteIntIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
-	')
-	public function writeInt(value : Int, targetDataType : DataType) : Void {}
+		void *pointer = _nativeData->ptr + _nativeData->offset;
 
-	@:functionCode('
-		staticWriteFloatIntoPointer(_nativeData->ptr + _nativeData->offset, value, targetDataType);
+		#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x7) == 0)
+			{
+			#endif
+				((double *)pointer)[0] = (double)value;
+			#ifdef __arm__
+			}
+			else
+			{
+				memcpy(pointer, &value, sizeof(double));
+			}
+			#endif
 	')
-	public function writeFloat(value : Float, targetDataType : DataType) : Void {}
-
-	@:functionCode('
-		return staticReadIntFromPointer(_nativeData->ptr + _nativeData->offset, targetDataType);
-	')
-	public function readInt(targetDataType : DataType) : Int { return 0; }
+	public function writeFloat64(value : Float) : Void {}
 
 	@:functionCode('
 		return staticReadFloatFromPointer(_nativeData->ptr + _nativeData->offset, targetDataType);
 	')
 	public function readFloat(targetDataType : DataType) : Float { return 0; }
+
+	public function readFloatArray(count : Int, dataType : DataType) : Array<Float>
+	{
+		var dataSize = types.DataTypeUtils.dataTypeByteSize(dataType);
+
+		var prevOffset = get_offset();
+		var currentOffset = prevOffset;
+
+		var array = new Array<Float>();
+		for(i in 0...count)
+		{
+			set_offset(currentOffset);
+			array.push(readFloat(dataType));
+
+			currentOffset += dataSize;
+		}
+		set_offset(prevOffset);
+		return array;
+	}
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+
+		#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x3) == 0)
+			{
+			#endif
+				return ((float*)pointer)[0];
+			#ifdef __arm__
+			}
+			else
+			{
+				float f;
+				memcpy(&f, pointer, sizeof(float));
+				return f;
+			}
+			#endif
+	')
+	public function readFloat32() : Float { return 0; }
+
+	@:functionCode('
+		void *pointer = _nativeData->ptr + _nativeData->offset;
+
+			#ifdef __arm__
+			if ((((intptr_t)pointer) & 0x7) == 0)
+			{
+			#endif
+				return ((double*)pointer)[0];
+			#ifdef __arm__
+			}
+			else
+			{
+				double d;
+				memcpy(&d, pointer, sizeof(double));
+				return d;
+			}
+			#endif
+	')
+	public function readFloat64() : Float { return 0; }
 
 	@:functionCode('
 		if (((dataType == null())))
