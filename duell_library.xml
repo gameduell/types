@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<library>
+<library xmlns="duell">
 
 	<haxelib name="msignal" version="1.2.2" />
 
@@ -8,8 +8,12 @@
     <include path="backends/types_flash/duell_library.xml" if="flash" />
 
 	<library-config>
-
-
 	</library-config>
-	
+
+    <platform-config>
+        <documentation>
+            <documentation-folder library="types" path="documentation" />
+        </documentation>
+    </platform-config>
+
 </library>
