@@ -69,7 +69,6 @@ class DualQuaternionMatrix4Tools
         var m43: Float = translation.z;
         var m44: Float = 1.0;
 
-
         matrix4.data.offset = 0 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m11);
 
@@ -81,7 +80,6 @@ class DualQuaternionMatrix4Tools
 
         matrix4.data.offset = 3 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m41);
-
 
         matrix4.data.offset = 4 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m12);
@@ -95,7 +93,6 @@ class DualQuaternionMatrix4Tools
         matrix4.data.offset = 7 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m42);
 
-
         matrix4.data.offset = 8 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m13);
 
@@ -107,7 +104,6 @@ class DualQuaternionMatrix4Tools
 
         matrix4.data.offset = 11 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m43);
-
 
         matrix4.data.offset = 12 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m14);
@@ -161,7 +157,6 @@ class DualQuaternionMatrix4Tools
         var m43: Float = translation.z;
         var m44: Float = 1.0;
 
-
         matrix4.data.offset = 0 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m11);
 
@@ -173,7 +168,6 @@ class DualQuaternionMatrix4Tools
 
         matrix4.data.offset = 3 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m41);
-
 
         matrix4.data.offset = 4 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m12);
@@ -187,7 +181,6 @@ class DualQuaternionMatrix4Tools
         matrix4.data.offset = 7 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m42);
 
-
         matrix4.data.offset = 8 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m13);
 
@@ -199,7 +192,6 @@ class DualQuaternionMatrix4Tools
 
         matrix4.data.offset = 11 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m43);
-
 
         matrix4.data.offset = 12 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m14);
@@ -295,7 +287,6 @@ class DualQuaternionMatrix4Tools
         matrix4.data.offset = 3 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m30);
 
-
         matrix4.data.offset = 4 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m01);
 
@@ -308,7 +299,6 @@ class DualQuaternionMatrix4Tools
         matrix4.data.offset = 7 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m31);
 
-
         matrix4.data.offset = 8 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m02);
 
@@ -320,7 +310,6 @@ class DualQuaternionMatrix4Tools
 
         matrix4.data.offset = 11 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m32);
-
 
         matrix4.data.offset = 12 * Data.SIZE_OF_FLOAT32;
         matrix4.data.writeFloat32(m03);

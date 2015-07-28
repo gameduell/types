@@ -28,9 +28,9 @@ package types;
 
 class StringHashTools
 {
-    static public function getFnv32Int(string:String) : Int
+    static public function getFnv32Int(string: String): Int
     {
-        var hash:Int = 0;
+        var hash: Int = 0;
 
         for (i in 0...string.length)
         {

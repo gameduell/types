@@ -31,12 +31,12 @@ import types.DataType;
 
 class Color4B
 {
-    public var data(default, default) : Data;
-    public var dataOffset : Int;
+    public var data(default, default): Data;
+    public var dataOffset: Int;
 
-    public function new(_data : Data = null, _dataOffset : Int = 0) : Void
+    public function new(_data: Data = null, _dataOffset: Int = 0): Void
     {
-        if(_data == null)
+        if (_data == null)
         {
             data = new Data(4);
         }
@@ -48,60 +48,60 @@ class Color4B
         dataOffset = _dataOffset;
     }
 
-    public var r(get, set) : Int;
+    public var r(get, set): Int;
 
-    public function get_r() : Int
+    public function get_r(): Int
     {
         data.offset = dataOffset + 0;
         return data.readUInt8();
     }
 
-    public function set_r(r : Int) : Int
+    public function set_r(r: Int): Int
     {
         data.offset = dataOffset + 0;
         data.writeUInt8(r);
         return r;
     }
 
-    public var g(get, set) : Int;
+    public var g(get, set): Int;
 
-    public function get_g() : Int
+    public function get_g(): Int
     {
         data.offset = dataOffset + 1;
         return data.readUInt8();
     }
 
-    public function set_g(g : Int) : Int
+    public function set_g(g: Int): Int
     {
         data.offset = dataOffset + 1;
         data.writeUInt8(g);
         return g;
     }
 
-    public var b(get, set) : Int;
+    public var b(get, set): Int;
 
-    public function get_b() : Int
+    public function get_b(): Int
     {
         data.offset = dataOffset + 2;
         return data.readUInt8();
     }
 
-    public function set_b(b : Int) : Int
+    public function set_b(b: Int): Int
     {
         data.offset = dataOffset + 2;
         data.writeUInt8(b);
         return b;
     }
 
-    public var a(get, set) : Int;
+    public var a(get, set): Int;
 
-    public function get_a() : Int
+    public function get_a(): Int
     {
         data.offset = dataOffset + 3;
         return data.readUInt8();
     }
 
-    public function set_a(a : Int) : Int
+    public function set_a(a: Int): Int
     {
         data.offset = dataOffset + 3;
         data.writeUInt8(a);
@@ -109,7 +109,8 @@ class Color4B
     }
 
     /// Helper Method
-    public function setRGBA(_r : Int, _g : Int, _b : Int, _a : Int)
+
+    public function setRGBA(_r: Int, _g: Int, _b: Int, _a: Int)
     {
         r = _r;
         g = _g;
@@ -117,7 +118,7 @@ class Color4B
         a = _a;
     }
 
-    public function toString() : String
+    public function toString(): String
     {
         var output = "";
         output += "[";
@@ -125,7 +126,7 @@ class Color4B
         data.offset = dataOffset;
         output += data.readUInt8();
 
-        for(i in 1...4)
+        for (i in 1...4)
         {
             output += ", ";
             data.offset += 1;

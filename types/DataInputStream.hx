@@ -51,10 +51,11 @@ class DataInputStream implements InputStream
     public var onError(default, null): Signal1<InputStream>;
 
     private var openned: Bool;
-    private var data : Data;
-    private var currentOffset : Int;
+    private var data: Data;
+    private var currentOffset: Int;
 
     /// CONTROL METHODS
+
     public function open(): Void
     {
         openned = true;
@@ -78,7 +79,7 @@ class DataInputStream implements InputStream
         currentOffset += byteCount;
     }
 
-    public function new(newData : Data) : Void
+    public function new(newData: Data): Void
     {
         onDataAvailable = new Signal1();
         onEndOfStream = new Signal1();
@@ -90,7 +91,7 @@ class DataInputStream implements InputStream
         reset(newData);
     }
 
-    public function reset(newData : Data): Void
+    public function reset(newData: Data): Void
     {
         if (isOpen())
         {
@@ -105,6 +106,7 @@ class DataInputStream implements InputStream
     /// READING METHOD
     /// if async, it will reply on "onReadData"
     public var onReadData(default, null): Signal2<InputStream, Data>;
+
     public function readIntoData(receivingData: Data): Void
     {
         var prevOffset = data.offset;
@@ -139,6 +141,7 @@ class DataInputStream implements InputStream
 
     /// if async, all read operations will return immediately
     /// can be different per stream subclass, and even within platforms on the same stream class
+
     public function isAsync(): Bool
     {
         return false;

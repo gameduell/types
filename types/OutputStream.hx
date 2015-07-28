@@ -44,7 +44,7 @@ interface OutputStream
 
     /// WRITING METHODS
     public var onDataWriteFinished(default, null): Signal2<InputStream, Data>;
-    public function writeData(data : Data) : Void;
+    public function writeData(data: Data): Void;
 
     public function isAsync(): Bool;
 }

@@ -56,6 +56,23 @@ class DualQuaternion
         dual.set(other.dual);
     }
 
+    public function get(index: Int): Float
+    {
+        switch (index)
+        {
+            case 0: return real.x;
+            case 1: return real.y;
+            case 2: return real.z;
+            case 3: return real.w;
+            case 4: return dual.x;
+            case 5: return dual.y;
+            case 6: return dual.z;
+            case 7: return dual.w;
+
+            default: return 0.0;
+        }
+    }
+
     public function setFromQuaternions(real: Quaternion, dual: Quaternion): Void
     {
         real.normalize();
@@ -155,6 +172,7 @@ class DualQuaternion
     }
 
     // Multiplies two dual quaternions and stores the result in this
+
     public function multiplyDualQuaternions(q1: DualQuaternion, q2: DualQuaternion): Void
     {
         workingDualQuaternionA.set(q1);
@@ -250,7 +268,7 @@ class DualQuaternion
         var invr: Float = 1.0 / Math.sqrt(Vector3.lengthSquared(workingVectorA));
 
         var angle: Float = 2.0 * Math.acos(workingDualQuaternionC.real.w);
-        var pitch: Float =-2.0 * workingDualQuaternionC.dual.w * invr;
+        var pitch: Float = -2.0 * workingDualQuaternionC.dual.w * invr;
 
         // direction
         workingVectorC.set(workingVectorA);
@@ -289,5 +307,10 @@ class DualQuaternion
         workingDualQuaternionC.dual.setXYZW(workingVectorA.x, workingVectorA.y, workingVectorA.z, -pitch * 0.5 * sinAngle);
 
         qout.multiplyDualQuaternions(qa, workingDualQuaternionC);
+    }
+
+    public function toString(): String
+    {
+        return '[${real.x}, ${real.y}, ${real.z}, ${real.w}, ${dual.x}, ${dual.x}, ${dual.x}, ${dual.x}]';
     }
 }

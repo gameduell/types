@@ -43,12 +43,12 @@ class DataOutputStream implements OutputStream
     public var errorMessage(default, null): String;
 
     private var openned: Bool;
-    private var data : Data;
-    private var currentOffset : Int;
-    private var currentOffsetLength : Int;
-    private var resize : Bool;
+    private var data: Data;
+    private var currentOffset: Int;
+    private var currentOffsetLength: Int;
+    private var resize: Bool;
 
-    public function new(newData : Data, resize : Bool = false) : Void
+    public function new(newData: Data, resize: Bool = false): Void
     {
         onDataWriteFinished = new Signal2();
         onError = new Signal1();
@@ -58,7 +58,7 @@ class DataOutputStream implements OutputStream
         reset(newData, resize);
     }
 
-    public function reset(newData : Data, resize : Bool = false): Void
+    public function reset(newData: Data, resize: Bool = false): Void
     {
         if (isOpen())
         {
@@ -74,6 +74,7 @@ class DataOutputStream implements OutputStream
     }
 
     /// CONTROL METHODS
+
     public function open(): Void
     {
         openned = true;
@@ -94,7 +95,8 @@ class DataOutputStream implements OutputStream
 
     /// WRITING METHODS
     public var onDataWriteFinished(default, null): Signal2<InputStream, Data>;
-    public function writeData(sourceData : Data) : Void
+
+    public function writeData(sourceData: Data): Void
     {
         if (resize)
         {
@@ -114,6 +116,7 @@ class DataOutputStream implements OutputStream
     }
 
     /// always grows by 1.5
+
     private function grow(minCapacity: Int)
     {
         var oldCapacity = data.allocedLength;

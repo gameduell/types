@@ -148,4 +148,28 @@ class Matrix3
         m21 *= sz;
         m22 *= sz;
     }
+
+    public function get(row: Int, col: Int): Float
+    {
+        var index = row * 3 + col;
+
+        switch (index) {
+            case 0: return m00;
+            case 1: return m01;
+            case 2: return m02;
+            case 3: return m10;
+            case 4: return m11;
+            case 5: return m12;
+            case 6: return m20;
+            case 7: return m21;
+            case 8: return m22;
+
+            default: return 0.0;
+        }
+    }
+
+    public function toString(): String
+    {
+        return '[$m00, $m01, $m02, $m10, $m11, $m12, $m20, $m21, $m22]';
+    }
 }

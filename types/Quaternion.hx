@@ -61,7 +61,21 @@ class Quaternion
         w = other.w;
     }
 
+    public function get(index: Int): Float
+    {
+        switch (index)
+        {
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            case 3: return w;
+
+            default: return 0.0;
+        }
+    }
+
     // Order is XYZ
+
     public function setFromEuler(euler: Vector3): Void
     {
         var c1 = Math.cos(euler.x / 2.0);
@@ -93,21 +107,21 @@ class Quaternion
 
         if (test > 0.499 * unit) // singularity at north pole
         {
-            ey = 2 * Math.atan2( x, w );
+            ey = 2 * Math.atan2(x, w);
             ez = Math.PI * 0.5;
             ex = 0;
         }
-        else if (test < - 0.499 * unit) // singularity at south pole
+        else if (test < -0.499 * unit) // singularity at south pole
         {
-            ey = -2 * Math.atan2( x, w );
+            ey = -2 * Math.atan2(x, w);
             ez = -Math.PI * 0.5;
             ex = 0;
         }
         else
         {
-            ey = Math.atan2( 2 * y * w - 2 * x * z, sqx - sqy - sqz + sqw );
-            ez = Math.asin( 2 * test / unit );
-            ex = Math.atan2( 2 * x * w - 2 * y * z, -sqx + sqy - sqz + sqw );
+            ey = Math.atan2(2 * y * w - 2 * x * z, sqx - sqy - sqz + sqw);
+            ez = Math.asin(2 * test / unit);
+            ex = Math.atan2(2 * x * w - 2 * y * z, -sqx + sqy - sqz + sqw);
         }
 
         out.setXYZ(ex, ey, ez);
@@ -154,7 +168,7 @@ class Quaternion
         {
             return Math.PI * 0.5;
         }
-        else if (test < - 0.499 * unit) // singularity at south pole
+        else if (test < -0.499 * unit) // singularity at south pole
         {
             return -Math.PI * 0.5;
         }
@@ -208,12 +222,12 @@ class Quaternion
         return left.x * right.x + left.y * right.y + left.z * right.z + left.w * right.w;
     }
 
-    static public function length(quaternion: Quaternion) : Float
+    static public function length(quaternion: Quaternion): Float
     {
         return Math.sqrt(Quaternion.lengthSquared(quaternion));
     }
 
-    static public function lengthSquared(quaternion: Quaternion) : Float
+    static public function lengthSquared(quaternion: Quaternion): Float
     {
         return quaternion.x * quaternion.x + quaternion.y * quaternion.y + quaternion.z * quaternion.z + quaternion.w * quaternion.w;
     }
@@ -225,6 +239,7 @@ class Quaternion
 
     // Multiplies two quaternions and stores the result in this
     // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
+
     public function multiplyQuaternions(left: Quaternion, right: Quaternion): Void
     {
         var qax = left.x, qay = left.y, qaz = left.z, qaw = left.w;
@@ -321,4 +336,8 @@ class Quaternion
         qout.z = (z * ratioA + qout.z * ratioB);
     }
 
+    public function toString(): String
+    {
+        return '[$x, $y, $z, $w]';
+    }
 }

@@ -24,34 +24,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package types;
+import types.RectF;
 
-enum DataType
+class RectFTest extends unittest.TestCase
 {
-    DataTypeInt8;
-    DataTypeUInt8;
-    DataTypeInt16;
-    DataTypeUInt16;
-    DataTypeInt32;
-    DataTypeUInt32;
-    DataTypeFloat32;
-    DataTypeFloat64;
-}
-
-class DataTypeUtils
-{
-    static public function dataTypeByteSize(dataType: DataType): Int
+    private function assertRectF(floatArray: Array<Float>, rectF: RectF): Void
     {
-        switch(dataType)
+        var failed = false;
+
+        for (i in 0 ... floatArray.length)
         {
-            case DataType.DataTypeFloat32: return 4;
-            case DataType.DataTypeUInt16: return 2;
-            case DataType.DataTypeUInt8: return 1;
-            case DataType.DataTypeInt8: return 1;
-            case DataType.DataTypeInt32: return 4;
-            case DataType.DataTypeInt16: return 2;
-            case DataType.DataTypeUInt32: return 4;
-            case DataType.DataTypeFloat64: return 8;
+            var f = floatArray[i];
+            var fInDualQuaternion = rectF.get(i);
+
+            if (!TestHelper.nearlyEqual(f, fInDualQuaternion))
+            {
+                failed = true;
+                break;
+            }
         }
+
+        if (failed)
+        {
+            trace("Comparison Failed, expected: " + floatArray.toString() + " and got: " + rectF.toString());
+            assertTrue(false);
+        }
+        assertTrue(true);
+    }
+
+    public function testCreation(): Void
+    {
+        var rectF = new RectF();
+
+        assertRectF([0, 0, 0, 0], rectF);
+    }
+
+    public function testSet(): Void
+    {
+        var rectF = new RectF();
+        rectF.x = 42;
+        rectF.y = 24;
+        rectF.width = 18;
+        rectF.height = 81;
+
+        assertRectF([42, 24, 18, 81], rectF);
     }
 }

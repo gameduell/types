@@ -24,34 +24,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package types;
+import types.StringHashTools;
 
-enum DataType
-{
-    DataTypeInt8;
-    DataTypeUInt8;
-    DataTypeInt16;
-    DataTypeUInt16;
-    DataTypeInt32;
-    DataTypeUInt32;
-    DataTypeFloat32;
-    DataTypeFloat64;
-}
+using types.StringHashTools;
 
-class DataTypeUtils
+class StringHashToolsTest extends unittest.TestCase
 {
-    static public function dataTypeByteSize(dataType: DataType): Int
+    private function assertFloat(expectedValue: Float, value: Float): Void
     {
-        switch(dataType)
+        if (!TestHelper.nearlyEqual(value, expectedValue))
         {
-            case DataType.DataTypeFloat32: return 4;
-            case DataType.DataTypeUInt16: return 2;
-            case DataType.DataTypeUInt8: return 1;
-            case DataType.DataTypeInt8: return 1;
-            case DataType.DataTypeInt32: return 4;
-            case DataType.DataTypeInt16: return 2;
-            case DataType.DataTypeUInt32: return 4;
-            case DataType.DataTypeFloat64: return 8;
+            trace('Comparison Failed, expected: $expectedValue and got $value');
+            assertTrue(false);
         }
+        assertTrue(true);
+    }
+
+    private function testGetFnv32Int(): Void
+    {
+        var int32 = "!§$%&/()=?".getFnv32Int();
+        var expectedInt32 = -825205345;
+
+        assertFloat(expectedInt32, int32);
     }
 }

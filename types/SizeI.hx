@@ -30,7 +30,7 @@ class SizeI
     public var width(default, set): Int = 0;
     public var height(default, set): Int = 0;
 
-    public function new() : Void
+    public function new(): Void
     {
     }
 
@@ -53,7 +53,7 @@ class SizeI
         height = temp;
     }
 
-    public function toString() : String
+    public function toString(): String
     {
         return "Width: " + width + " Height: " + height;
     }

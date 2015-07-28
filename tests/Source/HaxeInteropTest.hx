@@ -1,9 +1,36 @@
 /*
+ * Copyright (c) 2003-2015, GameDuell GmbH
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
  * Created by IntelliJ IDEA.
  * User: rcam
  * Date: 10/06/14
  * Time: 12:16
  */
+
 import types.haxeinterop.HaxeInputInteropStream;
 import types.DataInputStream;
 import haxe.io.BytesInput;
@@ -25,17 +52,17 @@ using types.haxeinterop.DataBytesTools;
 
 class HaxeInteropTest extends unittest.TestCase
 {
-    private function assertFloatArray(floatArray : Array<Float>, data : Data, dataType : DataType)
+    private function assertFloatArray(floatArray: Array<Float>, data: Data, dataType: DataType): Void
     {
         var failed = false;
         var prevOffset = data.offset;
         var currentOffset = prevOffset;
-        for(i in 0...floatArray.length)
+        for (i in 0...floatArray.length)
         {
             data.offset = currentOffset;
             var f = floatArray[i];
             var fInData = data.readFloat(dataType);
-            if(!TestHelper.nearlyEqual(f, fInData))
+            if (!TestHelper.nearlyEqual(f, fInData))
             {
                 failed = true;
                 break;
@@ -44,7 +71,7 @@ class HaxeInteropTest extends unittest.TestCase
         }
         data.offset = prevOffset;
 
-        if(failed)
+        if (failed)
         {
             trace("Comparison Failed, expected: " + floatArray.toString() + " and got: " + data.toString(dataType));
             assertTrue(false);
@@ -52,17 +79,17 @@ class HaxeInteropTest extends unittest.TestCase
         assertTrue(true);
     }
 
-    private function assertIntArray(intArray : Array<Int>, data : Data, dataType : DataType)
+    private function assertIntArray(intArray: Array<Int>, data: Data, dataType: DataType): Void
     {
         var failed = false;
         var prevOffset = data.offset;
         var currentOffset = prevOffset;
-        for(i in 0...intArray.length)
+        for (i in 0...intArray.length)
         {
             data.offset = currentOffset;
             var int = intArray[i];
             var intInData = data.readInt(dataType);
-            if(int != intInData)
+            if (int != intInData)
             {
                 failed = true;
                 break;
@@ -71,7 +98,7 @@ class HaxeInteropTest extends unittest.TestCase
         }
         data.offset = prevOffset;
 
-        if(failed)
+        if (failed)
         {
             trace("Comparison Failed, expected: " + intArray.toString() + " and got: " + data.toString(dataType));
             assertTrue(false);
@@ -79,7 +106,7 @@ class HaxeInteropTest extends unittest.TestCase
         assertTrue(true);
     }
 
-    public function testDataBytesTools()
+    public function testDataBytesTools(): Void
     {
         var array = [1, 2, 3, 4, 5];
         var data = new Data((array.length) * 4);
@@ -103,11 +130,9 @@ class HaxeInteropTest extends unittest.TestCase
         data2.offset += 4;
         assertEquals(5, data2.readInt(DataTypeInt32));
 
-
-
     }
 
-    public function testOutputStream()
+    public function testOutputStream(): Void
     {
         var data = new Data(32);
         var dataOutput = new DataOutputStream(data);
@@ -175,7 +200,7 @@ class HaxeInteropTest extends unittest.TestCase
         dataFromInput.offset += 1;
 
         var int24Value = b0 | (b1 << 8) | (b2 << 16);
-        if(int24Value & 0x800000 != 0)
+        if (int24Value & 0x800000 != 0)
             int24Value -= 0x1000000;
         assertEquals(-6, int24Value);
 
@@ -210,9 +235,10 @@ class HaxeInteropTest extends unittest.TestCase
         assertEquals(11, dataFromInput.readInt(DataTypeUInt8));
     }
 
-    public function testInputStream() /// readLine, readUntil, readAll, readFullBytes still untested..
+    public function testInputStream(): Void /// readAll, readFullBytes still untested..
     {
-        var data = new Data(32);
+        var data = new Data(64);
+
         data.writeInt(1, DataTypeUInt8);
         data.offset += 1;
         data.writeInt(2, DataTypeUInt8);
@@ -252,6 +278,15 @@ class HaxeInteropTest extends unittest.TestCase
         data.offset += 1;
 
         data.writeInt(11, DataTypeUInt8);
+        data.offset += 1;
+
+        data.writeString("abc\n");
+        data.offset += 4;
+
+        data.writeString("xyz%");
+        data.offset += 4;
+
+        data.writeString("abcxyz\n");
 
         data.offset = 0;
 
@@ -274,6 +309,8 @@ class HaxeInteropTest extends unittest.TestCase
 
         assertEquals("a", haxeInput.readString(1));
         assertEquals(11, haxeInput.readInt8());
-    }
 
+        assertEquals("abc", haxeInput.readLine());
+        assertEquals("xyz", haxeInput.readUntil("%".charCodeAt(0)));
+    }
 }

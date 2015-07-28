@@ -42,33 +42,57 @@ class AffineTransform
 
     @:deprecated
     public var a(get, set): Float;
-    inline private function set_a(value: Float): Float {m00 = value; return m00;}
-    inline private function get_a(): Float {return m00;}
+
+    inline private function set_a(value: Float): Float
+    {m00 = value; return m00;}
+
+    inline private function get_a(): Float
+    {return m00;}
 
     @:deprecated
     public var b(get, set): Float;
-    inline private function set_b(value: Float): Float {m10 = value; return m10;}
-    inline private function get_b(): Float {return m10;}
+
+    inline private function set_b(value: Float): Float
+    {m10 = value; return m10;}
+
+    inline private function get_b(): Float
+    {return m10;}
 
     @:deprecated
     public var c(get, set): Float;
-    inline private function set_c(value: Float): Float {m01 = value; return m01;}
-    inline private function get_c(): Float {return m01;}
+
+    inline private function set_c(value: Float): Float
+    {m01 = value; return m01;}
+
+    inline private function get_c(): Float
+    {return m01;}
 
     @:deprecated
     public var d(get, set): Float;
-    inline private function set_d(value: Float): Float {m11 = value; return m11;}
-    inline private function get_d(): Float {return m11;}
+
+    inline private function set_d(value: Float): Float
+    {m11 = value; return m11;}
+
+    inline private function get_d(): Float
+    {return m11;}
 
     @:deprecated
     public var tx(get, set): Float;
-    inline private function set_tx(value: Float): Float {m02 = value; return m02;}
-    inline private function get_tx(): Float {return m02;}
+
+    inline private function set_tx(value: Float): Float
+    {m02 = value; return m02;}
+
+    inline private function get_tx(): Float
+    {return m02;}
 
     @:deprecated
     public var ty(get, set): Float;
-    inline private function set_ty(value: Float): Float {m12 = value; return m12;}
-    inline private function get_ty(): Float {return m12;}
+
+    inline private function set_ty(value: Float): Float
+    {m12 = value; return m12;}
+
+    inline private function get_ty(): Float
+    {return m12;}
 
     @:deprecated
     public function concat(right: AffineTransform): Void
@@ -77,11 +101,13 @@ class AffineTransform
     }
 
     /** Constructs an identity matrix. */
+
     public function new(): Void
     {
     }
 
     /** Sets this matrix to the identity matrix */
+
     inline public function setIdentity(): Void
     {
         m00 = 1.0;
@@ -95,6 +121,7 @@ class AffineTransform
     /** Copies the values from the provided affine matrix to this matrix.
 	 * @param other The affine matrix to copy.
 	 **/
+
     inline public function set(other: AffineTransform): Void
     {
         m00 = other.m00;
@@ -112,6 +139,7 @@ class AffineTransform
 	 * @param scaleX The scale in y.
 	 * @param scaleY The scale in x.
 	 **/
+
     inline public function setTranslationScale(x: Float, y: Float, scaleX: Float, scaleY: Float): Void
     {
         m00 = scaleX;
@@ -130,6 +158,7 @@ class AffineTransform
 	 * @param scaleX The scale in y.
 	 * @param scaleY The scale in x.
 	 **/
+
     inline public function setTranslationRotationScale(x: Float, y: Float, radians: Float, scaleX: Float, scaleY: Float): Void
     {
         var sin = Math.sin(radians);
@@ -144,6 +173,7 @@ class AffineTransform
     }
 
     /** Same as above, but allows to flip */
+
     inline public function setTranslationRotationScaleFlip(x: Float, y: Float, radians: Float, scaleX: Float, scaleY: Float, flipX: Bool, flipY: Bool): Void
     {
         m02 = x;
@@ -219,6 +249,7 @@ class AffineTransform
 	 * @param x The x-component of the translation vector.
 	 * @param y The y-component of the translation vector.
 	 **/
+
     inline public function translate(x: Float, y: Float): Void
     {
         m02 += m00 * x + m01 * y;
@@ -229,6 +260,7 @@ class AffineTransform
 	 * @param x The x-component of the translation vector.
 	 * @param y The y-component of the translation vector.
 	 **/
+
     inline public function preTranslate(x: Float, y: Float): Void
     {
         m02 += x;
@@ -239,6 +271,7 @@ class AffineTransform
 	 * @param scaleX The scale in the x-axis.
 	 * @param scaleY The scale in the y-axis.
 	 **/
+
     inline public function scale(scaleX: Float, scaleY: Float): Void
     {
         m00 *= scaleX;
@@ -251,6 +284,7 @@ class AffineTransform
 	 * @param scaleX The scale in the x-axis.
 	 * @param scaleY The scale in the y-axis.
 	 **/
+
     inline public function preScale(scaleX: Float, scaleY: Float): Void
     {
         m00 *= scaleX;
@@ -264,6 +298,7 @@ class AffineTransform
     /** Postmultiplies this matrix with a (counter-clockwise) rotation matrix.
 	 * @param radians The angle in radians
 	 **/
+
     inline public function rotate(radians: Float): Void
     {
         if (radians == 0.0) return;
@@ -285,6 +320,7 @@ class AffineTransform
     /** Premultiplies this matrix with a (counter-clockwise) rotation matrix.
 	 * @param radians The angle in radians
 	 **/
+
     inline public function preRotate(radians: Float): Void
     {
         if (radians == 0.0) return;
@@ -311,6 +347,7 @@ class AffineTransform
 	 * @param skewX The shear in x direction.
 	 * @param skewY The shear in y direction.
 	 **/
+
     inline public function skew(skewX: Float, skewY: Float): Void
     {
         var tmp0 = m00 + skewY * m01;
@@ -329,6 +366,7 @@ class AffineTransform
 	 * @param skewX The shear in x direction.
 	 * @param skewY The shear in y direction.
 	 **/
+
     inline public function preSkew(skewX: Float, skewY: Float): Void
     {
         var tmp00 = m00 + skewX * m10;
@@ -348,6 +386,7 @@ class AffineTransform
 
     /** Calculates the determinant of the matrix.
 	 * @return The determinant of this matrix. */
+
     inline public function determinant(): Float
     {
         return m00 * m11 - m01 * m10;
@@ -355,6 +394,7 @@ class AffineTransform
 
     /** Inverts this matrix given that the determinant is != 0.
 	 **/
+
     inline public function invert(): Void
     {
         var det = determinant();
@@ -384,6 +424,7 @@ class AffineTransform
 	 * </pre>
 	 * @param other Matrix to multiply by.
 	 **/
+
     inline public function multiply(other: AffineTransform): Void
     {
         var tmp00 = m00 * other.m00 + m01 * other.m10;
@@ -408,6 +449,7 @@ class AffineTransform
 	 * </pre>
 	 * @param other The other Matrix to multiply by
 	 **/
+
     inline public function preMultiply(other: AffineTransform): Void
     {
         var tmp00 = other.m00 * m00 + other.m01 * m10;

@@ -33,13 +33,13 @@ class Vector3
     public var data(default, null): Data;
     public var dataOffset(default, null): Int;
 
-/// Vector Interface
+    /// Vector Interface
 
     public var x(get, set): Float;
     public var y(get, set): Float;
     public var z(get, set): Float;
 
-/// Color Interface
+    /// Color Interface
 
     public var r(get, set): Float;
     public var g(get, set): Float;
@@ -47,7 +47,7 @@ class Vector3
 
     public function new(_data: Data = null, _dataOffset: Int = 0): Void
     {
-        if(_data == null)
+        if (_data == null)
         {
             data = new Data(3 * Data.SIZE_OF_FLOAT32);
         }
@@ -98,7 +98,6 @@ class Vector3
         return value;
     }
 
-
     public function get_r(): Float
     {
         data.offset = dataOffset + 0;
@@ -138,7 +137,7 @@ class Vector3
         return value;
     }
 
-/// Setters & Getters
+    /// Setters & Getters
 
     public function setXYZ(x: Float, y: Float, z: Float): Void
     {
@@ -168,7 +167,7 @@ class Vector3
         return data.readFloat32();
     }
 
-/// Math
+    /// Math
 
     public function negate(): Void
     {
@@ -235,7 +234,7 @@ class Vector3
 
     public function normalize(): Void
     {
-        var scale:Float = 1.0 / Vector3.length(this);
+        var scale: Float = 1.0 / Vector3.length(this);
         multiplyScalar(scale);
     }
 
@@ -282,9 +281,7 @@ class Vector3
         return Vector3.length(distanceVector3);
     }
 
-
-
-    public function toString() : String
+    public function toString(): String
     {
         var output = "";
         output += "[";
@@ -292,7 +289,7 @@ class Vector3
         data.offset = dataOffset;
         output += data.readFloat32();
 
-        for(i in 1...3)
+        for (i in 1...3)
         {
             output += ", ";
             data.offset += 4;

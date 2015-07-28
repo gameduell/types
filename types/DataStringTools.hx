@@ -32,5 +32,5 @@ extern class DataStringTools {
 
 	public static function readString(data : Data) : String;
 
-	public static function writeString(data : Data, string : String) : Void {};
+	public static function writeString(data : Data, string : String) : Void;
 }
