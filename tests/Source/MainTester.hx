@@ -66,7 +66,6 @@ class MainTester
         r.add(new RectFTest());
         r.add(new SizeTest());
         r.add(new StreamTest());
-        r.add(new StringHashToolsTest());
         r.add(new Vector2Test());
         r.add(new Vector3Test());
         r.add(new Vector4Test());
