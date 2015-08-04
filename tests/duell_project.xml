@@ -5,8 +5,7 @@
 
 	<duelllib name="duellkit" version="4.0.0+" />
 	<duelllib name="unittest" version="4.0.0+" />
-
-	<include path="../duell_library.xml"/>
+	<duelllib name="types" version="3.0.0-rc+" />
 
 	<main name="MainTester" />
 
