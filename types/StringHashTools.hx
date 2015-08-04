@@ -28,6 +28,11 @@ package types;
 
 class StringHashTools
 {
+    /**
+     * This function creates a hash (int) based on a string. The generated hash is different on each platform.
+     * @param string string source for generating the hash
+     * @return hash based on the input string
+    **/
     static public function getFnv32Int(string: String): Int
     {
         var hash: Int = 0;
