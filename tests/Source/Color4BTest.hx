@@ -24,13 +24,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * Created by IntelliJ IDEA.
- * User: rcam
- * Date: 27/05/14
- * Time: 10:29
- */
-
 import types.Data;
 import types.Color4B;
 

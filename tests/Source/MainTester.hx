@@ -38,6 +38,7 @@ import Vector4Test;
 import SizeTest;
 import AffineTransformTest;
 import Color4BTest;
+import Color4FTest;
 import StreamTest;
 import HaxeInteropTest;
 
@@ -57,6 +58,7 @@ class MainTester
         r = new TestRunner(testComplete, DuellKit.instance().onError);
         r.add(new AffineTransformTest());
         r.add(new Color4BTest());
+        r.add(new Color4FTest());
         r.add(new DataTest());
         r.add(new DualQuaternionTest());
         r.add(new HaxeInteropTest());

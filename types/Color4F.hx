@@ -28,6 +28,9 @@ package types;
 
 class Color4F
 {
+    // This is the float distance between UINT8(0) and UINT8(1)
+    inline static private var COLOR_EPSILON: Float = 1.0 / 256.0;
+
     public var r: Float = 0.0;
     public var g: Float = 0.0;
     public var b: Float = 0.0;
@@ -50,5 +53,24 @@ class Color4F
         g = other.g;
         b = other.b;
         a = other.a;
+    }
+
+    inline public function isEqual(other: Color4F): Bool
+    {
+        return Math.abs(a - other.a) < COLOR_EPSILON &&
+        Math.abs(r - other.r) < COLOR_EPSILON &&
+        Math.abs(g - other.g) < COLOR_EPSILON &&
+        Math.abs(b - other.b) < COLOR_EPSILON;
+    }
+
+    /**
+    * Use if likely to be equal
+    * */
+    inline public function isNotEqual(other: Color4F): Bool
+    {
+        return Math.abs(a - other.a) >= COLOR_EPSILON ||
+        Math.abs(r - other.r) >= COLOR_EPSILON ||
+        Math.abs(g - other.g) >= COLOR_EPSILON ||
+        Math.abs (b - other.b) >= COLOR_EPSILON;
     }
 }
