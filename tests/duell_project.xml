@@ -4,7 +4,7 @@
 	<app title="Types Tests" package="com.gameduell.tests" version="0.0.1" company="GameDuell GmbH" />
 
 	<duelllib name="duellkit" version="5.0.0+" />
-	<duelllib name="unittest" version="4.0.0+" />
+	<duelllib name="unittest" version="5.0.0+" />
 	<duelllib name="types" version="3.0.0+" />
 
 	<main name="MainTester" />
