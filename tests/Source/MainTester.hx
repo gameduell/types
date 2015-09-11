@@ -42,7 +42,7 @@ import Color4FTest;
 import StreamTest;
 import HaxeInteropTest;
 
-import duell.DuellKit;
+import duellkit.DuellKit;
 
 class MainTester
 {
