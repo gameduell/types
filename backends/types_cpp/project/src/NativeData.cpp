@@ -111,10 +111,19 @@ void NativeData_Impl::resize(int newSize)
 	}
 	else
 	{
-		ptr = (uint8_t*)realloc(ptr, newSize);
-		int extraSizeToZeroOut = newSize - allocedLength;
-		if(extraSizeToZeroOut > 0)
-			memset(ptr + allocedLength, 0, extraSizeToZeroOut);
+	    if (newSize == 0)
+	    {
+	        cleanUp();
+	    }
+	    else
+	    {
+	        ptr = (uint8_t*)realloc(ptr, newSize);
+            int extraSizeToZeroOut = newSize - allocedLength;
+            if(extraSizeToZeroOut > 0)
+            {
+                memset(ptr + allocedLength, 0, extraSizeToZeroOut);
+            }
+	    }
 	}
 
 	allocedLength = newSize;
