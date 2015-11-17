@@ -66,6 +66,7 @@ class MainTester
         r.add(new Matrix4Test());
         r.add(new QuaternionTest());
         r.add(new RectFTest());
+        r.add(new RectITest());
         r.add(new SizeTest());
         r.add(new StreamTest());
         r.add(new Vector2Test());

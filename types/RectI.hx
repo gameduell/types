@@ -24,49 +24,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import types.RectF;
+package types;
 
-class RectFTest extends unittest.TestCase
+class RectI
 {
-    private function assertRectF(floatArray: Array<Float>, rectF: RectF): Void
+    public var x: Int = 0;
+    public var y: Int = 0;
+    public var width: Int = 0;
+    public var height: Int = 0;
+
+    inline public function new()
     {
-        var failed = false;
-
-        for (i in 0 ... floatArray.length)
-        {
-            var f = floatArray[i];
-            var fInDualQuaternion = rectF.get(i);
-
-            if (!TestHelper.nearlyEqual(f, fInDualQuaternion))
-            {
-                failed = true;
-                break;
-            }
-        }
-
-        if (failed)
-        {
-            trace("Comparison Failed, expected: " + floatArray.toString() + " and got: " + rectF.toString());
-            assertTrue(false);
-        }
-        assertTrue(true);
     }
 
-    public function testCreation(): Void
+    inline public function toString(): String
     {
-        var rectF = new RectF();
-
-        assertRectF([0.0, 0.0, 0.0, 0.0], rectF);
-    }
-
-    public function testSet(): Void
-    {
-        var rectF = new RectF();
-        rectF.x = 42.8;
-        rectF.y = 24.2;
-        rectF.width = 18.1;
-        rectF.height = 81.9;
-
-        assertRectF([42.8, 24.2, 18.1, 81.9], rectF);
+        return "x: " + x + " y: " + y + " width: " + width + " height: " + height;
     }
 }

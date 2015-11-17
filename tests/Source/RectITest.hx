@@ -24,29 +24,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import types.RectF;
+import types.RectI;
 
-class RectFTest extends unittest.TestCase
+class RectITest extends unittest.TestCase
 {
-    private function assertRectF(floatArray: Array<Float>, rectF: RectF): Void
+    private function assertRectI(intArray: Array<Int>, rectI: RectI): Void
     {
-        var failed = false;
-
-        for (i in 0 ... floatArray.length)
+        if (intArray[0] != rectI.x     || intArray[1] != rectI.y ||
+            intArray[2] != rectI.width || intArray[3] != rectI.height)
         {
-            var f = floatArray[i];
-            var fInDualQuaternion = rectF.get(i);
-
-            if (!TestHelper.nearlyEqual(f, fInDualQuaternion))
-            {
-                failed = true;
-                break;
-            }
-        }
-
-        if (failed)
-        {
-            trace("Comparison Failed, expected: " + floatArray.toString() + " and got: " + rectF.toString());
+            trace("Comparison Failed, expected: " + intArray.toString() + " and got: " + rectI.toString());
             assertTrue(false);
         }
         assertTrue(true);
@@ -54,19 +41,18 @@ class RectFTest extends unittest.TestCase
 
     public function testCreation(): Void
     {
-        var rectF = new RectF();
-
-        assertRectF([0.0, 0.0, 0.0, 0.0], rectF);
+        var rectI = new RectI();
+        assertRectI([0, 0, 0, 0], rectI);
     }
 
     public function testSet(): Void
     {
-        var rectF = new RectF();
-        rectF.x = 42.8;
-        rectF.y = 24.2;
-        rectF.width = 18.1;
-        rectF.height = 81.9;
+        var rectI = new RectI();
+        rectI.x = 42;
+        rectI.y = 24;
+        rectI.width = 18;
+        rectI.height = 81;
 
-        assertRectF([42.8, 24.2, 18.1, 81.9], rectF);
+        assertRectI([42, 24, 18, 81], rectI);
     }
 }
