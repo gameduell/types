@@ -40,6 +40,15 @@ class Color4FTest extends unittest.TestCase
     {
         var color = new Color4F();
         assertColor4F([0.0, 0.0, 0.0, 1.0], color);
+
+        var color2 = new Color4F(0.1, 0.2, 0.3, 0.4);
+        assertColor4F([0.1, 0.2, 0.3, 0.4], color2);
+    }
+
+    public function testToString(): Void
+    {
+        var color = new Color4F(0.1, 0.2, 0.3, 0.4);
+        assertEquals('$color', '{0.1, 0.2, 0.3, 0.4}');
     }
 
     public function testSettingComponents(): Void
