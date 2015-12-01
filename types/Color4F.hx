@@ -36,7 +36,12 @@ class Color4F
     public var b: Float = 0.0;
     public var a: Float = 1.0;
 
-    inline public function new() {
+    inline public function new(r: Float = 0.0, g: Float = 0.0, b: Float = 0.0, a: Float = 1.0)
+    {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a;
     }
 
     inline public function setRGBA(r: Float, g: Float, b: Float, a: Float = 1.0)
@@ -73,4 +78,10 @@ class Color4F
         Math.abs(g - other.g) >= COLOR_EPSILON ||
         Math.abs (b - other.b) >= COLOR_EPSILON;
     }
+
+    inline public function toString(): String
+    {
+        return '{$r, $g, $b, $a}';
+    }
+
 }
