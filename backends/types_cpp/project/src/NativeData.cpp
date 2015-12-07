@@ -106,7 +106,14 @@ void NativeData_Impl::resize(int newSize)
 	{
 		uint8_t* prevPtr = ptr;
 		ptr = (uint8_t*)calloc(newSize, 1);
-		memcpy(ptr, prevPtr, allocedLength);
+		if (newSize > allocedLength)
+		{
+			memcpy(ptr, prevPtr, allocedLength);
+		}
+		else
+		{
+			memcpy(ptr, prevPtr, newSize);
+		}
 		externalPtr = false;
 	}
 	else
