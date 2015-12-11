@@ -76,7 +76,7 @@ class AffineTransform
     inline private function get_d(): Float
     {return m11;}
 
-    @:deprecated
+    @:deprecated("tx is deprecated. Use worldX of Transform2DComponent instead!")
     public var tx(get, set): Float;
 
     inline private function set_tx(value: Float): Float
@@ -85,7 +85,7 @@ class AffineTransform
     inline private function get_tx(): Float
     {return m02;}
 
-    @:deprecated
+    @:deprecated("ty is deprecated. Use worldY of Transform2DComponent instead!")
     public var ty(get, set): Float;
 
     inline private function set_ty(value: Float): Float
