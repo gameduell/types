@@ -73,17 +73,14 @@ class MainTester
         r.add(new Vector3Test());
         r.add(new Vector4Test());
 
-        #if test
-
         #if jenkins
-        r.addLogger(new TestHTTPLogger(new TestJUnitLogger()));
+            r.addLogger(new TestHTTPLogger(new TestJUnitLogger()));
         #else
-        r.addLogger(new TestHTTPLogger(new TestSimpleLogger()));
+            r.addLogger(new TestHTTPLogger(new TestSimpleLogger()));
         #end
 
-        #else
-        r.addLogger(new TestSimpleLogger());
-        #end
+        //if you run unittests on a device with android version < 5.0 use logger without http
+        //r.addLogger(new TestSimpleLogger());
 
         r.run();
     }
