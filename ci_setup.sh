@@ -41,4 +41,4 @@ printf '\n'
 printf ' ---------- Zipping artifacts ----------'
 printf '\n'
 printf '\n'
-zip -r -X ./tests/Export/artifacts.zip ./tests/Export/html5/web/ ./tests/Export/android/TestProject/build/outputs/apk/TestProject-release.apk ./tests/Export/ios/build/Release-iphonesimulator/TestProject.app
+zip -r -X ./tests/Export/artifacts.zip ./ci_run.sh ./tests/Export/html5/web/ ./tests/Export/android/TestProject/build/outputs/apk/TestProject-release.apk ./tests/Export/ios/build/Release-iphonesimulator/TestProject.app
