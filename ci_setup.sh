@@ -4,8 +4,9 @@ set -e
 trap onexit 1 2 3 15 ERR
 
 function onexit() {
-    echo "Problem occured during setup, exit code: $?"
-    exit $exit_status
+    error=$?
+    echo "Problem occured during setup, exit code: ${error}"
+    exit $error
 }
 
 cd tests
@@ -35,10 +36,3 @@ printf ' ---------- BUILD HTML TARGET ----------'
 printf '\n'
 printf '\n'
 haxelib run duell_duell build html5 -norun -verbose -D jenkins -yestoall
-
-cd ..
-printf '\n'
-printf ' ---------- Zipping artifacts ----------'
-printf '\n'
-printf '\n'
-zip -r -X ./tests/Export/artifacts.zip ./ci_run.sh ./tests/Export/html5/web/ ./tests/Export/android/TestProject/build/outputs/apk/TestProject-release.apk ./tests/Export/ios/build/Release-iphonesimulator/TestProject.app
