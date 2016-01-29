@@ -68,7 +68,12 @@ class DataBytesTools
 		memcpy((void *)array->__CStr(), (char*)data->_nativeData->ptr + data->_nativeData->offset, data->get_offsetLength());
         return ::haxe::io::Bytes_obj::__new(data->get_offsetLength(), array);
 	')
-    public static function getBytes(data: Data): Bytes { return null; }
+    public static function getBytes(data: Data): Bytes {
+        return null;
+
+        // protect against DCE
+        var dummy = new Bytes(0, null);
+    }
 
     public static function getTypesData(bytes: Bytes): Data
     {
