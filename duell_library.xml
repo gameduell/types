@@ -5,7 +5,6 @@
 
     <include path="backends/types_cpp/duell_library.xml" if="cpp" />
     <include path="backends/types_html5/duell_library.xml" if="html5" />
-    <include path="backends/types_html5/duell_library.xml" if="electron" />
     <include path="backends/types_flash/duell_library.xml" if="flash" />
 
 	<library-config>
