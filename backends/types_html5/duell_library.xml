@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <library>
 
-	<platform-config>
+    <platform-config>
+        <html5>
+            <js-source path="dependencies/StringView/stringview.js"/>
+        </html5>
+        <electron>
+            <js-source path="dependencies/StringView/stringview.js"/>
+        </electron>
+    </platform-config>
 
-		<html5>
-			<js-source path="dependencies/StringView/stringview.js"/>
-		</html5>
-
-	</platform-config>
-	
 </library>
