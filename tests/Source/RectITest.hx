@@ -55,4 +55,19 @@ class RectITest extends unittest.TestCase
 
         assertRectI([42, 24, 18, 81], rectI);
     }
+
+    public function testSetOther(): Void
+    {
+        var otherRectI = new RectI();
+        otherRectI.x = 42;
+        otherRectI.y = 24;
+        otherRectI.width = 18;
+        otherRectI.height = 81;
+
+        var rectI = new RectI();
+        rectI.set(otherRectI);
+
+        assertRectI([42, 24, 18, 81], rectI);
+    }
+
 }

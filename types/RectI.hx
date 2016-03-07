@@ -37,6 +37,14 @@ class RectI
     {
     }
 
+    inline public function set(other: RectI)
+    {
+        x = other.x;
+        y = other.y;
+        width = other.width;
+        height = other.height;
+    }
+
     inline public function toString(): String
     {
         return "x: " + x + " y: " + y + " width: " + width + " height: " + height;
