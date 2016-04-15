@@ -101,16 +101,16 @@ class Data
 
 	public var arrayBuffer(default, set) : ArrayBuffer;
 
-	public var int8Array : Int8Array;
-	public var uint8Array : Uint8Array;
-	public var int16Array : Int16Array;
-	public var uint16Array : Uint16Array;
-	public var int32Array : Int32Array;
-	public var uint32Array : Uint32Array;
-	public var float32Array : Float32Array;
-    public var float64Array : Float64Array;
-    public var dataView : DataView;
-	public var stringView : StringView;
+	public var int8Array : Int8Array = null;
+	public var uint8Array : Uint8Array = null;
+	public var int16Array : Int16Array = null;
+	public var uint16Array : Uint16Array = null;
+	public var int32Array : Int32Array = null;
+	public var uint32Array : Uint32Array = null;
+	public var float32Array : Float32Array = null;
+    public var float64Array : Float64Array = null;
+    public var dataView : DataView = null;
+	public var stringView : StringView = null;
 
 	public function new(sizeInBytes : Int) : Void
 	{
