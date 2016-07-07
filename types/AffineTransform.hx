@@ -245,6 +245,30 @@ class AffineTransform
         }
     }
 
+    /** Returns rotation of the matrix, in radians.
+     **/
+
+    inline public function getRotation(): Float
+    {
+        return Math.atan2(m01, m00);
+    }
+
+    /** Returns x scale of the matrix.
+     **/
+
+    inline public function getScaleX(): Float
+    {
+        return Math.sqrt(m00 * m00 + m01 * m01) * ((m00 > 0.0) ? 1.0 : -1.0);
+    }
+
+    /** Returns y scale of the matrix.
+     **/
+
+    inline public function getScaleY(): Float
+    {
+        return Math.sqrt(m10 * m10 + m11 * m11) * ((m11 > 0.0) ? 1.0 : -1.0);
+    }
+
     /** Postmultiplies this matrix by a translation matrix.
 	 * @param x The x-component of the translation vector.
 	 * @param y The y-component of the translation vector.
