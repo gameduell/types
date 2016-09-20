@@ -161,15 +161,27 @@ class AffineTransform
 
     inline public function setTranslationRotationScale(x: Float, y: Float, radians: Float, scaleX: Float, scaleY: Float): Void
     {
-        var sin = Math.sin(radians);
-        var cos = Math.cos(radians);
-
-        m00 = cos * scaleX;
-        m01 = -sin * scaleY;
-        m02 = x;
-        m10 = sin * scaleX;
-        m11 = cos * scaleY;
+		m02 = x;
         m12 = y;
+
+		if (radians == 0.0)
+        {
+            m00 = scaleX;
+            m01 = 0.0;
+            m10 = 0.0;
+            m11 = scaleY;
+        }
+        else
+        {
+            var sin = Math.sin(radians);
+            var cos = Math.cos(radians);
+
+            m00 = cos * scaleX;
+            m01 = -sin * scaleY;
+
+            m10 = sin * scaleX;
+            m11 = cos * scaleY;
+        }
     }
 
     /** Same as above, but allows to flip */
@@ -179,39 +191,65 @@ class AffineTransform
         m02 = x;
         m12 = y;
 
+		var xSign: Float = flipX ? -1.0 : 1.0;
+		var ySign: Float = flipY ? -1.0 : 1.0;
+
         if (radians == 0.0)
         {
-            m00 = flipX ? -scaleX : scaleX;
+            m00 = scaleX * xSign;
             m01 = 0.0;
             m10 = 0.0;
-            m11 = flipY ? -scaleY : scaleY;
+            m11 = scaleY * ySign;
         }
         else
         {
             var sin = Math.sin(radians);
             var cos = Math.cos(radians);
 
-            if (flipX)
-            {
-                m00 = -cos * scaleX;
-                m01 = sin * scaleY;
-            }
-            else
-            {
-                m00 = cos * scaleX;
-                m01 = -sin * scaleY;
-            }
+            m00 = cos * scaleX * xSign;
+            m01 = -sin * scaleY * ySign;
 
-            if (flipY)
-            {
-                m10 = -sin * scaleX;
-                m11 = -cos * scaleY;
-            }
-            else
-            {
-                m10 = sin * scaleX;
-                m11 = cos * scaleY;
-            }
+            m10 = sin * scaleX * xSign;
+            m11 = cos * scaleY * ySign;
+        }
+    }
+
+	inline public function setTranslationRotationScaleSkewFlip(x: Float, y: Float, radians: Float, scaleX: Float, scaleY: Float, skewX: Float, skewY: Float, flipX: Bool, flipY: Bool): Void
+    {
+        m02 = x;
+        m12 = y;
+
+		var xScale: Float = flipX ? -scaleX : scaleX;
+		var yScale: Float = flipY ? -scaleY : scaleY;
+
+        if (radians == 0.0)
+        {
+            m00 = xScale;
+			m11 = yScale;
+            m01 = skewX * xScale;
+            m10 = skewY * yScale;
+        }
+        else
+        {
+            var sin = Math.sin(radians);
+            var cos = Math.cos(radians);
+
+            m00 = cos * xScale;
+            m01 = -sin * yScale;
+
+            m10 = sin * xScale;
+            m11 = cos * yScale;
+
+			var tmp0 = m00 + skewY * m01;
+	        var tmp1 = m01 + skewX * m00;
+	        m00 = tmp0;
+	        m01 = tmp1;
+
+	        tmp0 = m10 + skewY * m11;
+	        tmp1 = m11 + skewX * m10;
+
+	        m10 = tmp0;
+	        m11 = tmp1;
         }
     }
 
@@ -243,6 +281,30 @@ class AffineTransform
 
             default: return 0.0;
         }
+    }
+
+    /** Returns rotation of the matrix, in radians.
+     **/
+
+    inline public function getRotation(): Float
+    {
+        return Math.atan2(m01, m00);
+    }
+
+    /** Returns x scale of the matrix.
+     **/
+
+    inline public function getScaleX(): Float
+    {
+        return Math.sqrt(m00 * m00 + m01 * m01) * ((m00 > 0.0) ? 1.0 : -1.0);
+    }
+
+    /** Returns y scale of the matrix.
+     **/
+
+    inline public function getScaleY(): Float
+    {
+        return Math.sqrt(m10 * m10 + m11 * m11) * ((m11 > 0.0) ? 1.0 : -1.0);
     }
 
     /** Postmultiplies this matrix by a translation matrix.

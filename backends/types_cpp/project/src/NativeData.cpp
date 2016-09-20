@@ -26,6 +26,7 @@
 
 #include <types/NativeData.h>
 #include <string>
+#include <cassert>
 
 #include <hx/CFFI.h>
 
@@ -92,11 +93,17 @@ NativeData_Impl::NativeData_Impl()
 
 void NativeData_Impl::writeData(const NativeData *d)
 {
+	assert(offset >= 0);
+	assert(d->offset >= 0);
+	assert(offset + d->offsetLength <= allocedLength);
+	assert(d->offset + d->offsetLength <= d->allocedLength);
 	memcpy(ptr + offset, d->ptr + d->offset, d->offsetLength);
 }
 
 void NativeData_Impl::writePointer(const void* pointer, int lengthInBytes)
 {
+	assert(offset >= 0);
+	assert(offset + lengthInBytes <= allocedLength);
 	memcpy(ptr + offset, pointer, lengthInBytes);
 }
 

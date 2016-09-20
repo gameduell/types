@@ -49,6 +49,7 @@ import cpp.Lib;
 #include <string>
 #include <sstream>
 #include <stdio.h>
+#include <cassert>
 
 static inline std::wstring staticReadValueIntoString(void *pointer, types::DataType &dataType)
 {
@@ -480,36 +481,42 @@ class Data
 	}
 
 	@:functionCode('
+		assert(_nativeData->offset <= _nativeData->allocedLength - 1);
 		void *pointer = _nativeData->ptr + _nativeData->offset;
 		((int8_t*)pointer)[0] = (int8_t)value;
 	')
 	public function writeInt8(value : Int) : Void {}
 
 	@:functionCode('
+		assert(_nativeData->offset <= _nativeData->allocedLength - 1);
 		void *pointer = _nativeData->ptr + _nativeData->offset;
 		((uint8_t*)pointer)[0] = (uint8_t)value;
 	')
 	public function writeUInt8(value : Int) : Void {}
 
 	@:functionCode('
+		assert(_nativeData->offset <= _nativeData->allocedLength - 2);
 		void *pointer = _nativeData->ptr + _nativeData->offset;
 		((int16_t *)pointer)[0] = (int16_t)value;
 	')
 	public function writeInt16(value : Int) : Void {}
 
 	@:functionCode('
+		assert(_nativeData->offset <= _nativeData->allocedLength - 2);
 		void *pointer = _nativeData->ptr + _nativeData->offset;
 		((uint16_t *)pointer)[0] = (uint16_t)value;
 	')
 	public function writeUInt16(value : Int) : Void {}
 
 	@:functionCode('
+		assert(_nativeData->offset <= _nativeData->allocedLength - 4);
 		void *pointer = _nativeData->ptr + _nativeData->offset;
 		((int32_t *)pointer)[0] = (int32_t)value;
 	')
 	public function writeInt32(value : Int) : Void {}
 
 	@:functionCode('
+		assert(_nativeData->offset <= _nativeData->allocedLength - 4);
 		void *pointer = _nativeData->ptr + _nativeData->offset;
 		((uint32_t *)pointer)[0] = (uint32_t)value;
 	')
@@ -600,6 +607,7 @@ class Data
 	}
 
 	@:functionCode('
+		assert(_nativeData->offset <= _nativeData->allocedLength - 4);
 		void *pointer = _nativeData->ptr + _nativeData->offset;
 			#ifdef __arm__
 			if ((((intptr_t)pointer) & 0x3) == 0)
@@ -618,6 +626,7 @@ class Data
 	public function writeFloat32(value : Float) : Void {}
 
 	@:functionCode('
+		assert(_nativeData->offset <= _nativeData->allocedLength - 8);
 		void *pointer = _nativeData->ptr + _nativeData->offset;
 
 		#ifdef __arm__
