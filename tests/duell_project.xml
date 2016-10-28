@@ -3,8 +3,8 @@
 
 	<app title="Types Tests" package="com.gameduell.tests" version="0.0.1" company="GameDuell GmbH" />
 
-	<duelllib name="duellkit" version="6.0.0+" />
-	<duelllib name="unittest" version="5.2.0+" />
+	<duelllib name="duellkit" version="8.0.0+" />
+	<duelllib name="unittest" version="7.0.0+" />
 	<duelllib name="types" version="master" />
 
 	<main name="MainTester" />
